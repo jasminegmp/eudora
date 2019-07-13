@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
 import { withFirebase } from '../Firebase';
+import {Grid, Header, Icon, Segment} from 'semantic-ui-react';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -8,10 +9,15 @@ import * as ROUTES from '../../constants/routes';
 // returns a signup header and form
 const SignUpPage =() => {
     return(
-        <div className = "ui segment" style = {{width: '50%', marginLeft: '25%', marginTop: '100px'}}>
-            <h1>Sign Up</h1>
-            <SignUpForm />
-        </div>
+        <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
+            <Grid.Column style = {{maxWidth: 450}}>
+                <Header as = "h2" icon color = "pink" textAlign = "center">
+                    <Icon name = "gift" color = "pink" />
+                    Sign Up for Eudora
+                </Header>
+                <SignUpForm />
+            </Grid.Column>
+        </Grid>
     )
 
 }
@@ -83,51 +89,52 @@ class SignUpFormBase extends React.Component {
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
-                <div class="field">
-                    <label>Username</label>
-                    <input 
-                        name = "username"
-                        value = {username}
-                        onChange = {this.onChange}
-                        type = "text"
-                        placeholder = "Username"
-                    />
-                </div>
-                <div class="field">
-                    <label>Email</label>
-                    <input 
-                        name = "email"
-                        value = {email}
-                        onChange = {this.onChange}
-                        type = "text"
-                        placeholder = "Email"
-                    />
-                </div>
-                <div class="field">
-                    <label>Password</label>
-                    <input 
-                        name = "password"
-                        value = {password}
-                        onChange = {this.onChange}
-                        type = "password"
-                        placeholder = "Password, at least 6 characters long"
-                    />
-                </div>
-                <div class="field">
-                    <label>Password Confirmation</label>
-                    <input 
-                        name = "passwordConfirm"
-                        value = {passwordConfirm}
-                        onChange = {this.onChange}
-                        type = "password"
-                        placeholder = "Password Confirmation"
-                    />
-                </div>
+                <Segment stacked>
+                    <div class="field">
+                        <label>Username</label>
+                        <input 
+                            name = "username"
+                            value = {username}
+                            onChange = {this.onChange}
+                            type = "text"
+                            placeholder = "Username"
+                        />
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input 
+                            name = "email"
+                            value = {email}
+                            onChange = {this.onChange}
+                            type = "text"
+                            placeholder = "Email"
+                        />
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input 
+                            name = "password"
+                            value = {password}
+                            onChange = {this.onChange}
+                            type = "password"
+                            placeholder = "Password, at least 6 characters long"
+                        />
+                    </div>
+                    <div class="field">
+                        <label>Password Confirmation</label>
+                        <input 
+                            name = "passwordConfirm"
+                            value = {passwordConfirm}
+                            onChange = {this.onChange}
+                            type = "password"
+                            placeholder = "Password Confirmation"
+                        />
+                    </div>
 
-                <button className = "ui button " disabled = {isInvalid} type = "submit" >Create</button>
+                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Create</button>
 
-                {error && <p>{error.message}</p>} 
-
+                    {error && <p>{error.message}</p>} 
+                </Segment>
             </form>
         )
     }
