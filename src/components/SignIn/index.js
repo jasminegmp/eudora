@@ -76,7 +76,7 @@ class SignInFormBase extends React.Component {
     }
 
     render() {
-        const {username, email, password, passwordConfirm, error} = this.state;
+        const {email, password, error} = this.state;
 
         const isInvalid = 
             password === '' ||
@@ -85,7 +85,7 @@ class SignInFormBase extends React.Component {
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input                            
                             icon = "mail" 
                             iconPosition = "left"
@@ -96,7 +96,7 @@ class SignInFormBase extends React.Component {
                             placeholder = "Email"
                         />
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input
                             icon = "lock" 
                             iconPosition = "left"
