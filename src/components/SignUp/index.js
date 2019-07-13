@@ -8,7 +8,7 @@ import * as ROUTES from '../../constants/routes';
 // returns a signup header and form
 const SignUpPage =() => {
     return(
-        <div>
+        <div className = "ui segment" style = {{width: '50%', marginLeft: '25%', marginTop: '100px'}}>
             <h1>Sign Up</h1>
             <SignUpForm />
         </div>
@@ -44,7 +44,7 @@ class SignUpFormBase extends React.Component {
 
         this.props.firebase
             // call firebase's signup function
-            .doCreateWithEmailAndPassword(email, password)
+            .doCreateUserWithEmailAndPassword(email, password)
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
@@ -82,37 +82,49 @@ class SignUpFormBase extends React.Component {
             username === '';
 
         return(
-            <form onSubmit = {this.onSubmit}>
-                <input 
-                    name = "username"
-                    value = {username}
-                    onChange = {this.onChange}
-                    type = "text"
-                    placeholder = "Username"
-                />
-                <input 
-                    name = "email"
-                    value = {email}
-                    onChange = {this.onChange}
-                    type = "text"
-                    placeholder = "Email"
-                />
-                <input 
-                    name = "password"
-                    value = {password}
-                    onChange = {this.onChange}
-                    type = "password"
-                    placeholder = "Password"
-                />
-                <input 
-                    name = "passwordConfirm"
-                    value = {passwordConfirm}
-                    onChange = {this.onChange}
-                    type = "password"
-                    placeholder = "Password Confirmation"
-                />
+            <form className = "ui form" onSubmit = {this.onSubmit}>
+                <div class="field">
+                    <label>Username</label>
+                    <input 
+                        name = "username"
+                        value = {username}
+                        onChange = {this.onChange}
+                        type = "text"
+                        placeholder = "Username"
+                    />
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input 
+                        name = "email"
+                        value = {email}
+                        onChange = {this.onChange}
+                        type = "text"
+                        placeholder = "Email"
+                    />
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input 
+                        name = "password"
+                        value = {password}
+                        onChange = {this.onChange}
+                        type = "password"
+                        placeholder = "Password, at least 6 characters long"
+                    />
+                </div>
+                <div class="field">
+                    <label>Password Confirmation</label>
+                    <input 
+                        name = "passwordConfirm"
+                        value = {passwordConfirm}
+                        onChange = {this.onChange}
+                        type = "password"
+                        placeholder = "Password Confirmation"
+                    />
+                </div>
 
-                <button disabled = {isInvalid} type = "submit">Sign Up</button>
+                <button className = "ui button " disabled = {isInvalid} type = "submit" >Create</button>
 
                 {error && <p>{error.message}</p>} 
 
