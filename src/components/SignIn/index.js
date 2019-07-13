@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/routes';
 const SignInPage =() => {
     return(
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
-            <Grid.Column style = {{maxWidth: 450}}>
+            <Grid.Column style = {{maxWidth: 420}}>
                 <Header as = "h2" icon color = "pink" textAlign = "center">
                     <Icon name = "gift" color = "pink" />
                     Sign In to Eudora
