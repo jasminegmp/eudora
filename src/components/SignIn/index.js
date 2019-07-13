@@ -7,16 +7,16 @@ import * as ROUTES from '../../constants/routes';
 
 // a page
 // returns a signup header and form
-const SignUpPage =() => {
+const SignInPage =() => {
     return(
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 450}}>
                 <Header as = "h2" icon color = "pink" textAlign = "center">
                     <Icon name = "gift" color = "pink" />
-                    Sign Up for Eudora
+                    Sign In to Eudora
                 </Header>
-                <SignUpForm />
-                <Message>Already have an account?<Link to = {ROUTES.SIGN_IN}> Sign in</Link></Message>
+                <SignInForm />
+                <Message>Don't have an account?<Link to = {ROUTES.SIGN_UP}> Sign up</Link></Message>
             </Grid.Column>
         </Grid>
     )
@@ -24,23 +24,21 @@ const SignUpPage =() => {
 }
 
 // redirect to log-in page if account exists
-const SignInLink = () => {
+const SignUpLink = () => {
     return(
-        <p>Already have an account?
-            <Link to = {ROUTES.SIGN_IN}>Sign In</Link>
+        <p>Don't have an account?
+            <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
         </p>
     )
 }
 
 // a form
-class SignUpFormBase extends React.Component {
+class SignInFormBase extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            username: '',
             email: '',
             password: '',
-            passwordConfirm: '',
             error: null
         }
     }
@@ -50,16 +48,14 @@ class SignUpFormBase extends React.Component {
         event.preventDefault();
 
         this.props.firebase
-            // call firebase's signup function
-            .doCreateUserWithEmailAndPassword(email, password)
+            // call firebase's signin function
+            .doSignInWithEmailAndPassword(email, password)
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
                 this.setState({
-                    username: '',
                     email: '',
                     password: '',
-                    passwordConfirm: '',
                     error: null
                 });
 
@@ -83,25 +79,12 @@ class SignUpFormBase extends React.Component {
         const {username, email, password, passwordConfirm, error} = this.state;
 
         const isInvalid = 
-            password !== passwordConfirm ||
             password === '' ||
-            email === '' ||
-            username === '';
+            email === '';
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
-                    <div class="field">
-                        <Form.Input
-                            icon = "user" 
-                            iconPosition = "left"
-                            name = "username"
-                            value = {username}
-                            onChange = {this.onChange}
-                            type = "text"
-                            placeholder = "Username"
-                        />
-                    </div>
                     <div class="field">
                         <Form.Input                            
                             icon = "mail" 
@@ -124,19 +107,8 @@ class SignUpFormBase extends React.Component {
                             placeholder = "Password, at least 6 characters long"
                         />
                     </div>
-                    <div class="field">
-                        <Form.Input
-                            icon = "lock" 
-                            iconPosition = "left"
-                            name = "passwordConfirm"
-                            value = {passwordConfirm}
-                            onChange = {this.onChange}
-                            type = "password"
-                            placeholder = "Password Confirmation"
-                        />
-                    </div>
 
-                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Create</button>
+                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Sign in</button>
 
                     {error && <p>{error.message}</p>} 
                 </Segment>
@@ -147,7 +119,7 @@ class SignUpFormBase extends React.Component {
 
 }
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+const SignInForm = withRouter(withFirebase(SignInFormBase));
 
-export default SignUpPage;
-export { SignUpForm, SignInLink };
+export default SignInPage;
+export { SignInForm, SignUpLink };
