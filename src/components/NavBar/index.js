@@ -6,7 +6,7 @@ import * as ROUTES from '../../constants/routes';
 const NavBar = () => {
     return(
         <div>
-            <Menu inverted style = {{background: '#4ABDAC'}}>
+            <Menu inverted style = {{background: '#4ABDAC', width: '100%'}}>
                 <Menu.Item as={Link} to={ROUTES.SIGN_IN}>Sign In</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.LANDING}>Landing</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.HOME}>Home</Menu.Item>
