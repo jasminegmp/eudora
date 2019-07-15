@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
+import Logo from '../images/logo.png';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -11,9 +12,9 @@ const SignInPage =() => {
     return(
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 420}}>
-                <Header as = "h2" icon color = "pink" textAlign = "center">
-                    <Icon name = "gift" color = "pink" />
-                    Sign In to Eudora
+                <Header as = "h2" color = "grey" textAlign = "center">
+                    <img src= {Logo} style = {{width:'150px', marginBottom: '20px'}}/><br/>
+                    Sign In
                 </Header>
                 <SignInForm />
                 <Message>Don't have an account?<Link to = {ROUTES.SIGN_UP}> Sign up</Link></Message>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
+import Logo from '../images/logo.png';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -11,9 +12,9 @@ const SignUpPage =() => {
     return(
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 420}}>
-                <Header as = "h2" icon color = "pink" textAlign = "center">
-                    <Icon name = "gift" color = "pink" />
-                    Sign Up for Eudora
+                <Header as = "h2" icon color = "grey" textAlign = "center">
+                    <img src= {Logo} style = {{width:'150px', marginBottom: '20px'}}/><br/>
+                    Sign Up
                 </Header>
                 <SignUpForm />
                 <Message>Already have an account?<Link to = {ROUTES.SIGN_IN}> Sign in</Link></Message>
@@ -91,7 +92,7 @@ class SignUpFormBase extends React.Component {
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input
                             icon = "user" 
                             iconPosition = "left"
@@ -102,7 +103,7 @@ class SignUpFormBase extends React.Component {
                             placeholder = "Username"
                         />
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input                            
                             icon = "mail" 
                             iconPosition = "left"
@@ -113,7 +114,7 @@ class SignUpFormBase extends React.Component {
                             placeholder = "Email"
                         />
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input
                             icon = "lock" 
                             iconPosition = "left"
@@ -124,7 +125,7 @@ class SignUpFormBase extends React.Component {
                             placeholder = "Password, at least 6 characters long"
                         />
                     </div>
-                    <div class="field">
+                    <div className="field">
                         <Form.Input
                             icon = "lock" 
                             iconPosition = "left"
