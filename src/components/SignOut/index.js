@@ -1,10 +1,32 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
+import { withRouter} from 'react-router-dom';
 import {Menu, Dropdown} from 'semantic-ui-react';
 
-const SignOut = ({ firebase }) => (
-    <span onClick={firebase.doSignOut}>
-    Sign Out
-    </span> );
+import * as ROUTES from '../../constants/routes';
 
-export default withFirebase(SignOut);
+
+class SignOut extends React.Component {
+
+    handleSignOut = (event) => {
+        this.props.firebase.doSignOut();
+
+        // route user to home
+        this.props.history.push(ROUTES.SIGN_IN);
+
+    }
+
+    render(){
+        return(
+            <span onClick={this.handleSignOut}>
+                Sign Out
+            </span>
+        )
+        
+    }
+}
+
+export default withRouter(withFirebase(SignOut));
+
+
+

@@ -7,6 +7,9 @@ import HomePage from '../Home';
 
 import * as ROUTES from '../../constants/routes';
 
+import {withFirebase} from '../Firebase';
+import {withAuthentication} from '../Session';
+
 const App = () => {
     return(
         <Router>
@@ -17,5 +20,5 @@ const App = () => {
         </Router>
     )
 };
-export default App;
+export default withAuthentication(App);
 

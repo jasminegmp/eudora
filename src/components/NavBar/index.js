@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {Menu, Dropdown} from 'semantic-ui-react';
 import * as ROUTES from '../../constants/routes';
 import SignOut from '../SignOut';
+import {AuthUserContext} from '../Session';
 
 const options = [
     {   key: 'user', 
@@ -20,9 +21,16 @@ const options = [
 
 const NavBar = () => {
     return(
+        <AuthUserContext.Consumer>
+            {authUser => authUser ? <NavBarAuth/> : <NavBarNonAuth/>}
+        </AuthUserContext.Consumer>
+    );
+}
+
+const NavBarAuth = () => {
+    return(
         <div>
             <Menu inverted style = {{background: '#4ABDAC', width: '100%'}}>
-                <Menu.Item as={Link} to={ROUTES.SIGN_IN}>Sign In</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.LANDING}>Landing</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.HOME}>Home</Menu.Item>
                 <Menu.Item>
@@ -36,4 +44,16 @@ const NavBar = () => {
         </div>
     )
 };
+
+const NavBarNonAuth = () => {
+    return(
+        <div>
+            <Menu inverted style = {{background: '#4ABDAC', width: '100%'}}>
+                <Menu.Item as={Link} to={ROUTES.SIGN_IN}>Sign In</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.LANDING}>Landing</Menu.Item>
+            </Menu>
+        </div>
+    )
+};
+
 export default NavBar;
