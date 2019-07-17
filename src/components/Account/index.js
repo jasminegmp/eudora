@@ -1,6 +1,7 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
-import {Grid, Card, Icon, Image} from 'semantic-ui-react';
+import {Grid, Card, Icon, Image, Header} from 'semantic-ui-react';
+import PasswordChangeForm from '../PasswordChange';
 
 const AccountPage = () => {
     return (
@@ -8,7 +9,10 @@ const AccountPage = () => {
         {authUser => (
                 <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 50}}>
                     <Grid.Column style = {{maxWidth: 420}}>
-                    <Card>
+                    <Header as = "h2" color = "grey" textAlign = "center">
+                        Account Info
+                    </Header>
+                    <Card centered>
                         <Image src={authUser.photoURL} wrapped ui={false} />
                         <Card.Content>
                         <Card.Header>{authUser.displayName}</Card.Header>
@@ -23,7 +27,15 @@ const AccountPage = () => {
                             <Icon name='user' />
                                 0 Friends
                         </Card.Content>
+                        <Card.Content extra>
+                        </Card.Content>
                     </Card>
+
+                    <Header as = "h2" color = "grey" textAlign = "center">
+                        Change Your Password
+                    </Header>
+                    <PasswordChangeForm/>
+                        
                     </Grid.Column>
                 </Grid>
         )}

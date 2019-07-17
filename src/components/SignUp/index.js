@@ -58,8 +58,9 @@ class SignUpFormBase extends React.Component {
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
+
+                //console.log(authUser);
                 
-                console.log(authUser) ;
                 const hash = md5(authUser.user.email);
                 authUser.user.updateProfile({
                     displayName: this.state.username,
