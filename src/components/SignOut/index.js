@@ -1,7 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
 import { withRouter} from 'react-router-dom';
-import {Menu, Dropdown} from 'semantic-ui-react';
 
 import * as ROUTES from '../../constants/routes';
 

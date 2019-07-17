@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
-import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
+import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
 
 import * as ROUTES from '../../constants/routes';
@@ -15,7 +15,7 @@ const PasswordForgetPage =() => {
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 420}}>
                 <Header as = "h2" color = "grey" textAlign = "center">
-                    <img src= {Logo} style = {{width:'150px', marginBottom: '20px'}}/><br/>
+                    <img src= {Logo} alt = "Eudora Logo" style = {{width:'150px', marginBottom: '20px'}}/><br/>
                     Forgot your password?
                 </Header>
                 <PasswordForgetForm/>
@@ -80,7 +80,7 @@ class PasswordForgetFormBase extends React.Component {
     }
 
     render() {
-        const {email, password, error} = this.state;
+        const {email, error} = this.state;
 
         const isInvalid = email === '';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
+import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
 import {PasswordForgetLink} from '../PasswordForget';
 
@@ -15,7 +15,7 @@ const SignInPage =() => {
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 420}}>
                 <Header as = "h2" color = "grey" textAlign = "center">
-                    <img src= {Logo} style = {{width:'150px', marginBottom: '20px'}}/><br/>
+                    <img src= {Logo} alt = "Eudora Logo" style = {{width:'150px', marginBottom: '20px'}}/><br/>
                     Sign In
                 </Header>
                 <SignInForm />
