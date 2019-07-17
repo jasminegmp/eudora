@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link, withRouter} from 'react-router-dom';
-import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
+import {Segment, Form} from 'semantic-ui-react';
 
 
 
@@ -51,7 +49,7 @@ class PasswordChangeForm extends React.Component {
         const {password, passwordConfirm, error} = this.state;
 
         const isInvalid = 
-            password != passwordConfirm ||
+            password !== passwordConfirm ||
             password === '';
 
         return(
