@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthUserContext from './context';
 import { withFirebase } from '../Firebase';
+import { withRouter } from 'react-router';
 
 const withAuthentication = Component => {
   class WithAuthentication extends React.Component {
@@ -15,9 +16,12 @@ const withAuthentication = Component => {
         componentDidMount() {
             this.listener = this.props.firebase.auth.onAuthStateChanged(
                 authUser => {
-                authUser
-                    ? this.setState({ authUser })
-                    : this.setState({ authUser: null });
+                    if (authUser){
+                        this.setState({ authUser });
+                    }
+                    else{
+                        this.props.history.push('/login');
+                    }
                 },
             ); 
         }
