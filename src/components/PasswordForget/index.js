@@ -3,23 +3,21 @@ import { Link, withRouter} from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
-import {PasswordForgetLink} from '../PasswordForget';
 
 import * as ROUTES from '../../constants/routes';
 
 // a page
 // returns a signup header and form
-const SignInPage =() => {
+const PasswordForgetPage =() => {
     return(
+
         <Grid textAlign = "center" verticalAlign = "middle" className = "app" style = {{marginTop: 50}}>
             <Grid.Column style = {{maxWidth: 420}}>
                 <Header as = "h2" color = "grey" textAlign = "center">
                     <img src= {Logo} style = {{width:'150px', marginBottom: '20px'}}/><br/>
-                    Sign In
+                    Forgot your password?
                 </Header>
-                <SignInForm />
-                <Message><PasswordForgetLink/></Message>
-                <Message>Don't have an account?<Link to = {ROUTES.SIGN_UP}> Sign up</Link></Message>
+                <PasswordForgetForm/>
             </Grid.Column>
         </Grid>
     )
@@ -27,49 +25,51 @@ const SignInPage =() => {
 }
 
 // redirect to log-in page if account exists
-const SignUpLink = () => {
+const PasswordForgetLink = () => {
     return(
-        <p>Don't have an account?
-            <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
+        <p>
+            <Link to = {ROUTES.PASSWORD_FORGET}>Forgot your password?</Link>
         </p>
     )
 }
 
 // a form
-class SignInFormBase extends React.Component {
+class PasswordForgetFormBase extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             email: '',
-            password: '',
+            message: '',
             error: null
         }
     }
 
     onSubmit = (event) => {
-        const {email, password} = this.state;
+        const {email} = this.state;
         event.preventDefault();
 
         this.props.firebase
             // call firebase's signin function
-            .doSignInWithEmailAndPassword(email, password)
+            .doPasswordReset(email)
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
                 this.setState({
                     email: '',
-                    password: '',
+                    message: 'Please check your email as password reset instructions have been mailed.',
                     error: null
                 });
-
+                
                 // route user to home
-                this.props.history.push(ROUTES.HOME);
+                //this.props.history.push(ROUTES.SIGN_IN);
             })
 
             // otherwise, display error
             .catch(error => {
                 this.setState({error});
             });
+
+
         
     }
 
@@ -81,9 +81,7 @@ class SignInFormBase extends React.Component {
     render() {
         const {email, password, error} = this.state;
 
-        const isInvalid = 
-            password === '' ||
-            email === '';
+        const isInvalid = email === '';
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
@@ -99,20 +97,9 @@ class SignInFormBase extends React.Component {
                             placeholder = "Email"
                         />
                     </div>
-                    <div className="field">
-                        <Form.Input
-                            icon = "lock" 
-                            iconPosition = "left"
-                            name = "password"
-                            value = {password}
-                            onChange = {this.onChange}
-                            type = "password"
-                            placeholder = "Password, at least 6 characters long"
-                        />
-                    </div>
 
-                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Sign in</button>
-
+                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Submit</button>
+                    {this.state.message && <Message>{this.state.message}</Message>} 
                     {error && <p>{error.message}</p>} 
                 </Segment>
             </form>
@@ -122,7 +109,7 @@ class SignInFormBase extends React.Component {
 
 }
 
-const SignInForm = withRouter(withFirebase(SignInFormBase));
+const PasswordForgetForm = withRouter(withFirebase(PasswordForgetFormBase));
 
-export default SignInPage;
-export { SignInForm, SignUpLink };
+export default PasswordForgetPage;
+export { PasswordForgetForm, PasswordForgetLink };
