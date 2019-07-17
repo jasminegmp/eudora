@@ -6,6 +6,7 @@
   "dependencies": {
     "firebase": "^6.3.0",
     "gh-pages": "^2.0.1",
+    "md5": "^2.2.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",

@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
+import md5 from 'md5';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -57,6 +58,14 @@ class SignUpFormBase extends React.Component {
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
+                
+                console.log(authUser) ;
+                const hash = md5(authUser.user.email);
+                authUser.user.updateProfile({
+                    displayName: this.state.username,
+                    photoURL: `http://gravatar.com/avatar/${hash}?d=identicon`
+                })
+
                 this.setState({
                     username: '',
                     email: '',
