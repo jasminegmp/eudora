@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
+import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
@@ -122,7 +123,7 @@ class SignInFormBase extends React.Component {
 
 }
 
-const SignInForm = withRouter(withFirebase(SignInFormBase));
+const SignInForm = compose(withRouter(withFirebase(SignInFormBase)));
 
 export default SignInPage;
 export { SignInForm, SignUpLink };

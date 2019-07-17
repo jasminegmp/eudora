@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
+
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Icon, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
@@ -99,7 +100,9 @@ class PasswordForgetFormBase extends React.Component {
                     </div>
 
                     <button className = "ui button " disabled = {isInvalid} type = "submit" >Submit</button>
+
                     {this.state.message && <Message>{this.state.message}</Message>} 
+                    
                     {error && <p>{error.message}</p>} 
                 </Segment>
             </form>
