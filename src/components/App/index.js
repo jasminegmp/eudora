@@ -6,6 +6,7 @@ import SignInPage from '../SignIn';
 import HomePage from '../Home';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
+import AdminPage from '../Admin';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -20,6 +21,7 @@ const App = () => {
             <Route path= {ROUTES.HOME} component = {HomePage} />
             <Route path= {ROUTES.ACCOUNT} component = {AccountPage} />
             <Route path= {ROUTES.PASSWORD_FORGET} component = {PasswordForgetPage} />
+            <Route exact path={ROUTES.ADMIN} component={AdminPage} />
         </Router>
     )
 };

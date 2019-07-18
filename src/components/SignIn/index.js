@@ -123,7 +123,10 @@ class SignInFormBase extends React.Component {
 
 }
 
-const SignInForm = compose(withRouter(withFirebase(SignInFormBase)));
+const SignInForm = compose(
+  withRouter,
+  withFirebase,
+)(SignInFormBase);
 
 export default SignInPage;
 export { SignInForm, SignUpLink };

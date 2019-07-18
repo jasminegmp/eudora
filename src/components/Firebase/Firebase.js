@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 const config = require('../../config').default;
 
@@ -16,7 +17,9 @@ var firebaseConfig = {
 class Firebase{
     constructor(){
         app.initializeApp(firebaseConfig);
+
         this.auth = app.auth();
+        this.db = app.database();
     }
 
     // Authentication API
@@ -35,6 +38,12 @@ class Firebase{
 
     // Password update
     doPasswordUpdate = (password) => this.auth.currentUser.updatePassword(password);
+
+    // *** User API ***
+    user = uid => this.db.ref(`users/${uid}`);
+    
+    users = () => this.db.ref('users');
+
     
 }
 
