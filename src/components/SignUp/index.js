@@ -41,6 +41,8 @@ class SignUpFormBase extends React.Component {
         super(props);
         this.state = {
             username: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             passwordConfirm: '',
@@ -49,26 +51,49 @@ class SignUpFormBase extends React.Component {
     }
 
     onSubmit = (event) => {
-        const {email, password} = this.state;
+        const {username, firstName, lastName, email, password} = this.state;
+        let photoUrl = '';
         event.preventDefault();
 
         this.props.firebase
             // call firebase's signup function
             .doCreateUserWithEmailAndPassword(email, password)
 
-            // if successful, reinitialize state back to blanks
+            //
             .then(authUser =>{
 
                 //console.log(authUser);
                 
                 const hash = md5(authUser.user.email);
+                photoUrl = `http://gravatar.com/avatar/${hash}?d=identicon`;
                 authUser.user.updateProfile({
-                    displayName: this.state.username,
-                    photoURL: `http://gravatar.com/avatar/${hash}?d=identicon`
+                    displayName: username,
+                    photoURL: photoUrl
                 })
+                this.props.firebase
+                    .user(authUser.user.uid)
+                    .set({
+                        username,
+                        email, 
+                        photoUrl,
+                        firstName,
+                        lastName
+                    });
+                this.props.firebase
+                    .profile(authUser.user.uid)
+                    .set({
+                        username, 
+                        photoUrl,
+                        firstName,
+                        lastName
+                    });
+            })
 
+            .then(() => {
                 this.setState({
                     username: '',
+                    firstName: '',
+                    lastName: '',
                     email: '',
                     password: '',
                     passwordConfirm: '',
@@ -92,17 +117,37 @@ class SignUpFormBase extends React.Component {
     }
 
     render() {
-        const {username, email, password, passwordConfirm, error} = this.state;
+        const {username, firstName, lastName, email, password, passwordConfirm, error} = this.state;
 
         const isInvalid = 
             password !== passwordConfirm ||
             password === '' ||
             email === '' ||
-            username === '';
+            username === '' || 
+            firstName === '' ||
+            lastName === '';
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
+                    <div className="field">
+                        <Form.Input
+                            name = "firstName"
+                            value = {firstName}
+                            onChange = {this.onChange}
+                            type = "text"
+                            placeholder = "First Name"
+                        />
+                    </div>
+                    <div className="field">
+                        <Form.Input
+                            name = "lastName"
+                            value = {lastName}
+                            onChange = {this.onChange}
+                            type = "text"
+                            placeholder = "Last Name"
+                        />
+                    </div>
                     <div className="field">
                         <Form.Input
                             icon = "user" 
