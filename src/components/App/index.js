@@ -7,6 +7,7 @@ import HomePage from '../Home';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import PeoplePage from '../People';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -16,12 +17,13 @@ const App = () => {
     return(
         <Router>
             <NavBar/>
-            <Route path= {ROUTES.SIGN_UP} component = {SignUpPage} />
-            <Route path= {ROUTES.SIGN_IN} component = {SignInPage} />
-            <Route path= {ROUTES.HOME} component = {HomePage} />
-            <Route path= {ROUTES.ACCOUNT} component = {AccountPage} />
-            <Route path= {ROUTES.PASSWORD_FORGET} component = {PasswordForgetPage} />
+            <Route exact path= {ROUTES.SIGN_UP} component = {SignUpPage} />
+            <Route exact path= {ROUTES.SIGN_IN} component = {SignInPage} />
+            <Route exact path= {ROUTES.HOME} component = {HomePage} />
+            <Route exact path= {ROUTES.ACCOUNT} component = {AccountPage} />
+            <Route exact path= {ROUTES.PASSWORD_FORGET} component = {PasswordForgetPage} />
             <Route exact path={ROUTES.ADMIN} component={AdminPage} />
+            <Route exact path={ROUTES.PEOPLE} component={PeoplePage} />
         </Router>
     )
 };
