@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
-import { compose } from 'recompose';
+import FileUploader from "react-firebase-file-uploader";
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
 import md5 from 'md5';
+import 'firebase/storage';
+import app from 'firebase/app';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -35,10 +37,12 @@ const SignInLink = () => {
     )
 }
 
+
 // a form
 class SignUpFormBase extends React.Component {
     constructor(props){
         super(props);
+        this.storage = app.storage();
         this.state = {
             username: '',
             firstName: '',
@@ -46,12 +50,13 @@ class SignUpFormBase extends React.Component {
             email: '',
             password: '',
             passwordConfirm: '',
+            avatarUrl: '',
             error: null
         }
     }
 
     onSubmit = (event) => {
-        const {username, firstName, lastName, email, password} = this.state;
+        const {username, firstName, lastName, email, password, avatarUrl} = this.state;
         let photoUrl = '';
         event.preventDefault();
 
@@ -63,9 +68,13 @@ class SignUpFormBase extends React.Component {
             .then(authUser =>{
 
                 //console.log(authUser);
-                
-                const hash = md5(authUser.user.email);
-                photoUrl = `http://gravatar.com/avatar/${hash}?d=identicon`;
+                if (avatarUrl){
+
+                }
+                else{
+                    const hash = md5(authUser.user.email);
+                    photoUrl = `http://gravatar.com/avatar/${hash}?d=identicon`;
+                }
                 authUser.user.updateProfile({
                     displayName: username,
                     photoURL: photoUrl
@@ -74,8 +83,7 @@ class SignUpFormBase extends React.Component {
                     .user(authUser.user.uid)
                     .set({
                         username,
-                        email, 
-                        photoUrl,
+                        email,
                         firstName,
                         lastName
                     });

@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 
 const config = require('../../config').default;
 
@@ -20,6 +21,8 @@ class Firebase{
 
         this.auth = app.auth();
         this.db = app.database();
+        this.storage = app.storage();
+        this.storageRef = app.storage().ref('avatars');
     }
 
     // Authentication API
@@ -44,11 +47,20 @@ class Firebase{
     
     users = () => this.db.ref('users');
 
+    currentUser = () => this.auth.currentUser;
+
     // *** Profile API ***
 
     profile = uid => this.db.ref(`profiles/${uid}`);
 
     profiles = () => this.db.ref('profiles');
+
+    updateAvatar = (avatar) => this.auth.currentUser.updateProfile({photoURL:avatar});
+
+    updateAvatarDb = (uid, avatar) => this.db.ref(`profiles/${uid}`).update({photoUrl: avatar});
+
+    fileRef = filename => this.storageRef.child(`${filename}`)
+
 }
 
 export default Firebase;
