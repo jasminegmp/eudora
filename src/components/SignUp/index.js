@@ -80,7 +80,7 @@ class SignUpFormBase extends React.Component {
                     photoURL: photoUrl
                 })
                 this.props.firebase
-                    .user(authUser.user.uid)
+                    .userDb(authUser.user.uid)
                     .set({
                         username,
                         email,

@@ -22,7 +22,6 @@ class Firebase{
         this.auth = app.auth();
         this.db = app.database();
         this.storage = app.storage();
-        this.storageRef = app.storage().ref('avatars');
     }
 
     // Authentication API
@@ -43,7 +42,7 @@ class Firebase{
     doPasswordUpdate = (password) => this.auth.currentUser.updatePassword(password);
 
     // *** User API ***
-    user = uid => this.db.ref(`users/${uid}`);
+    userDb = uid => this.db.ref(`users/${uid}`);
     
     users = () => this.db.ref('users');
 
@@ -59,7 +58,8 @@ class Firebase{
 
     updateAvatarDb = (uid, avatar) => this.db.ref(`profiles/${uid}`).update({photoUrl: avatar});
 
-    fileRef = filename => this.storageRef.child(`${filename}`)
+    fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
+
 
 }
 
