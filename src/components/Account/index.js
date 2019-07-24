@@ -34,12 +34,12 @@ const AccountPage = () => {
                     </Card>
 
                     <Header as = "h2" color = "grey" textAlign = "center">
-                        Change Your Password
+                        Change Password
                     </Header>
                     <PasswordChangeForm/>
 
                     <Header as = "h2" color = "grey" textAlign = "center">
-                        Change Your Avatar
+                        Change Avatar
                     </Header>
                     <UpdateAvatar/>
 

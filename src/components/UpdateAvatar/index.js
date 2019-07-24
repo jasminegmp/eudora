@@ -12,7 +12,9 @@ class UpdateAvatarBase extends React.Component {
         this.storage = app.storage();
         this.state = {
             avatarName: "",
-            avatarURL: ""
+            avatarURL: "",
+            file: "",
+            uploadComplete: false
         }
     }
     
@@ -24,31 +26,35 @@ class UpdateAvatarBase extends React.Component {
     }
 
     onSubmit = event => {
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(url =>  this.setState({ avatarURL: url }));
+            });
+        this.setState({uploadComplete: true})
+
         event.preventDefault();
     };
 
+
     uploadImage  = event => {
           const user = this.props.firebase.currentUser();
-          const avatarName = "avatar-" + user.uid + "-" + Date.now();
-          this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${avatarName}`).put(event.target.files[0])
-          .then(() => {
-            const img = this.props.firebase.fileRef('avatar', this.state.avatarName, user.uid);
-            img.getDownloadURL()
-                .then(url =>  this.setState({ avatarURL: url }));
-          }
-
-          )
-          this.setState({avatarName: avatarName});
-        }
+        const user = this.props.firebase.currentUser();
+        const avatarName = "avatar-" + user.uid + "-" + Date.now();
+        this.setState({avatarName: avatarName});
+        this.setState({file: event.target.files[0]})
+    };
+          
 
     render() {
-        const {avatarURL, error} = this.state;
+        const {error} = this.state;
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
-                    <input type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
+                    <div className="field">
+                        <input type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
+                    </div>
                     <button className = "ui button " type = "submit" >Change My Avatar</button>
+                    <p style={{color: '#A9A9A9'}}>{this.state.uploadComplete? "Upload completed, please refresh page to see new avatar." : null}</p>
                     {error && <p>{error.message}</p>} 
                 </Segment>
             </form>
