@@ -5,12 +5,10 @@ import { withFirebase } from '../Firebase';
 
 const PeoplePage = () => {
     return (
-        <Grid>
-            <Grid.Column style = {{margin: 50}}>
-                <h1>People</h1>
-                <Profiles/>
-             </Grid.Column>
-        </Grid>
+        <div style = {{margin: 40}}>
+          <h1>People</h1>
+          <Profiles/>
+        </div>
     );
 };
 
@@ -67,8 +65,9 @@ class ProfilesBase extends React.Component {
 }
 
 const ProfileList = ({ profiles }) => (
-  <div className="ui stackable grid">
+  <Grid stackable columns={4}>
     {profiles.map(profile => (
+      <Grid.Column>
       <Card centered key={profile.uid}>
         <Image src={profile.photoUrl} wrapped ui={false} />
         <Card.Content>
@@ -78,8 +77,9 @@ const ProfileList = ({ profiles }) => (
           </Card.Meta>
         </Card.Content>
       </Card>
+      </Grid.Column>
     ))} 
-  </div>
+  </Grid>
 );
 
 

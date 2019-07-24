@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, withRouter} from 'react-router-dom';
-import FileUploader from "react-firebase-file-uploader";
 import { withFirebase } from '../Firebase';
 import {Grid, Header, Segment, Message, Form} from 'semantic-ui-react';
 import Logo from '../images/logo.png';

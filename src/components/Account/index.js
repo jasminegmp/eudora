@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
-import {Grid, Card, Icon, Image, Header, Segment} from 'semantic-ui-react';
+import {Grid, Card, Icon, Image, Header} from 'semantic-ui-react';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
