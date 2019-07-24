@@ -24,8 +24,8 @@ class UpdateAvatarBase extends React.Component {
     }
 
     onSubmit = event => {
-
-      };
+        event.preventDefault();
+    };
 
     uploadImage  = event => {
           const user = this.props.firebase.currentUser();
@@ -35,7 +35,9 @@ class UpdateAvatarBase extends React.Component {
             const img = this.props.firebase.fileRef('avatar', this.state.avatarName, user.uid);
             img.getDownloadURL()
                 .then(url =>  this.setState({ avatarURL: url }));
-          })
+          }
+
+          )
           this.setState({avatarName: avatarName});
         }
 
