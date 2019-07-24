@@ -26,6 +26,26 @@ class UpdateAvatarBase extends React.Component {
     }
 
     onSubmit = event => {
+        
+        const user = this.props.firebase.currentUser();
+
+        //event.preventDefault();
+        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${this.stateavatarName}`).put(this.state.file);
+          
+          
+        // Register three observers:
+        // 1. 'state_changed' observer, called any time the state changes
+        // 2. Error observer, called on failure
+        // 3. Completion observer, called on successful completion
+        uploadTask.on('state_changed', (snapshot) =>{
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        }, (error) =>  {
+            // Handle unsuccessful uploads
+        }, () => {
+            // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             uploadTask.snapshot.ref.getDownloadURL().then(url =>  this.setState({ avatarURL: url }));
             });
@@ -36,7 +56,6 @@ class UpdateAvatarBase extends React.Component {
 
 
     uploadImage  = event => {
-          const user = this.props.firebase.currentUser();
         const user = this.props.firebase.currentUser();
         const avatarName = "avatar-" + user.uid + "-" + Date.now();
         this.setState({avatarName: avatarName});
