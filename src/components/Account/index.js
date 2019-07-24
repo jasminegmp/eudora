@@ -26,7 +26,7 @@ const AccountPage = () => {
                         </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
-                            <Icon name='user' />
+                            <Icon name='users' />
                                 0 Friends
                         </Card.Content>
                         <Card.Content extra>
