@@ -8,3 +8,4 @@ export const SETTINGS = 'eudora/settings';
 export const ADMIN = '/eudora/admin';
 export const PASSWORD_FORGET = '/eudora/pw-forget';
 export const PEOPLE = '/eudora/people';
+export const MY_WISHLIST = '/eudora/my-wishlist';

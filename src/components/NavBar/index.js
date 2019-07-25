@@ -33,6 +33,7 @@ const NavBarAuth = () => {
             <Menu inverted style = {{background: '#4ABDAC', width: '100%'}}>
                 <Menu.Item as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                 <Menu.Item>
                 <Dropdown trigger = {
                             <span>

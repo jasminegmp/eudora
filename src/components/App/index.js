@@ -8,6 +8,7 @@ import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import PeoplePage from '../People';
+import MyWishlistPage from '../MyWishlist';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -24,6 +25,7 @@ const App = () => {
             <Route exact path= {ROUTES.PASSWORD_FORGET} component = {PasswordForgetPage} />
             <Route exact path={ROUTES.ADMIN} component={AdminPage} />
             <Route exact path={ROUTES.PEOPLE} component={PeoplePage} />
+            <Route exact path={ROUTES.MY_WISHLIST} component={MyWishlistPage} />
         </Router>
     )
 };

@@ -12,7 +12,7 @@ const AccountPage = () => {
                 <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 50}}>
                     <Grid.Column style = {{maxWidth: 420}}>
                     <Header as = "h2" color = "grey" textAlign = "center">
-                        Account Info
+                        Account Settings
                     </Header>
                     <Card centered>
                         <Image src={authUser.photoURL} wrapped ui={false} />
