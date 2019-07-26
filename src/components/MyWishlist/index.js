@@ -4,7 +4,7 @@ import { withAuthorization } from '../Session';
 
 
 //https://openapi.etsy.com/v2/listings/active.js?keywords=ring&limit=12&includes=Images:1&api_key=*
-const EUDORA_PATH = 'https://jasminegmp.github.io/eudora/my-wishlist/'
+const EUDORA_PATH = 'https://jasminegmp.github.io/eudora/'
 const PATH_BASE = 'https://openapi.etsy.com/v2';
 const PATH_SEARCH = '/listings/active.js?keywords=';
 const DEFAULT_QUERY = 'ring';
@@ -30,7 +30,7 @@ class WishlistPage extends React.Component {
 
     async componentDidMount() {
         const {searchTerm} = this.state;
-        const path = `${PATH_BASE}${PATH_SEARCH}${DEFAULT_QUERY}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        const path = `${EUDORA_PATH}${PATH_BASE}${PATH_SEARCH}${DEFAULT_QUERY}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
         
         const response = await axios.get(path);
         this.setState({result: response.data.data});
