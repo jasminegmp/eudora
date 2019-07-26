@@ -30,10 +30,10 @@ class WishlistPage extends React.Component {
 
     async componentDidMount() {
         const {searchTerm} = this.state;
-        const path = `${EUDORA_PATH}${PATH_BASE}${PATH_SEARCH}${DEFAULT_QUERY}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        //const path = `${EUDORA_PATH}${PATH_BASE}${PATH_SEARCH}${DEFAULT_QUERY}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
         
-        const response = await axios.get(path);
-        this.setState({result: response.data.data});
+        //const response = await axios.get(path);
+        //this.setState({result: response.data.data});
     }
 
     render(){
