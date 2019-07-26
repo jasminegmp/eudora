@@ -67,8 +67,8 @@ class ProfilesBase extends React.Component {
 const ProfileList = ({ profiles }) => (
   <Grid stackable columns={4}>
     {profiles.map(profile => (
-      <Grid.Column>
-      <Card centered key={profile.uid}>
+      <Grid.Column key={profile.uid}>
+      <Card centered>
         <Image src={profile.photoUrl} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
