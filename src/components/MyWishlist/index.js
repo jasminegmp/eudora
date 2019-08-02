@@ -1,13 +1,12 @@
 import React from 'react';
-import axios from 'axios';
+import fetchJsonp from 'fetch-jsonp';
+import {Segment, Form} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 
 
 //https://openapi.etsy.com/v2/listings/active.js?keywords=ring&limit=12&includes=Images:1&api_key=*
-const EUDORA_PATH = 'http://localhost:3000/'
 const PATH_BASE = 'https://openapi.etsy.com/v2';
-const PATH_SEARCH = '/listings/active.js?keywords=';
-const DEFAULT_QUERY = 'ring';
+const PATH_SEARCH = '/listings/active.js?callback=getData&keywords=';
 const LIMIT_PARAM = 'limit=';
 const LIMIT_COUNT = '12';
 const IMAGE_PARAM = 'includes=Images:1'
@@ -19,8 +18,9 @@ class WishlistPage extends React.Component {
         super(props);
 
         this.state = {
+            searchTerm: '',
             result: null,
-            searchTerm: DEFAULT_QUERY
+            error: null
         }
     }
 
@@ -28,26 +28,45 @@ class WishlistPage extends React.Component {
         this.setState({result});
     }
 
-    async componentDidMount() {
-        const {searchTerm} = this.state;
-        const path = `${EUDORA_PATH}${PATH_BASE}${PATH_SEARCH}${DEFAULT_QUERY}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
-        
-        /*const response = await axios.get(path);
-        console.log(path);
-        this.setState({result: response.data.data});
-        */
+    onChange = (event) => {
+        this.setState({[event.target.name]: event.target.value});
+    }
 
-        /*fetch(path)
+    onSubmit = (event) => {
+        let temp;
+        event.preventDefault();
+        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        console.log(path);
+
+        fetchJsonp(path, {
+            timeout: 3000,
+          })
             .then(response => response.json())
             .then(result => this.setSearchItems(result))
-            .catch(error => console.log(error));*/
-        
+            .catch(error => console.log(error));
+            
     }
 
     render(){
+        const {searchTerm, error} = this.state;
         return (
             <div>
-                <h1>My Wishlist</h1>
+                <form className = "ui form" onSubmit = {this.onSubmit}>
+                    <Segment stacked>
+                        <div className="field">
+                            <label>Search for Item</label>
+                            <Form.Input
+                                name = "searchTerm"
+                                value = {searchTerm}
+                                onChange = {this.onChange}
+                                type = "text"
+                                placeholder = "example: ring"
+                            />
+                        </div>
+                        <button className = "ui button " type = "submit" >Search</button>
+                        {error && <p>{error}</p>} 
+                    </Segment>
+                </form>
             
             </div>
         );
