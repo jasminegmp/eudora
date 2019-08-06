@@ -1,6 +1,6 @@
 import React from 'react';
 import fetchJsonp from 'fetch-jsonp';
-import {Segment, Form} from 'semantic-ui-react';
+import {Segment, Form, Dropdown, Loader, Dimmer} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import ItemList from '../ItemList'
 
@@ -9,19 +9,44 @@ import ItemList from '../ItemList'
 const PATH_BASE = 'https://openapi.etsy.com/v2';
 const PATH_SEARCH = '/listings/active.js?callback=getData&keywords=';
 const LIMIT_PARAM = 'limit=';
-const LIMIT_COUNT = '12';
 const IMAGE_PARAM = 'includes=Images:1'
 const API_PATH = 'api_key=';
 const ETSY_KEY = require('../../e_config').default;
+
+const limitOptions = [
+    {
+      key: '10',
+      text: '10',
+      value: '10',
+    },
+    {
+      key: '20',
+      text: '20',
+      value: '20',
+    },
+    {
+      key: '50',
+      text: '50',
+      value: '50',
+    },
+    {
+      key: '100',
+      text: '100',
+      value: '100',
+    }
+  ]
+
 
 class AddItemsPage extends React.Component {
     constructor(props){
         super(props);
 
         this.state = {
+            limit: '',
             searchTerm: '',
             result: null,
-            submitted: false,
+            isSubmitted: false,
+            isLoading: false,
             error: null
         }
     }
@@ -32,30 +57,55 @@ class AddItemsPage extends React.Component {
 
     onChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
+
     }
 
-    onSubmit = (event) => {
-        let temp;
-        event.preventDefault();
-        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${LIMIT_COUNT}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
-       // console.log(path);
-
-        fetchJsonp(path, {
-            timeout: 3000,
-          })
-            .then(response => response.json())
+    onSubmit =  async (event) => {
+        console.log("onsubmit");
+        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        console.log(path);
+        const response = await fetchJsonp(path, {
+            timeout: 10000,
+          });
+          const json = await response.json()
             .then(result => this.setSearchItems(result))
+            .then(this.setState({isLoading: false}, () => {console.log(this.state.isLoading);}))
             .catch(error => console.log(error));
+        
         this.setState({isSubmitted: true});
+        
             
+    }
+
+    isLoading = (event) => {
+      console.log("isloading");
+      event.preventDefault();
+      this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
+        // handle error
+      })});
+
+      
+    }
+
+    handleDropdownUpdate = (event, data) =>{
+      this.setState({limit: data.value});
+      
     }
 
     render(){
         const {searchTerm, error} = this.state;
         return (
             <div>
-                <form className = "ui form" onSubmit = {this.onSubmit}>
+                <form className = "ui form" onSubmit = {this.isLoading}>
                     <Segment stacked>
+                    {this.state.isLoading ? 
+                      <Dimmer active inverted>
+                        <Loader inverted>Loading</Loader>
+                      </Dimmer> 
+                      : 
+                      null
+                    }
+
                         <div className="field">
                             <label>Search for Item</label>
                             <Form.Input
@@ -66,11 +116,23 @@ class AddItemsPage extends React.Component {
                                 placeholder = "example: ring"
                             />
                         </div>
+                        <Dropdown
+                            placeholder='Number of items'
+                            fluid
+                            selection
+                            options={limitOptions}
+                            value = {this.state.limit}
+                            onChange={this.handleDropdownUpdate}
+                        />
                         <button className = "ui button " type = "submit" >Search</button>
                         {error && <p>{error}</p>} 
-                        {this.state.isSubmitted && <ItemList result={this.state.result} />}
+                        
                     </Segment>
+                    <div>
+                      {this.state.isSubmitted && <ItemList result={this.state.result} />}
+                    </div>
                 </form>
+                
             
             </div>
         );
