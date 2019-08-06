@@ -9,7 +9,8 @@ import ItemList from '../ItemList'
 const PATH_BASE = 'https://openapi.etsy.com/v2';
 const PATH_SEARCH = '/listings/active.js?callback=getData&keywords=';
 const LIMIT_PARAM = 'limit=';
-const IMAGE_PARAM = 'includes=Images:1'
+const OFFSET_PARAM = 'offset='
+const IMAGE_PARAM = 'includes=Images:1';
 const API_PATH = 'api_key=';
 const ETSY_KEY = require('../../e_config').default;
 
@@ -17,22 +18,17 @@ const limitOptions = [
     {
       key: '10',
       text: '10',
-      value: '10',
-    },
-    {
-      key: '20',
-      text: '20',
-      value: '20',
+      value: 10,
     },
     {
       key: '50',
       text: '50',
-      value: '50',
+      value: 50,
     },
     {
       key: '100',
       text: '100',
-      value: '100',
+      value: 100,
     }
   ]
 
@@ -42,11 +38,12 @@ class AddItemsPage extends React.Component {
         super(props);
 
         this.state = {
-            limit: '',
+            limit: 10,
             searchTerm: '',
             result: null,
             isSubmitted: false,
             isLoading: false,
+            offset: 0,
             error: null
         }
     }
@@ -62,7 +59,7 @@ class AddItemsPage extends React.Component {
 
     onSubmit =  async (event) => {
         console.log("onsubmit");
-        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
         console.log(path);
         const response = await fetchJsonp(path, {
             timeout: 10000,
@@ -89,16 +86,36 @@ class AddItemsPage extends React.Component {
 
     handleDropdownUpdate = (event, data) =>{
       this.setState({limit: data.value});
-      
+    }
+
+    nextPage = (event) => {
+      const newOffset = this.state.offset + this.state.limit;
+     // console.log(newOffset);
+     this.setPage(newOffset);
+    }
+
+    prevPage = (event) => {
+      const newOffset = this.state.offset - this.state.limit;
+      //console.log(newOffset);
+      this.setPage(newOffset);
+    }
+
+    setPage = (newOffset) => {
+      this.setState({offset: newOffset});
+      this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
+        // handle error
+      })});
     }
 
     render(){
-        const {searchTerm, error} = this.state;
+        const {searchTerm, error, isLoading, isSubmitted, firstPage, offset} = this.state;
+        const isInvalid = 
+          searchTerm === '';
         return (
             <div>
                 <form className = "ui form" onSubmit = {this.isLoading}>
                     <Segment stacked>
-                    {this.state.isLoading ? 
+                    {isLoading ? 
                       <Dimmer active inverted>
                         <Loader inverted>Loading</Loader>
                       </Dimmer> 
@@ -124,14 +141,39 @@ class AddItemsPage extends React.Component {
                             value = {this.state.limit}
                             onChange={this.handleDropdownUpdate}
                         />
-                        <button className = "ui button " type = "submit" >Search</button>
+                        <button className = "ui button " disabled = {isInvalid} type = "submit" >Search</button>
                         {error && <p>{error}</p>} 
                         
                     </Segment>
+                </form>
+                    <div>
+                      {isSubmitted && (offset >0) ?
+                        <button className ="ui left labeled icon button" onClick = {this.prevPage} >
+                          <i className ="left arrow icon"></i>
+                          Prev
+                        </button> :
+                        <button className ="ui left labeled icon button"  disabled>
+                        <i className ="left arrow icon"></i>
+                        Prev
+                      </button>
+                      }
+                      {isSubmitted ?
+                        <button className ="ui right labeled icon button" onClick = {this.nextPage} >
+                        <i className ="right arrow icon"></i>
+                          Next
+                        </button>
+                        :
+                        <button className ="ui right labeled icon button" disabled >
+                        <i className ="right arrow icon"></i>
+                          Next
+                        </button>
+                      }
+
+                    </div>
                     <div>
                       {this.state.isSubmitted && <ItemList result={this.state.result} />}
                     </div>
-                </form>
+                
                 
             
             </div>
