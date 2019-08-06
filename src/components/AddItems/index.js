@@ -1,6 +1,6 @@
 import React from 'react';
 import fetchJsonp from 'fetch-jsonp';
-import {Segment, Form, Dropdown, Loader, Dimmer} from 'semantic-ui-react';
+import {Segment, Form, Dropdown, Loader, Dimmer, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import ItemList from '../ItemList'
 
@@ -58,15 +58,15 @@ class AddItemsPage extends React.Component {
     }
 
     onSubmit =  async (event) => {
-        console.log("onsubmit");
+        //console.log("onsubmit");
         const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
-        console.log(path);
+        //console.log(path);
         const response = await fetchJsonp(path, {
             timeout: 10000,
           });
           const json = await response.json()
             .then(result => this.setSearchItems(result))
-            .then(this.setState({isLoading: false}, () => {console.log(this.state.isLoading);}))
+            .then(this.setState({isLoading: false}))
             .catch(error => console.log(error));
         
         this.setState({isSubmitted: true});
@@ -75,7 +75,7 @@ class AddItemsPage extends React.Component {
     }
 
     isLoading = (event) => {
-      console.log("isloading");
+      //console.log("isloading");
       event.preventDefault();
       this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
         // handle error
@@ -108,13 +108,13 @@ class AddItemsPage extends React.Component {
     }
 
     render(){
-        const {searchTerm, error, isLoading, isSubmitted, firstPage, offset} = this.state;
+        const {searchTerm, error, isLoading, isSubmitted, offset} = this.state;
         const isInvalid = 
           searchTerm === '';
         return (
-            <div>
+            <div style ={{margin: 40}}>
                 <form className = "ui form" onSubmit = {this.isLoading}>
-                    <Segment stacked>
+                    <Segment stacked className = "very padded">
                     {isLoading ? 
                       <Dimmer active inverted>
                         <Loader inverted>Loading</Loader>
@@ -122,9 +122,9 @@ class AddItemsPage extends React.Component {
                       : 
                       null
                     }
-
-                        <div className="field">
-                            <label>Search for Item</label>
+                      <Grid columns={2} stackable>
+                        <Grid.Column width={12}>
+                            <h4>Search for Item</h4>
                             <Form.Input
                                 name = "searchTerm"
                                 value = {searchTerm}
@@ -132,21 +132,25 @@ class AddItemsPage extends React.Component {
                                 type = "text"
                                 placeholder = "example: ring"
                             />
-                        </div>
-                        <Dropdown
-                            placeholder='Number of items'
-                            fluid
-                            selection
-                            options={limitOptions}
-                            value = {this.state.limit}
-                            onChange={this.handleDropdownUpdate}
-                        />
-                        <button className = "ui button " disabled = {isInvalid} type = "submit" >Search</button>
+                        </Grid.Column>
+                        <Grid.Column width={4}> 
+                          <h4>Results per Page</h4>
+                          <Dropdown
+                              placeholder='Number of items'
+                              fluid
+                              selection
+                              options={limitOptions}
+                              value = {this.state.limit}
+                              onChange={this.handleDropdownUpdate}
+                          />
+                        </Grid.Column>
+                      </Grid>
+                        <button className = "ui button " disabled = {isInvalid} type = "submit" style = {{marginTop: 10}}>Search</button>
                         {error && <p>{error}</p>} 
-                        
                     </Segment>
                 </form>
-                    <div>
+
+                    <div style = {{marginTop: 15, marginBottom: 25}}>
                       {isSubmitted && (offset >0) ?
                         <button className ="ui left labeled icon button" onClick = {this.prevPage} >
                           <i className ="left arrow icon"></i>
@@ -170,6 +174,7 @@ class AddItemsPage extends React.Component {
                       }
 
                     </div>
+                    
                     <div>
                       {this.state.isSubmitted && <ItemList result={this.state.result} />}
                     </div>
