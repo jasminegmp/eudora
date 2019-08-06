@@ -39,6 +39,7 @@ class AddItemsPage extends React.Component {
 
         this.state = {
             limit: 10,
+            newSearchTerm: false,
             searchTerm: '',
             result: null,
             isSubmitted: false,
@@ -54,25 +55,48 @@ class AddItemsPage extends React.Component {
 
     onChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
-
+        this.setState({newSearchTerm: true});
     }
 
     onSubmit =  async (event) => {
         //console.log("onsubmit");
         const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
-        //console.log(path);
-        const response = await fetchJsonp(path, {
-            timeout: 10000,
-          });
-          const json = await response.json()
-            .then(result => this.setSearchItems(result))
-            .then(this.setState({isLoading: false}))
-            .catch(error => console.log(error));
-        
+        if (this.state.newSearchTerm){
+          //console.log("Got here");
+          this.setState({offset: 0}, async () => {
+          
+          
+         //console.log(path);
+          const response = await fetchJsonp(path, {
+              timeout: 10000,
+            });
+            const json = await response.json()
+              .then(result => this.setSearchItems(result))
+              .then(this.setState({isLoading: false}))
+              .then(this.setState({newSearchTerm: false}))
+              .catch(error => console.log(error));
+
+
+          })}
+        else{
+          
+          //console.log(path);
+          const response = await fetchJsonp(path, {
+              timeout: 10000,
+            });
+            const json = await response.json()
+              .then(result => this.setSearchItems(result))
+              .then(this.setState({isLoading: false}))
+              .catch(error => console.log(error));
+          
+          
+        }
         this.setState({isSubmitted: true});
+
         
             
     }
+
 
     isLoading = (event) => {
       //console.log("isloading");
@@ -80,8 +104,6 @@ class AddItemsPage extends React.Component {
       this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
         // handle error
       })});
-
-      
     }
 
     handleDropdownUpdate = (event, data) =>{
