@@ -58,48 +58,32 @@ class AddItemsPage extends React.Component {
         this.setState({newSearchTerm: true});
     }
 
+    getJsonResponse = async (event, path) => {
+      const response = await fetchJsonp(path, {
+        timeout: 10000,
+      });
+      const json = await response.json()
+        .then(result => this.setSearchItems(result))
+        .then(this.setState({isLoading: false}))
+        .then(this.setState({newSearchTerm: false}))
+        .catch(error => console.log(error));
+    }
+
     onSubmit =  async (event) => {
-        //console.log("onsubmit");
         const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
         if (this.state.newSearchTerm){
-          //console.log("Got here");
           this.setState({offset: 0}, async () => {
-          
-          
-         //console.log(path);
-          const response = await fetchJsonp(path, {
-              timeout: 10000,
-            });
-            const json = await response.json()
-              .then(result => this.setSearchItems(result))
-              .then(this.setState({isLoading: false}))
-              .then(this.setState({newSearchTerm: false}))
-              .catch(error => console.log(error));
-
-
+            this.getJsonResponse(event, path);  
           })}
         else{
           
-          //console.log(path);
-          const response = await fetchJsonp(path, {
-              timeout: 10000,
-            });
-            const json = await response.json()
-              .then(result => this.setSearchItems(result))
-              .then(this.setState({isLoading: false}))
-              .catch(error => console.log(error));
-          
-          
+          this.getJsonResponse(event, path);         
         }
-        this.setState({isSubmitted: true});
-
-        
-            
+        this.setState({isSubmitted: true});     
     }
 
 
     isLoading = (event) => {
-      //console.log("isloading");
       event.preventDefault();
       this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
         // handle error
@@ -112,21 +96,17 @@ class AddItemsPage extends React.Component {
 
     nextPage = (event) => {
       const newOffset = this.state.offset + this.state.limit;
-     // console.log(newOffset);
-     this.setPage(newOffset);
+      this.setPage(newOffset, event);
     }
 
     prevPage = (event) => {
-      const newOffset = this.state.offset - this.state.limit;
-      //console.log(newOffset);
-      this.setPage(newOffset);
+      const newOffset = this.state.offset - this.state.limit;;
+      this.setPage(newOffset, event);
     }
 
-    setPage = (newOffset) => {
+    setPage = (newOffset, event) => {
       this.setState({offset: newOffset});
-      this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
-        // handle error
-      })});
+      this.isLoading(event);
     }
 
     render(){
