@@ -3,16 +3,12 @@ import {Icon} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 
 
-class AddItemtoWishlist extends React.Component {
+class RemoveItemFromWishlist extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            title: this.props.title,
             id: this.props.id,
-            image: this.props.image,
-            price: this.props.price,
-            url: this.props.url,
             error: null
         };
 
@@ -24,14 +20,14 @@ class AddItemtoWishlist extends React.Component {
         event.preventDefault();
 
         const user = this.props.firebase.currentUser();
-        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price)
+        //console.log(id);
+        this.props.firebase.removeWishlistDb(user.uid, id)
             .then(() => {
+                if (this.isUnmounted) {
+                    return;
+                }
                 this.setState({
-                    title: '',
                     id: '',
-                    image: '',
-                    price: '',
-                    url: '',
                     error: null
                 });
             })
@@ -40,7 +36,10 @@ class AddItemtoWishlist extends React.Component {
             .catch(error => {
                 this.setState({error});
             });
+    }
 
+    componentWillUnmount() {
+        this.isUnmounted = true;
     }
       
 
@@ -48,9 +47,10 @@ class AddItemtoWishlist extends React.Component {
         
         return(
             <div>
-                <a onClick ={this.handleClick}>						
-                    <Icon name='plus' />
-                    Add item to wishlist
+                <a onClick ={this.handleClick}>		
+                   		
+                    <Icon name='minus' />
+                    Remove item to wishlist
                 </a>
             </div>
         );
@@ -59,4 +59,4 @@ class AddItemtoWishlist extends React.Component {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(AddItemtoWishlist);
+export default withAuthorization(condition)(RemoveItemFromWishlist);

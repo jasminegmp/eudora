@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
 
 const WishlistPage = () => {
     return (
@@ -30,6 +31,9 @@ class WishlistBase extends React.Component {
     
           const itemsObject = snapshot.val();
           //console.log(itemsObject);
+          if (this.isUnmounted) {
+            return;
+          }
 
           if (itemsObject) {
               
@@ -48,6 +52,7 @@ class WishlistBase extends React.Component {
     
       componentWillUnmount() {
         this.props.firebase.items().off();
+        this.isUnmounted = true;
       }
     
       render() {
@@ -78,6 +83,7 @@ const ItemList = ({ items }) => (
           <Card.Meta>
             <p>${item.price}</p>
           </Card.Meta>
+          <RemoveItemFromWishlist id = {item.id}/>
         </Card.Content>
       </Card>
       </Grid.Column>
