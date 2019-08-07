@@ -13,6 +13,7 @@ class AddItemtoWishlist extends React.Component {
             image: this.props.image,
             price: this.props.price,
             url: this.props.url,
+            clicked: false,
             error: null
         };
 
@@ -40,6 +41,8 @@ class AddItemtoWishlist extends React.Component {
             .catch(error => {
                 this.setState({error});
             });
+        this.setState({clicked: true});
+
 
     }
       
@@ -48,9 +51,11 @@ class AddItemtoWishlist extends React.Component {
         
         return(
             <div>
-                <a onClick ={this.handleClick}>						
+                 
+                <a className = "item" onClick ={this.handleClick}>						
                     <Icon name='plus' />
                     Add item to wishlist
+                    {this.state.clicked ? <div class="ui red floating label">Added</div> : null}
                 </a>
             </div>
         );
