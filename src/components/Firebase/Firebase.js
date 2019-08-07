@@ -48,7 +48,7 @@ class Firebase{
 
     currentUser = () => this.auth.currentUser;
 
-    updateWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`users/${uid}/wishlist/${id}`).update({title: title, url: url, image: image, price: price});
+    updateWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`users/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price});
 
     items = (uid) => this.db.ref(`users/${uid}/wishlist`);
 

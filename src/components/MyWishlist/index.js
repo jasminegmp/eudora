@@ -27,10 +27,9 @@ class WishlistBase extends React.Component {
         const user = this.props.firebase.currentUser();
     
         this.props.firebase.items(user.uid).on('value', snapshot => {
-          // convert messages list from snapshot
     
           const itemsObject = snapshot.val();
-          console.log(itemsObject);
+          //console.log(itemsObject);
 
           if (itemsObject) {
               
@@ -71,11 +70,13 @@ const ItemList = ({ items }) => (
     {items.map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <Image src={item.url} wrapped ui={false} />
+        <Image src={item.image} wrapped ui={false} />
         <Card.Content>
-          <Card.Header>{item.title}</Card.Header>
+            <a href = {item.url} target="_blank">
+                <Card.Header>{item.title.substring(0,50)}...</Card.Header>
+            </a>
           <Card.Meta>
-            <p>{item.price}</p>
+            <p>${item.price}</p>
           </Card.Meta>
         </Card.Content>
       </Card>
