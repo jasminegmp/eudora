@@ -36,12 +36,12 @@ class AddItemtoWishlist extends React.Component {
                     error: null
                 });
             })
-
+            .then(this.setState({clicked: true}))
             // otherwise, display error
             .catch(error => {
                 this.setState({error});
             });
-        this.setState({clicked: true});
+        ;
 
 
     }
@@ -55,7 +55,7 @@ class AddItemtoWishlist extends React.Component {
                 <a className = "item" onClick ={this.handleClick}>						
                     <Icon name='plus' />
                     Add item to wishlist
-                    {this.state.clicked ? <div class="ui red floating label">Added</div> : null}
+                    {this.state.clicked ? <div className ="ui red floating label">Added</div> : null}
                 </a>
             </div>
         );
