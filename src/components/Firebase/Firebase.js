@@ -48,6 +48,10 @@ class Firebase{
 
     currentUser = () => this.auth.currentUser;
 
+    updateWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`users/${uid}/wishlist/${id}`).update({title: title, url: url, image: image, price: price});
+
+    items = (uid) => this.db.ref(`users/${uid}/wishlist`);
+
     // *** Profile API ***
 
     profile = uid => this.db.ref(`profiles/${uid}`);
@@ -59,6 +63,7 @@ class Firebase{
     updateAvatarDb = (uid, avatar) => this.db.ref(`profiles/${uid}`).update({photoUrl: avatar});
 
     fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
+
 
 
 }

@@ -1,6 +1,7 @@
 import React from 'react';
-import {Image, Card, Grid, Icon} from 'semantic-ui-react';
+import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
+import AddItemtoWishlist from '../AddItemtoWishlist';
 
 function ItemList(props){
 	//console.log(props.result);
@@ -20,8 +21,7 @@ function ItemList(props){
 							</Card.Meta>
 							</Card.Content>
 							<Card.Content extra>
-									<Icon name='plus' />
-									Add item to wishlist
+									<AddItemtoWishlist id = {item.listing_id} image = {item.Images[0].url_170x135} title = {item.title} price = {item.price} url = {item.url}/>
 							</Card.Content>
 						</Card>
 					</Grid.Column>
