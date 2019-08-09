@@ -26,7 +26,6 @@ class WishlistBase extends React.Component {
       componentDidMount() {
         this.setState({ loading: true });
         const user = this.props.firebase.currentUser();
-    
         this.props.firebase.items(user.uid).on('value', snapshot => {
     
           const itemsObject = snapshot.val();
@@ -48,6 +47,7 @@ class WishlistBase extends React.Component {
             this.setState({items: null, loading: false });
           }
         });
+
       }
     
       componentWillUnmount() {

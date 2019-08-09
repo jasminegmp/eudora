@@ -10,6 +10,7 @@ import AdminPage from '../Admin';
 import PeoplePage from '../People';
 import MyWishlistPage from '../MyWishlist';
 import AddItemsPage from '../AddItems';
+import PersonProfilePage from '../PersonProfile';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -28,6 +29,8 @@ const App = () => {
             <Route exact path={ROUTES.PEOPLE} component={PeoplePage} />
             <Route exact path={ROUTES.MY_WISHLIST} component={MyWishlistPage} />
             <Route exact path={ROUTES.ADD_ITEMS} component={AddItemsPage} />
+            <Route exact path={ROUTES.PERSON_PROFILE}  component = {PersonProfilePage}/>
+
         </Router>
     )
 };

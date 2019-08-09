@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import {Link, withRouter} from 'react-router-dom';
 
 const PeoplePage = () => {
     return (
@@ -64,6 +65,7 @@ class ProfilesBase extends React.Component {
       }
 }
 
+
 const ProfileList = ({ profiles }) => (
   <Grid stackable columns={4}>
     {profiles.map(profile => (
@@ -72,6 +74,7 @@ const ProfileList = ({ profiles }) => (
         <Image src={profile.photoUrl} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
+          <Link to={{pathname: `/eudora/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
           <Card.Meta>
             <p>{profile.username}</p>
           </Card.Meta>
@@ -83,8 +86,9 @@ const ProfileList = ({ profiles }) => (
 );
 
 
-const Profiles = withFirebase(ProfilesBase);
+const Profiles = withRouter(withFirebase(ProfilesBase));
 
 const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(PeoplePage);
+

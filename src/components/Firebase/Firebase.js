@@ -48,11 +48,7 @@ class Firebase{
 
     currentUser = () => this.auth.currentUser;
 
-    addWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`users/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price});
 
-    removeWishlistDb = (uid, id) => this.db.ref(`users/${uid}/wishlist/${id}`).remove();
-    
-    items = (uid) => this.db.ref(`users/${uid}/wishlist`);
 
     // *** Profile API ***
 
@@ -65,6 +61,12 @@ class Firebase{
     updateAvatarDb = (uid, avatar) => this.db.ref(`profiles/${uid}`).update({photoUrl: avatar});
 
     fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
+
+    addWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price});
+
+    removeWishlistDb = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}`).remove();
+    
+    items = (uid) => this.db.ref(`profiles/${uid}/wishlist`);
 
 
 

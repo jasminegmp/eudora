@@ -10,3 +10,4 @@ export const PASSWORD_FORGET = '/eudora/pw-forget';
 export const PEOPLE = '/eudora/people';
 export const MY_WISHLIST = '/eudora/my-wishlist';
 export const ADD_ITEMS = '/eudora/add-items';
+export const PERSON_PROFILE = "/eudora/user/:uid";

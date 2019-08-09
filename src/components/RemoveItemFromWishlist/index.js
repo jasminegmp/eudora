@@ -15,7 +15,7 @@ class RemoveItemFromWishlist extends React.Component {
     }
 
     handleClick = (event) => {
-        const {title, id, image, price, url} = this.state;
+        const {id} = this.state;
 
         event.preventDefault();
 
