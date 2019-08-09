@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Card, Grid} from 'semantic-ui-react';
+import {Image, Card, Grid, Segment} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 
@@ -9,6 +9,8 @@ class FetchProfileInfo extends React.Component {
         super(props);
     
         this.state = {
+            firstName: '',
+            lastName: '',
             uid: props.uid,
             items: [],
             loading: false,
@@ -19,6 +21,21 @@ class FetchProfileInfo extends React.Component {
     
     componentDidMount() {
         this.setState({ loading: true });
+
+        // Grab first name
+        this.props.firebase.getFirstName(this.props.uid).on('value', snapshot => {
+          const firstName = snapshot.val();
+          this.setState({ firstName})
+        });
+
+        // Grab last name
+        this.props.firebase.getLastName(this.props.uid).on('value', snapshot => {
+          const lastName = snapshot.val();
+          this.setState({ lastName})
+
+        });
+
+        // Grab wishlist items
         this.props.firebase.items(this.props.uid).on('value', snapshot => {
           const itemsObject = snapshot.val();
           //console.log(itemsObject);
@@ -38,6 +55,7 @@ class FetchProfileInfo extends React.Component {
             this.setState({items: null, loading: false });
           }
         });
+
       }
         
     componentWillUnmount() {
@@ -48,12 +66,17 @@ class FetchProfileInfo extends React.Component {
 
 
     render() {
-        const { items, loading } = this.state;
+        const { items, loading, firstName, lastName } = this.state;
         return(
             <div>
+                <h1>{firstName} {lastName}</h1>
                 {loading && <div>Loading ...</div>}
                 {items ? 
-                    (<ItemList items={items} />)
+                    ( <Segment>
+                      <h4>Wishlist</h4>
+                        <ItemList items={items}/>
+                      </Segment>
+                    )
                  : 
                     (<div>There are no items ...</div>)
                 }

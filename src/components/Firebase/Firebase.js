@@ -68,6 +68,9 @@ class Firebase{
     
     items = (uid) => this.db.ref(`profiles/${uid}/wishlist`);
 
+    getFirstName = (uid) => this.db.ref(`profiles/${uid}/firstName`);
+
+    getLastName = (uid) => this.db.ref(`profiles/${uid}/lastName`);
 
 
 }
