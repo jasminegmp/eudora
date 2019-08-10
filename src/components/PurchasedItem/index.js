@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form} from 'semantic-ui-react';
+import {Form, Label} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 
 
@@ -40,7 +40,8 @@ class PurchasedItem extends React.Component {
     render(){
         
         return(
-            <div>
+            <div>   
+                    {this.state.purchased ? <Label attached ="top" className = "blue">Purchased</Label> : null}
                     <div className="field">
                         <Form.Checkbox
                             name = "purchased"

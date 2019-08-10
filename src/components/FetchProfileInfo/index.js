@@ -65,7 +65,6 @@ class FetchProfileInfo extends React.Component {
       }
 
 
-
     render() {
         const { items, loading, firstName, lastName, uid} = this.state;
         return(
@@ -75,7 +74,26 @@ class FetchProfileInfo extends React.Component {
                 {items ? 
                     ( <Segment>
                       <h4>Wishlist</h4>
-                        <ItemList items={items} uid={uid}/>
+                      <Grid stackable columns={4}>
+                      {items.map(item => (
+                        <Grid.Column key={item.id}>
+                        <Card centered>
+                          <Image src={item.image} wrapped ui={false} />
+                          <Card.Content>
+                              <a href = {item.url} target="_blank">
+                                  <Card.Header>{item.title.substring(0,50)}...</Card.Header>
+                              </a>
+                            <Card.Meta>
+                              <p>${item.price}</p>
+                            </Card.Meta>
+                            <PurchasedItem uid = {this.state.uid} id ={item.id}/>
+
+
+                          </Card.Content>
+                        </Card>
+                        </Grid.Column>
+                      ))} 
+                    </Grid>
                       </Segment>
                     )
                  : 
@@ -88,29 +106,7 @@ class FetchProfileInfo extends React.Component {
 
 }
 
-const ItemList = ({ items }, uid) => (
-    <Grid stackable columns={4}>
-      {items.map(item => (
-        <Grid.Column key={item.id}>
-        <Card centered>
-          {item.purchased ? <Label attached ="top" className = "blue">Purchased</Label> : null}
-          <Image src={item.image} wrapped ui={false} />
-          <Card.Content>
-              <a href = {item.url} target="_blank">
-                  <Card.Header>{item.title.substring(0,50)}...</Card.Header>
-              </a>
-            <Card.Meta>
-              <p>${item.price}</p>
-            </Card.Meta>
-            <PurchasedItem uid = {uid} id ={item.id}/>
 
-
-          </Card.Content>
-        </Card>
-        </Grid.Column>
-      ))} 
-    </Grid>
-  );
 
 const condition = authUser => authUser;
 
