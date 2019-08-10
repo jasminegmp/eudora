@@ -62,7 +62,7 @@ class Firebase{
 
     fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
 
-    addWishlistDb = (uid, title, url, image, id, price) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price});
+    addWishlistDb = (uid, title, url, image, id, price, purchased) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price, purchased: purchased});
 
     removeWishlistDb = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}`).remove();
     
@@ -71,6 +71,8 @@ class Firebase{
     getFirstName = (uid) => this.db.ref(`profiles/${uid}/firstName`);
 
     getLastName = (uid) => this.db.ref(`profiles/${uid}/lastName`);
+
+    getPurchaseStatus = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}/purchased`);
 
 
 }

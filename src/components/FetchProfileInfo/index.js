@@ -1,7 +1,8 @@
 import React from 'react';
-import {Image, Card, Grid, Segment} from 'semantic-ui-react';
+import {Image, Card, Grid, Segment, Label} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import PurchasedItem from '../PurchasedItem';
 
 class FetchProfileInfo extends React.Component {
     
@@ -66,7 +67,7 @@ class FetchProfileInfo extends React.Component {
 
 
     render() {
-        const { items, loading, firstName, lastName } = this.state;
+        const { items, loading, firstName, lastName, uid} = this.state;
         return(
             <div>
                 <h1>{firstName} {lastName}</h1>
@@ -74,7 +75,7 @@ class FetchProfileInfo extends React.Component {
                 {items ? 
                     ( <Segment>
                       <h4>Wishlist</h4>
-                        <ItemList items={items}/>
+                        <ItemList items={items} uid={uid}/>
                       </Segment>
                     )
                  : 
@@ -87,11 +88,12 @@ class FetchProfileInfo extends React.Component {
 
 }
 
-const ItemList = ({ items }) => (
+const ItemList = ({ items }, uid) => (
     <Grid stackable columns={4}>
       {items.map(item => (
         <Grid.Column key={item.id}>
         <Card centered>
+          {item.purchased ? <Label attached ="top" className = "blue">Purchased</Label> : null}
           <Image src={item.image} wrapped ui={false} />
           <Card.Content>
               <a href = {item.url} target="_blank">
@@ -100,6 +102,9 @@ const ItemList = ({ items }) => (
             <Card.Meta>
               <p>${item.price}</p>
             </Card.Meta>
+            <PurchasedItem uid = {uid} id ={item.id}/>
+
+
           </Card.Content>
         </Card>
         </Grid.Column>

@@ -13,6 +13,7 @@ class AddItemtoWishlist extends React.Component {
             image: this.props.image,
             price: this.props.price,
             url: this.props.url,
+            purchased: false,
             clicked: false,
             error: null
         };
@@ -20,12 +21,12 @@ class AddItemtoWishlist extends React.Component {
     }
 
     handleClick = (event) => {
-        const {title, id, image, price, url} = this.state;
+        const {title, id, image, price, url, purchased} = this.state;
 
         event.preventDefault();
 
         const user = this.props.firebase.currentUser();
-        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price)
+        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, purchased)
             .then(() => {
                 this.setState({
                     title: '',
@@ -33,6 +34,7 @@ class AddItemtoWishlist extends React.Component {
                     image: '',
                     price: '',
                     url: '',
+                    purchased: '',
                     error: null
                 });
             })
