@@ -10,6 +10,7 @@ class FetchProfileInfo extends React.Component {
         super(props);
     
         this.state = {
+            currentUser: '',
             firstName: '',
             lastName: '',
             uid: props.uid,
@@ -21,7 +22,10 @@ class FetchProfileInfo extends React.Component {
 
     
     componentDidMount() {
+      
         this.setState({ loading: true });
+
+        this.setState({currentUser: this.props.firebase.currentUser().uid});
 
         // Grab first name
         this.props.firebase.getFirstName(this.props.uid).on('value', snapshot => {
@@ -86,7 +90,10 @@ class FetchProfileInfo extends React.Component {
                             <Card.Meta>
                               <p>${item.price}</p>
                             </Card.Meta>
-                            <PurchasedItem uid = {this.state.uid} id ={item.id}/>
+                            {this.state.uid !== this.state.currentUser ? 
+                              <PurchasedItem uid = {this.state.uid} id ={item.id}/> :
+                              null
+                            }
 
 
                           </Card.Content>

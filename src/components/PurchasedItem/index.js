@@ -58,8 +58,7 @@ class PurchasedItem extends React.Component {
                             name = "purchased"
                             checked = {this.state.purchased}
                             onChange = {this.onChange}
-                        />
-                        Purchased
+                        />Purchased
                     </div>
             </div>
         );

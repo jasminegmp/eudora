@@ -24,6 +24,7 @@ class ProfilesBase extends React.Component {
       }
     
       componentDidMount() {
+        
         this.setState({ loading: true });
     
         this.props.firebase.profiles().on('value', snapshot => {
