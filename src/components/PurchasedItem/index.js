@@ -18,7 +18,6 @@ class PurchasedItem extends React.Component {
 
     componentDidMount(){
         // Grab purchase status
-        console.log("asdf", this.props.match.params.uid, this.props.id)
         this.props.firebase.getPurchaseStatus(this.state.uid, this.state.id).on('value', snapshot => {
             const purchased = snapshot.val();
             this.setState({ purchased})
@@ -30,10 +29,15 @@ class PurchasedItem extends React.Component {
 
        // console.log(this.props.match.params.uid, event.target.name, event.target.value)
         //this.setState({[event.target.name]: !event.target.value})
-        this.setState( prevState => ({
-            purchased: !prevState.purchased
-          }));
+        
 
+        // update purchase status
+        this.props.firebase.updatePurchaseStatus(this.state.uid, this.state.id, !this.state.purchased)
+            .then(this.setState({purchased: !this.state.purchased}))
+            .catch(error => {
+                this.setState({error});
+            });
+    
     }
       
 

@@ -74,6 +74,8 @@ class Firebase{
 
     getPurchaseStatus = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}/purchased`);
 
+    updatePurchaseStatus = (uid, id, status) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({purchased: status});
+
 
 }
 
