@@ -10,7 +10,7 @@ class PurchasedItem extends React.Component {
         this.state = {
             uid: this.props.match.params.uid,
             id: this.props.id,
-            purchased: null,
+            purchased: false,
             error: null
         };
 
@@ -25,12 +25,19 @@ class PurchasedItem extends React.Component {
           });
     }
 
+    componentWillUnmount() {
+        this.props.firebase.items().off();
+        this.isUnmounted = true;
+      }
+
     onChange = (event) => {
 
        // console.log(this.props.match.params.uid, event.target.name, event.target.value)
         //this.setState({[event.target.name]: !event.target.value})
         
-
+        if (this.isUnmounted) {
+            return;
+         }
         // update purchase status
         this.props.firebase.updatePurchaseStatus(this.state.uid, this.state.id, !this.state.purchased)
             .then(this.setState({purchased: !this.state.purchased}))
@@ -49,6 +56,7 @@ class PurchasedItem extends React.Component {
                     <div className="field">
                         <Form.Checkbox
                             name = "purchased"
+                            checked = {this.state.purchased}
                             onChange = {this.onChange}
                         />
                         Purchased
