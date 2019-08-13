@@ -29,12 +29,18 @@ class FetchProfileInfo extends React.Component {
 
         // Grab first name
         this.props.firebase.getFirstName(this.props.uid).on('value', snapshot => {
+          if (this.isUnmounted) {
+            return;
+          }
           const firstName = snapshot.val();
           this.setState({ firstName})
         });
 
         // Grab last name
         this.props.firebase.getLastName(this.props.uid).on('value', snapshot => {
+          if (this.isUnmounted) {
+            return;
+          }
           const lastName = snapshot.val();
           this.setState({ lastName})
 
@@ -64,6 +70,8 @@ class FetchProfileInfo extends React.Component {
       }
         
     componentWillUnmount() {
+        this.props.firebase.getFirstName().off();
+        this.props.firebase.getLastName().off();
         this.props.firebase.items().off();
         this.isUnmounted = true;
       }

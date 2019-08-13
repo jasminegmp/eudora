@@ -19,6 +19,9 @@ class PurchasedItem extends React.Component {
     componentDidMount(){
         // Grab purchase status
         this.props.firebase.getPurchaseStatus(this.state.uid, this.state.id).on('value', snapshot => {
+            if (this.isUnmounted) {
+                return;
+              }
             const purchased = snapshot.val();
             this.setState({ purchased})
   
@@ -26,7 +29,7 @@ class PurchasedItem extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.firebase.items().off();
+        this.props.firebase.getPurchaseStatus().off();
         this.isUnmounted = true;
       }
 

@@ -22,6 +22,9 @@ class PurchasedItem extends React.Component {
 
         // Grab current following list and check if already follwoing
         this.props.firebase.getFollowingList(user.uid).on('value', snapshot => {
+            if (this.isUnmounted) {
+                return;
+            }
     
             const followingObject = snapshot.val();
   
@@ -41,6 +44,11 @@ class PurchasedItem extends React.Component {
             }
           });
     }
+
+    componentWillUnmount() {
+        this.props.firebase.getFollowingList().off();
+        this.isUnmounted = true;
+      }
 
 
     onClickFollow = (event) => {
