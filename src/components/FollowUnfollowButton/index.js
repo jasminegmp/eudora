@@ -26,11 +26,6 @@ class PurchasedItem extends React.Component {
             const followingObject = snapshot.val();
   
             if (followingObject) {
-                
-              const followingList = Object.keys(followingObject).map(key => ({
-                ...followingObject[key],
-                uid: key,
-              }));
              
               if (this.state.targetUid in followingObject){
                 this.setState({followingUid: true }); //already following
@@ -47,8 +42,6 @@ class PurchasedItem extends React.Component {
           });
     }
 
-    componentWillUnmount() {
-      }
 
     onClickFollow = (event) => {
         //console.log(this.state.uid, this.state.targetUid, this.state.following);

@@ -1,9 +1,10 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
-import {Grid, Card, Icon, Image, Header} from 'semantic-ui-react';
+import {Grid, Card, Image, Header} from 'semantic-ui-react';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
+import GetNumberOfFollowing from '../GetNumberOfFollowing';
 
 const AccountPage = () => {
     return (
@@ -26,8 +27,7 @@ const AccountPage = () => {
                         </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
-                            <Icon name='users' />
-                                0 Friends
+                                <GetNumberOfFollowing />
                         </Card.Content>
                         <Card.Content extra>
                         </Card.Content>
