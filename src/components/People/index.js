@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import FollowUnfollowButton from '../FollowUnfollowButton'
 import {Link, withRouter} from 'react-router-dom';
 
 const PeoplePage = () => {
@@ -78,6 +79,7 @@ const ProfileList = ({ profiles }) => (
           <Link to={{pathname: `/eudora/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
           <Card.Meta>
             <p>{profile.username}</p>
+            <FollowUnfollowButton targetUid = {profile.uid}/>
           </Card.Meta>
         </Card.Content>
       </Card>

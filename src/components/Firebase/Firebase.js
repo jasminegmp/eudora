@@ -76,6 +76,13 @@ class Firebase{
 
     updatePurchaseStatus = (uid, id, status) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({purchased: status});
 
+    getFollowingList = (uid)  => this.db.ref(`profiles/${uid}/following`);
+
+    addFollowingList = (uid, targetUid) => this.db.ref(`profiles/${uid}/following/${targetUid}`).update({followingUid: targetUid});
+
+    updateFollowingList = (uid, targetUid) => this.db.ref(`profiles/${uid}/following/${targetUid}`).update({followingUid: targetUid});
+
+    removeFollowingList = (uid, targetUid) => this.db.ref(`profiles/${uid}/following/${targetUid}`).remove();
 
 }
 
