@@ -6,7 +6,7 @@ import FetchProfileInfo from '../FetchProfileInfo';
 
 const PersonProfilePage = () => {
     return (
-        <div style = {{margin: 40}}>
+        <div style = {{margin: 70}}>
           <Person/>
         </div>
     );

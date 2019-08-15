@@ -114,7 +114,7 @@ class AddItemsPage extends React.Component {
         const isInvalid = 
           searchTerm === '';
         return (
-            <div style ={{margin: 40}}>
+            <div style ={{margin: 70}}>
                 <form className = "ui form" onSubmit = {this.isLoading}>
                     <Segment stacked className = "very padded">
                     {isLoading ? 

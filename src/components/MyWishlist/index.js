@@ -6,8 +6,7 @@ import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
 
 const WishlistPage = () => {
     return (
-        <div style = {{margin: 40}}>
-          <h1>My Wishlist</h1>
+        <div style = {{margin: 70}}>
           <Items/>
         </div>
     );

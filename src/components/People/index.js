@@ -7,8 +7,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 const PeoplePage = () => {
     return (
-        <div style = {{margin: 40}}>
-          <h1>People</h1>
+        <div style = {{margin: 70}}>
           <Profiles/>
         </div>
     );
