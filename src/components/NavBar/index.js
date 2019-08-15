@@ -123,7 +123,7 @@ const NavBarMobileAuth = ({
                 <Menu.Item as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.ACCOUNT }><Icon name='user' />Account Info</Menu.Item>
                 <Menu.Item as={Link} onClick = {onSignOut} ><Icon name='sign-out' />Sign Out</Menu.Item>
-                <Menu.Item as='a'onClick = {onClose}><Icon name='close' />Close</Menu.Item>
+                <Menu.Item as={Link} onClick = {onClose}><Icon name='close' />Close</Menu.Item>
             </Sidebar>
         </div>
     )
@@ -146,7 +146,7 @@ class NavBarDesktopAuth extends React.Component {
                     <Menu.Item name = "people" onClick = {this.handleItemClick} active={activeItem === 'people'} as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
                     <Menu.Item name = "add-items" onClick = {this.handleItemClick} active={activeItem === 'add-items'} as={Link} to={ROUTES.ADD_ITEMS}><Icon name='plus' />Add Items</Menu.Item>
                     <Menu.Item name = "my-wishlist" onClick = {this.handleItemClick} active={activeItem === 'my-wishlist'} as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
-                    <Menu.Item name = "account" onClick = {this.handleItemClick} active={activeItem === 'account'} > 
+                    <Menu.Item name = "account"> 
                     <Dropdown trigger = {
                                 <span>
                                     <Icon name='user' />
