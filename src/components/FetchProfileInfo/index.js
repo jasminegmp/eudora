@@ -97,6 +97,10 @@ class FetchProfileInfo extends React.Component {
                               </a>
                             <Card.Meta>
                               <p>${item.price}</p>
+                              <Card.Meta>
+                                {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
+                                
+                              </Card.Meta>
                             </Card.Meta>
                             {this.state.uid !== this.state.currentUser ? 
                               <PurchasedItem uid = {this.state.uid} id ={item.id}/> :

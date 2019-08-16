@@ -18,6 +18,8 @@ class WishlistBase extends React.Component {
     
         this.state = {
           loading: false,
+          note: '',
+          id: null,
           items: [],
         };
       }
@@ -53,6 +55,7 @@ class WishlistBase extends React.Component {
         this.props.firebase.items().off();
         this.isUnmounted = true;
       }
+
     
       render() {
         const { items, loading } = this.state;
@@ -60,7 +63,7 @@ class WishlistBase extends React.Component {
           <div>
             {loading && <div>Loading ...</div>}
             {items ? (
-                <ItemList items={items} />
+                <ItemList items={items} note = {this.state.note} onChange = {this.onChange} />
             ) : (
                 <div>There are no items ...</div>
             )}
@@ -69,7 +72,7 @@ class WishlistBase extends React.Component {
       }
 }
 
-const ItemList = ({ items }) => (
+const ItemList = ({ items, note, onChange }) => (
   <Grid stackable columns={4}>
     {items.map(item => (
       <Grid.Column key={item.id}>
@@ -82,6 +85,11 @@ const ItemList = ({ items }) => (
           <Card.Meta>
             <p>${item.price}</p>
           </Card.Meta>
+          <Card.Meta>
+            {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
+          </Card.Meta>
+
+
           <RemoveItemFromWishlist id = {item.id}/>
         </Card.Content>
       </Card>

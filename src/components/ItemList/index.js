@@ -7,7 +7,7 @@ function ItemList(props){
 	//console.log(props.result);
 	if (props.result){
 			return (
-				<Grid stackable columns={5}>
+				<Grid stackable columns={4}>
 					{props.result.map(item => (
 					<Grid.Column key = {item.listing_id}>
 						<Card centered>
