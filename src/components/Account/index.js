@@ -1,6 +1,8 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
 import {Grid, Card, Image, Header} from 'semantic-ui-react';
+import GiftReceivingTimesForm from '../GiftReceivingTimes';
+import GetBirthdayForm from '../GetBirthday';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
@@ -25,6 +27,9 @@ const AccountPage = () => {
                         <Card.Description>
                             <p>Joined on {authUser.metadata.creationTime}}</p>
                         </Card.Description>
+                        <Card.Description>
+                            <GetBirthdayForm/>
+                        </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
                                 <GetNumberOfFollowing />
@@ -32,6 +37,10 @@ const AccountPage = () => {
                         <Card.Content extra>
                         </Card.Content>
                     </Card>
+
+                    <Header as = "h2" color = "grey" textAlign = "center">
+                        'Tis the Season for Me to Receive Gifts
+                    </Header>
 
                     <Header as = "h2" color = "grey" textAlign = "center">
                         Change Password
