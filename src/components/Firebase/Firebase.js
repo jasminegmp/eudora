@@ -84,13 +84,15 @@ class Firebase{
 
     removeFollowingList = (uid, targetUid) => this.db.ref(`profiles/${uid}/following/${targetUid}`).remove();
 
-    getBirthday = (uid) => this.db.ref(`profiles/${uid}/holidays/birthday`);
+    getBirthday = (uid) => this.db.ref(`profiles/${uid}/holidays/birthday/date`);
 
-    updateBirthday = (uid, birthday) => this.db.ref(`profiles/${uid}/holidays`).update({birthday: birthday});
+    updateBirthday = (uid, birthday) => this.db.ref(`profiles/${uid}/holidays/birthday`).update({date: birthday, celebrated: false});
 
-    addHolidays = (uid, birthday) => this.db.ref(`profiles/${uid}`).update({birthday});
+    getHolidays = (uid) => this.db.ref(`profiles/${uid}/holidays`);
 
-    removeHolidays = (uid, targetHoliday) => this.db.ref(`profiles/${uid}/${targetHoliday}`).remove();
+    addHolidays = (uid, holiday) => this.db.ref(`profiles/${uid}/holidays`).update({holiday});
+
+    removeHolidays = (uid, targetHoliday) => this.db.ref(`profiles/${uid}/holidays/${targetHoliday}`).remove();
 
 }
 

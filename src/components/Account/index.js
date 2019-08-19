@@ -40,6 +40,7 @@ const AccountPage = () => {
 
                     <Header as = "h2" color = "grey" textAlign = "center">
                         'Tis the Season for Me to Receive Gifts
+                        <GiftReceivingTimesForm/>
                     </Header>
 
                     <Header as = "h2" color = "grey" textAlign = "center">
