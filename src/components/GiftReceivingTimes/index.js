@@ -15,13 +15,16 @@ class GiftReceivingTimesForm extends React.Component {
         super(props);
         this.state = {
             celebrated: null,
+            isLoading: true,
             uid: this.props.firebase.currentUser().uid,
             holidayList: null,
+            holidayArray: null,
             error: null
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        console.log("Here")
         
         this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
           // convert messages list from snapshot
@@ -36,24 +39,20 @@ class GiftReceivingTimesForm extends React.Component {
             }));
       
 
-            this.setState({holidayList: holidays});
+            this.setState({holidayList: holidays, isLoading: false});
           } else {
             this.setState({holidayList: null});
           }
         });
       }
 
-
-    onSubmit = (event) => {
-        const {birthday} = this.state;
-
-        event.preventDefault();
-        
+    handleChangeCheckbox = (id, celebrated, date) =>{
+        console.log("Got here!", this.state.holidayList, id, celebrated);
 
         // update holiday
         this.props.firebase
             // update password
-            .addHolidays(this.props.firebase.currentUser().uid, birthday)
+            .addHolidays(this.props.firebase.currentUser().uid, id, date, !celebrated)
 
             // if successful, reinitialize state back to blanks
             .then(authUser =>{
@@ -70,34 +69,47 @@ class GiftReceivingTimesForm extends React.Component {
             });
 
 
-//            addHolidays = (uid, birthday) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({birthday});
+        //update 
 
-          //  removeHolidays = (uid, targetHoliday) => this.db.ref(`profiles/${uid}/wishlist/${id}/${targetHoliday}`).remove();
-    }
 
-    handleChangeCheckbox = (id, celebrated) =>{
-        console.log("Got here!");
-
+/*
         //update state list with updated checkbox
         let holidayList = [...this.state.holidayList];  
         let index = holidayList.findIndex(el => id == el.id);
+        console.log(holidayList, index)
         holidayList[index].celebrated = !celebrated;                  
-        this.setState({ holidayList });        
+        this.setState({ holidayList });     */   
     }
 
-    
+   
+  
+   checkboxes = () => {
+    const listItems = this.state.holidayList.map((d) => <li key={d[0].id}>{d[0].name}</li>);
+
+    return listItems;
+
+   }
+
     render() {
-        const {holidayList, error} = this.state;
+        const {holidayList, error, isLoading} = this.state;
+        console.log("reading:", this.state.holidayList)
 
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>
                 <Segment stacked>
                     <div className="field">
-
                     </div>
-                    <button className = "ui button " type = "submit" >Submit</button>
-
+                    {!isLoading ? this.state.holidayList.map(d => {
+                        return (
+                            <Form.Checkbox
+                                checked={d.celebrated}
+                                onChange={() => this.handleChangeCheckbox(d.holiday, d.celebrated, d.date)}
+                                label = {d.holiday}
+                                value = {d.celebrated}
+                                />
+                        
+                        )}) : null}
                     {error && <p>{error.message}</p>} 
                 </Segment>
             </form>
@@ -108,6 +120,7 @@ class GiftReceivingTimesForm extends React.Component {
 }
 
 
+
 export default withFirebase(GiftReceivingTimesForm);
 
 /* <Form.Checkbox
@@ -116,3 +129,6 @@ export default withFirebase(GiftReceivingTimesForm);
                                 label = {holiday.id}
                                 value = {holiday.celebrated}
                                 /> */
+
+                                /**                    
+       })} */
