@@ -14,11 +14,9 @@ class GiftReceivingTimesForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            celebrated: null,
             isLoading: true,
             uid: this.props.firebase.currentUser().uid,
             holidayList: null,
-            holidayArray: null,
             error: null
         }
     }
@@ -54,45 +52,14 @@ class GiftReceivingTimesForm extends React.Component {
             // update password
             .addHolidays(this.props.firebase.currentUser().uid, id, date, !celebrated)
 
-            // if successful, reinitialize state back to blanks
-            .then(authUser =>{
-                this.setState({
-                    password: '',
-                    passwordConfirm: '',
-                    error: null
-                });
-            })
-
             // otherwise, display error
             .catch(error => {
                 this.setState({error});
             });
-
-
-        //update 
-
-
-/*
-        //update state list with updated checkbox
-        let holidayList = [...this.state.holidayList];  
-        let index = holidayList.findIndex(el => id == el.id);
-        console.log(holidayList, index)
-        holidayList[index].celebrated = !celebrated;                  
-        this.setState({ holidayList });     */   
     }
-
-   
-  
-   checkboxes = () => {
-    const listItems = this.state.holidayList.map((d) => <li key={d[0].id}>{d[0].name}</li>);
-
-    return listItems;
-
-   }
 
     render() {
         const {holidayList, error, isLoading} = this.state;
-        console.log("reading:", this.state.holidayList)
 
 
         return(
@@ -100,13 +67,13 @@ class GiftReceivingTimesForm extends React.Component {
                 <Segment stacked>
                     <div className="field">
                     </div>
-                    {!isLoading ? this.state.holidayList.map(d => {
+                    {!isLoading ? holidayList.map(holiday => {
                         return (
                             <Form.Checkbox
-                                checked={d.celebrated}
-                                onChange={() => this.handleChangeCheckbox(d.holiday, d.celebrated, d.date)}
-                                label = {d.holiday}
-                                value = {d.celebrated}
+                                key = {holiday.holiday}
+                                checked={holiday.celebrated}
+                                onChange={() => this.handleChangeCheckbox(holiday.holiday, holiday.celebrated, holiday.date)}
+                                label = {holiday.holiday}
                                 />
                         
                         )}) : null}
@@ -119,16 +86,4 @@ class GiftReceivingTimesForm extends React.Component {
 
 }
 
-
-
 export default withFirebase(GiftReceivingTimesForm);
-
-/* <Form.Checkbox
-                                checked={holiday.celebrated}
-                                onChange={() => this.handleChangeCheckbox(holiday.id, holiday.celebrated)}
-                                label = {holiday.id}
-                                value = {holiday.celebrated}
-                                /> */
-
-                                /**                    
-       })} */
