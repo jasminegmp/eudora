@@ -2,7 +2,6 @@ import React from 'react';
 import { withFirebase } from '../Firebase';
 import DatePicker from "react-date-picker";
 import {withRouter} from 'react-router-dom';
-import {Segment} from 'semantic-ui-react';
 
 // a form
 class GetBirthdayFormBase extends React.Component {
@@ -25,7 +24,7 @@ class GetBirthdayFormBase extends React.Component {
             }
             
             const birthday = snapshot.val();
-            console.log(birthday);
+            //console.log(birthday);
             if (birthday){
                 this.setState({ birthday})
             }
@@ -62,22 +61,16 @@ class GetBirthdayFormBase extends React.Component {
 
 
         return(
-            <div style = {{width: '100%', marginTop: '10px'}}>
-                
-                
-                <div>
-                    <DatePicker
-                        
-                            onChange={this.onChange}
-                            value = {this.state.newBirthday}
-                        />
-                    <button className = "ui button " style = {{marginTop: '10px'}} onClick = {this.onSubmit}>Update Birthday</button>
-                    {error && <p>{error.message}</p>} 
-                </div>
-                
-
-
+            <div>
+                <DatePicker
+                    
+                        onChange={this.onChange}
+                        value = {newBirthday}
+                    />
+                <button className = "ui button " style = {{marginLeft: '5px', fontSize: '.8em'}} onClick = {this.onSubmit}>Update Birthday</button>
+                {error && <p>{error.message}</p>} 
             </div>
+ 
         )
     }
 

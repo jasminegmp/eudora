@@ -2,6 +2,7 @@ import React from 'react';
 import { withFirebase } from '../Firebase';
 import {Segment, Form} from 'semantic-ui-react';
 import GetBirthdayForm from '../GetBirthday';
+import './GiftReceivingTimes.css';
 
 // ISO 8601 format
 /*const list = [
@@ -25,7 +26,6 @@ class GiftReceivingTimesForm extends React.Component {
 
 
     componentWillMount() {
-        console.log("Here")
         
         this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
           // convert messages list from snapshot
@@ -45,11 +45,9 @@ class GiftReceivingTimesForm extends React.Component {
             this.setState({holidayList: null});
           }
         });
-        console.log("There")
       }
 
     handleChangeCheckbox = (holiday, holidayId, celebrated, date) =>{
-        console.log("Got here!", this.state.holidayList, holidayId, celebrated);
 
         // update holiday
         this.props.firebase

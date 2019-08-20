@@ -26,13 +26,9 @@ const AccountPage = () => {
                         <Card.Description>
                             <p>Joined on {authUser.metadata.creationTime}}</p>
                         </Card.Description>
-                        <Card.Description>
-                        </Card.Description>
                         </Card.Content>
                         <Card.Content extra>
                                 <GetNumberOfFollowing />
-                        </Card.Content>
-                        <Card.Content extra>
                         </Card.Content>
                     </Card>
 
