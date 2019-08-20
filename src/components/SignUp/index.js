@@ -36,7 +36,6 @@ const SignInLink = () => {
     )
 }
 
-
 // a form
 class SignUpFormBase extends React.Component {
     constructor(props){
@@ -56,6 +55,8 @@ class SignUpFormBase extends React.Component {
 
     onSubmit = (event) => {
         const {username, firstName, lastName, email, password, avatarUrl} = this.state;
+
+
         let photoUrl = '';
         event.preventDefault();
 
@@ -86,6 +87,8 @@ class SignUpFormBase extends React.Component {
                         firstName,
                         lastName
                     });
+
+
                 this.props.firebase
                     .profile(authUser.user.uid)
                     .set({
@@ -94,6 +97,12 @@ class SignUpFormBase extends React.Component {
                         firstName,
                         lastName
                     });
+
+
+                   //add default holidays
+
+
+
             })
 
             .then(() => {

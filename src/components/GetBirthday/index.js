@@ -65,11 +65,6 @@ class GetBirthdayFormBase extends React.Component {
             <div style = {{width: '100%', marginTop: '10px'}}>
                 
                 
-                {this.state.birthday !== null ?
-                    <div style = {{margin: '5px'}}><h5>My Birthday:</h5> {this.state.birthday.substring(0,10)}</div>
-                    :
-                    null
-                }
                 <div>
                     <DatePicker
                         
