@@ -1,5 +1,6 @@
 import React from 'react';
 import { withAuthorization } from '../Session';
+import './About.css';
 import {List} from 'semantic-ui-react';
 
 const AboutPage = () => {
@@ -19,8 +20,8 @@ const AboutPage = () => {
             <p>I spent 5 minutes Googling for a name and I ran across 
                 the girl's name Eudora which is of Greek origin and means "good gift" (exactly what I was looking for!)<br/>
                 So how do you pronounce "Eudora"? It's like You-Door-Ah. Here's a Youtube video that should help you if my terrible explanation didn't make sense.</p>
-            <div align = "center">
-                <iframe width="640" height="360" src="https://www.youtube.com/embed/lAqE3YnvQBM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            <div align = "center" className = "wrapper" >
+                <iframe align = "center" src="https://www.youtube.com/embed/lAqE3YnvQBM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
             </div>
             <h2><em>Get In Touch</em></h2>
             <p>If you have any feedback, questions, or even just want to say hi, please get in touch by emailing me at <a href='mailto:jasminegmp@gmail.com'>jasminegmp@gmail.com</a>.</p>
