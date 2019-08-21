@@ -100,8 +100,8 @@ const NavBarMobileAuth = ({
     }) => {
     return(
         <div> 
-            <Menu fixed="top" inverted>
-            <Image size="mini" src= {Logo} alt = "Eudora Logo"/>
+            <Menu fixed="top" style = {{paddingTop: "10px", paddingLeft: "10px"}} inverted>
+            <Image size="mini" style = {{width: "auto", height: "auto", maxWidth:"30px", maxHeight: "30px"}} src= {Logo} alt = "Eudora Logo"/>
                 <Menu.Item onClick={onClick}>
                     <Icon name="sidebar" />
                 </Menu.Item>
