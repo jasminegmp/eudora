@@ -20,8 +20,9 @@ const AboutPage = () => {
             <p>I spent 5 minutes Googling for a name and I ran across 
                 the girl's name Eudora which is of Greek origin and means "good gift" (exactly what I was looking for!)<br/>
                 So how do you pronounce "Eudora"? It's like You-Door-Ah. Here's a Youtube video that should help you if my terrible explanation didn't make sense.</p>
-            <div align = "center" className = "wrapper" >
-                <iframe align = "center" src="https://www.youtube.com/embed/lAqE3YnvQBM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            <p>Fix</p>
+            <div className = "wrapper" >
+                <iframe width="100%" scrolling="no" src="https://www.youtube.com/embed/lAqE3YnvQBM" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
             </div>
             <h2><em>Get In Touch</em></h2>
             <p>If you have any feedback, questions, or even just want to say hi, please get in touch by emailing me at <a href='mailto:jasminegmp@gmail.com'>jasminegmp@gmail.com</a>.</p>
