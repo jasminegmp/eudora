@@ -1,6 +1,5 @@
 import React from 'react';
-import { withAuthorization } from '../Session';
-import {Segment, Container, Grid, List, Header, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { withRouter} from 'react-router-dom';
 import {Menu, Icon} from 'semantic-ui-react';
@@ -20,8 +19,8 @@ var style = {
 
 const Footer = () => {
     return (
-            <div style={style}>
-        <Menu.Item as={Link} to={ROUTES.ABOUT}>About</Menu.Item>
+        <div style={style}>
+            <Menu.Item as={Link} to={ROUTES.ABOUT}>About</Menu.Item>
         </div>
     );
 };

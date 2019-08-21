@@ -1,7 +1,8 @@
 import React from 'react';
 import {Icon} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
-
+import * as ROUTES from '../../constants/routes';
+import {Link} from 'react-router-dom';
 
 class PurchasedItem extends React.Component {
 
@@ -57,7 +58,7 @@ class PurchasedItem extends React.Component {
         
         return(
             <div>   
-                <Icon name='users' /> Following {this.state.followingCount} Users
+                <Link to={ROUTES.FOLLOWING} ><Icon name='users' /> Following {this.state.followingCount} Users</Link>
             </div>
         );
     }
