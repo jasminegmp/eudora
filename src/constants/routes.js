@@ -12,3 +12,4 @@ export const PEOPLE = '/eudora/people';
 export const MY_WISHLIST = '/eudora/my-wishlist';
 export const SHOP_ETSY = '/eudora/shop-etsy';
 export const PERSON_PROFILE = "/eudora/user/:uid";
+export const FOLLOWING = "/eudora/following";

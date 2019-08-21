@@ -28,12 +28,10 @@ class GiftReceivingTimesForm extends React.Component {
     componentWillMount() {
         
         this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
-          // convert messages list from snapshot
     
           const holidaysObject = snapshot.val();
 
           if (holidaysObject) {
-            // convert messages list from snapshot
             const holidays = Object.keys(holidaysObject).map(key => ({
               ...holidaysObject[key],
               uid: key,

@@ -13,6 +13,7 @@ import AddItemsPage from '../AddItems';
 import PersonProfilePage from '../PersonProfile';
 import AboutPage from '../About';
 import Footer from '../Footer';
+import FollowingPage from '../Following';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route exact path={ROUTES.SHOP_ETSY} component={AddItemsPage} />
             <Route exact path={ROUTES.PERSON_PROFILE}  component = {PersonProfilePage}/>
             <Route exact path={ROUTES.ABOUT}  component = {AboutPage}/>
+            <Route exact path={ROUTES.FOLLOWING}  component = {FollowingPage}/>
             <Footer/>
 
         </Router>

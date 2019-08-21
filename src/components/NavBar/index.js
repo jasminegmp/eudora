@@ -117,6 +117,7 @@ const NavBarMobileAuth = ({
             >
                 <Menu.Item as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.FOLLOWING}><Icon name='Users' />Following</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.SHOP_ETSY}><Icon name='plus' />Shop Etsy</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.ACCOUNT }><Icon name='user' />Account Info</Menu.Item>
@@ -142,6 +143,7 @@ class NavBarDesktopAuth extends React.Component {
                     <Menu.Item><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} active={activeItem === 'home'} as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
                     <Menu.Item name = "people" onClick = {this.handleItemClick} active={activeItem === 'people'} as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
+                    <Menu.Item name = "following" onClick = {this.handleItemClick} active={activeItem === 'following'} as={Link} to={ROUTES.FOLLOWING}><Icon name='users' />Following</Menu.Item>
                     <Menu.Item name = "add-items" onClick = {this.handleItemClick} active={activeItem === 'add-items'} as={Link} to={ROUTES.SHOP_ETSY}><Icon name='plus' />Shop Etsy</Menu.Item>
                     <Menu.Item name = "my-wishlist" onClick = {this.handleItemClick} active={activeItem === 'my-wishlist'} as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                     <Menu.Item name = "account"> 
