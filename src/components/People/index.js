@@ -1,14 +1,20 @@
 import React from 'react';
-import {Image, Card, Grid} from 'semantic-ui-react';
+import {Image, Card, Grid, Menu} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
-import FollowUnfollowButton from '../FollowUnfollowButton'
+import FollowUnfollowButton from '../FollowUnfollowButton';
+import * as ROUTES from '../../constants/routes';
 import {Link, withRouter} from 'react-router-dom';
 
 const PeoplePage = () => {
     return (
         <div style = {{margin: 70}}>
+          <Menu>
+            <Menu.Item active={true}>All Users</Menu.Item>
+            <Menu.Item as={Link} to={ROUTES.FOLLOWING}>Following</Menu.Item>
+          </Menu>
           <Profiles/>
+          
         </div>
     );
 };
@@ -28,6 +34,10 @@ class ProfilesBase extends React.Component {
         this.setState({ loading: true });
     
         this.props.firebase.profiles().on('value', snapshot => {
+          if (this.isUnmounted) {
+            return;
+          }
+
           // convert messages list from snapshot
     
           const profilesObject = snapshot.val();
@@ -49,6 +59,8 @@ class ProfilesBase extends React.Component {
     
       componentWillUnmount() {
         this.props.firebase.profiles().off();
+        this.isUnmounted = true;
+        
       }
     
       render() {

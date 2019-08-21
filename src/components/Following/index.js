@@ -1,13 +1,17 @@
 import React from 'react';
-import {Image, Card, Grid} from 'semantic-ui-react';
+import {Image, Card, Grid, Menu} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
-import FollowUnfollowButton from '../FollowUnfollowButton'
 import {Link, withRouter} from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
 
 const FollowingPage = () => {
     return (
         <div style = {{margin: 70}}>
+        <Menu>
+            <Menu.Item as={Link} to={ROUTES.PEOPLE} >All Users</Menu.Item>
+            <Menu.Item active={true}>Following</Menu.Item>
+          </Menu>
           <Following/>
         </div>
     );
@@ -31,6 +35,10 @@ class FollowingBase extends React.Component {
     
         // first get following list which will contain uids
         this.props.firebase.following(this.state.uid).on('value', snapshot => {
+            if (this.isUnmounted) {
+                return;
+            }
+    
     
           const followingObject = snapshot.val();
 
@@ -49,6 +57,10 @@ class FollowingBase extends React.Component {
 
         // now map those uids to profiles
         this.props.firebase.profiles().on('value', snapshot => {
+            if (this.isUnmounted) {
+                return;
+            }
+    
       
             const profilesObject = snapshot.val();
             const tempArray = [];
@@ -77,6 +89,8 @@ class FollowingBase extends React.Component {
       componentWillUnmount() {
         this.props.firebase.profiles().off();
         this.props.firebase.following().off();
+        this.isUnmounted = true;
+        
       }
     
       render() {
