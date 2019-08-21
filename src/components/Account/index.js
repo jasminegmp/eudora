@@ -11,7 +11,7 @@ const AccountPage = () => {
     return (
         <AuthUserContext.Consumer>
         {authUser => (
-                <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70}}>
+                <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70, marginBottom: 70}}>
                     <Grid.Column style = {{maxWidth: 420}}>
                     <Header as = "h2" color = "grey" textAlign = "center">
                         Account Settings
