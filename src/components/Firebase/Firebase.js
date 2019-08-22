@@ -74,6 +74,8 @@ class Firebase{
 
     getLastName = (uid) => this.db.ref(`profiles/${uid}/lastName`);
 
+    getPhotoUrl = (uid) => this.db.ref(`profiles/${uid}/photoUrl`);
+
     getPurchaseStatus = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}/purchased`);
 
     updatePurchaseStatus = (uid, id, status) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({purchased: status});

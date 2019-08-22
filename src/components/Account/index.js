@@ -7,51 +7,77 @@ import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
 import GetNumberOfFollowing from '../GetNumberOfFollowing';
 
-const AccountPage = () => {
-    return (
-        <AuthUserContext.Consumer>
-        {authUser => (
-                <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70, marginBottom: 70}}>
-                    <Grid.Column style = {{maxWidth: 420}}>
-                    <Header as = "h2" color = "grey" textAlign = "center">
-                        Account Settings
-                    </Header>
-                    <Card centered>
-                        <Image src={authUser.photoURL} wrapped ui={false} />
-                        <Card.Content>
-                        <Card.Header>{authUser.displayName}</Card.Header>
-                        <Card.Meta>
-                            <p>{authUser.email}</p>
-                        </Card.Meta>
-                        <Card.Description>
-                            <p>Joined on {authUser.metadata.creationTime}}</p>
-                        </Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
-                                <GetNumberOfFollowing />
-                        </Card.Content>
-                    </Card>
+class AccountPage extends React.Component{
 
-                    <Header as = "h2" color = "grey" textAlign = "center">
-                        'Tis the Season for Me to Receive Gifts
-                        <GiftReceivingTimesForm/>
-                    </Header>
+    constructor(props){
+        super(props);
 
-                    <Header as = "h2" color = "grey" textAlign = "center">
-                        Change Password
-                    </Header>
-                    <PasswordChangeForm/>
+        this.state = {
+            photoUrl: '',
+            uid: this.props.firebase.currentUser().uid,
+            error: null
+        };
+    }
+    componentDidMount(){
 
-                    <Header as = "h2" color = "grey" textAlign = "center">
-                        Change Avatar
-                    </Header>
-                    <UpdateAvatar/>
+        // Grab photo url
+        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+            if (this.isUnmounted) {
+              return;
+            }
+            const photoUrl = snapshot.val();
+            this.setState({ photoUrl})
+          });
 
-                    </Grid.Column>
-                </Grid>
-        )}
-        </AuthUserContext.Consumer>
-    )
+    }
+
+    render(){
+        return (
+            <AuthUserContext.Consumer>
+            {authUser => (
+                    <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70, marginBottom: 70}}>
+                        <Grid.Column style = {{maxWidth: 420}}>
+                        <Header as = "h2" color = "grey" textAlign = "center">
+                            Account Settings
+                        </Header>
+                        <Card centered>
+                            <Image src={this.state.photoUrl} wrapped ui={false} />
+                            <Card.Content>
+                            <Card.Header>{authUser.displayName}</Card.Header>
+                            <Card.Meta>
+                                <p>{authUser.email}</p>
+                            </Card.Meta>
+                            <Card.Description>
+                                <p>Joined on {authUser.metadata.creationTime}}</p>
+                            </Card.Description>
+                            </Card.Content>
+                            <Card.Content extra>
+                                    <GetNumberOfFollowing />
+                            </Card.Content>
+                        </Card>
+    
+                        <Header as = "h2" color = "grey" textAlign = "center">
+                            'Tis the Season for Me to Receive Gifts
+                            <GiftReceivingTimesForm/>
+                        </Header>
+    
+                        <Header as = "h2" color = "grey" textAlign = "center">
+                            Change Password
+                        </Header>
+                        <PasswordChangeForm/>
+    
+                        <Header as = "h2" color = "grey" textAlign = "center">
+                            Change Avatar
+                        </Header>
+                        <UpdateAvatar/>
+    
+                        </Grid.Column>
+                    </Grid>
+            )}
+            </AuthUserContext.Consumer>
+        )
+    }
+
 };
 
 const condition = authUser => !!authUser;

@@ -19,11 +19,6 @@ class UpdateAvatarBase extends React.Component {
     }
     
 
-    componentDidUpdate(){
-        const user = this.props.firebase.currentUser();
-        this.props.firebase.updateAvatar(this.state.avatarURL);
-        this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL)
-    }
 
     onSubmit = event => {
         
@@ -52,6 +47,9 @@ class UpdateAvatarBase extends React.Component {
         this.setState({uploadComplete: true})
 
         event.preventDefault();
+
+        this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL);
+
     };
 
 
