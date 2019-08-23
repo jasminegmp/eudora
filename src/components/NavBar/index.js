@@ -32,7 +32,8 @@ class NavBar extends React.Component{
         }
     }
 
-    onClick = () => {
+    onClick = (event) => {
+        console.log(event);
         this.setState({ visible: !this.state.visible });
     }
 
@@ -71,21 +72,16 @@ const NavBarAuth = ({
     visible
 }) => {
     return(
-        <div>
+        <div tabIndex="0" onBlur={onClose}>
             <Responsive maxWidth={640}>
                 <NavBarMobileAuth
                             onClick={onClick}
-                            onClose={onClose}
                             onSignOut = {onSignOut}
                             visible={visible}
                 />
             </Responsive>
             <Responsive minWidth={640}>
-                <NavBarDesktopAuth
-                            onClick={onClick}
-                            onClose={onClose}
-                            visible={visible}
-                />
+                <NavBarDesktopAuth/>
             </Responsive>
         </div>
     )
@@ -100,7 +96,7 @@ const NavBarMobileAuth = ({
     }) => {
     return(
         <div> 
-            <Menu fixed="top" style = {{paddingTop: "10px", paddingLeft: "10px"}} inverted>
+            <Menu fixed="top" style = {{paddingTop: "10px", paddingLeft: "10px"}} inverted> 
             <Image size="mini" style = {{width: "auto", height: "auto", maxWidth:"30px", maxHeight: "30px"}} src= {Logo} alt = "Eudora Logo"/>
                 <Menu.Item onClick={onClick}>
                     <Icon name="sidebar" />
@@ -121,7 +117,6 @@ const NavBarMobileAuth = ({
                 <Menu.Item as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.ACCOUNT }><Icon name='user' />Account Info</Menu.Item>
                 <Menu.Item as={Link} onClick = {onSignOut} ><Icon name='sign-out' />Sign Out</Menu.Item>
-                <Menu.Item as={Link} onClick = {onClose}><Icon name='close' />Close</Menu.Item>
             </Sidebar>
         </div>
     )
