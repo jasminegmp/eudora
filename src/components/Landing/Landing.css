@@ -2,9 +2,29 @@
     background: #FC4A1A;
     color: #FFFFFF;
 }
+@media (min-width: 640px) {
+    h1:first-child{
+        margin-top: 25%;
+    }
+    .ui.header>img:only-child {
+        margin-top:75%;
+    }
 
+    
+}
 
-.row{
+@media (max-width: 640px) {
+    h1:first-child, .ui.header>img{
+        margin: 5%;
+    }
+
+}
+.media-margin{
     margin: 5%;
+}
+
+.landing-col{
+    z-index: -1;
+    padding: 5%;
 }
 

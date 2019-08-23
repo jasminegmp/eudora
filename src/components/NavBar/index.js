@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import SignOut from '../SignOut';
@@ -74,6 +75,8 @@ const NavBarAuth = ({
 }) => {
     return(
         <div tabIndex="0" onBlur={onClose}>
+            <Redirect push to={ROUTES.HOME} />
+        
             <Responsive maxWidth={640}>
                 <NavBarMobileAuth
                             onClick={onClick}
