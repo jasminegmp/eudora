@@ -117,7 +117,7 @@ const ProfileList = ({ profiles }) => (
         <Image src={profile.photoUrl} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
-          <Link to={{pathname: `/eudora/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
+          <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
           <Card.Meta>
             <p>{profile.username}</p>
           </Card.Meta>
