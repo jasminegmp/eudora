@@ -33,8 +33,8 @@ class LandingPage extends React.Component {
                             <img src= {Logo} alt = "Eudora Logo" style = {{width:'150px', marginBottom: '20px'}}/>
                         </Header>
                         <h3>I'm ready!</h3>
-                        <Button style = {{width: "50%"}}><Link to = {ROUTES.SIGN_UP}>Sign up</Link></Button><br/>
-                        <Button style = {{marginTop: "2%", width: "50%"}}><Link to = {ROUTES.SIGN_IN}>Log in</Link></Button>
+                        <Link to = {ROUTES.SIGN_UP}><Button style = {{width: "50%"}}>Sign up</Button></Link><br/>
+                        <Link to = {ROUTES.SIGN_IN}><Button style = {{marginTop: "2%", width: "50%"}}>Log in</Button></Link>
                     </Grid.Column>
                 </Grid>
         );
