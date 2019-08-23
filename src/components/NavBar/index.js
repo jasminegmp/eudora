@@ -7,6 +7,7 @@ import {AuthUserContext} from '../Session';
 import Logo from '../images/icon.png';
 import { Responsive, Icon, Image, Menu, Dropdown, Sidebar } from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
+import Footer from '../Footer';
 
 const options = [
     {   key: 'user', 
@@ -118,6 +119,7 @@ const NavBarMobileAuth = ({
                 <Menu.Item as={Link} to={ROUTES.ACCOUNT }><Icon name='user' />Account Info</Menu.Item>
                 <Menu.Item as={Link} onClick = {onSignOut} ><Icon name='sign-out' />Sign Out</Menu.Item>
             </Sidebar>
+            <Footer/>
         </div>
     )
 };
@@ -148,6 +150,7 @@ class NavBarDesktopAuth extends React.Component {
                     } options = {options} />
                     </Menu.Item>
                 </Menu>
+                <Footer/>
             </div>
         )
     }

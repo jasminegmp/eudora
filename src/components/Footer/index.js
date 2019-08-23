@@ -15,6 +15,7 @@ var style = {
     bottom: "0",
     height: "30px",
     width: "100%",
+    zIndex : "2"
 }
 
 const Footer = () => {
