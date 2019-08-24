@@ -1,7 +1,5 @@
 import React from 'react';
-import { withAuthorization } from '../Session';
 import './About.css';
-import {List} from 'semantic-ui-react';
 
 const AboutPage = () => {
     return (
@@ -39,6 +37,5 @@ const AboutPage = () => {
     );
 };
 
-const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(AboutPage);
+export default (AboutPage);
