@@ -1,7 +1,9 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
 import DatePicker from "react-date-picker";
+import {Icon} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
+import './GetBirthday.css'
 
 // a form
 class GetBirthdayFormBase extends React.Component {
@@ -62,13 +64,16 @@ class GetBirthdayFormBase extends React.Component {
 
         return(
             <div>
+                <h4>Update Birthday</h4>
                 <DatePicker
-                    
+                        className = "date-picker"
                         onChange={this.onChange}
                         value = {newBirthday}
                     />
-                <button className = "ui button " style = {{marginLeft: '5px', fontSize: '.8em'}} onClick = {this.onSubmit}>Update Birthday</button>
+                <button type = "button" className = "birthday-button" onClick = {this.onSubmit}><Icon name='check' /></button>
                 {error && <p>{error.message}</p>} 
+                <div className="ui divider"></div>
+               
             </div>
  
         )
