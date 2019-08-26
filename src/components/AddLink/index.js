@@ -94,12 +94,10 @@ class AddLinkPage extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={16}>
                             <h4>Who is the Seller?</h4>
-                                <Button.Group>
-                                    <Button value = "Amazon" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Amazon</Button>
-                                    <Button value = "Ebay" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Ebay</Button>
-                                    <Button value = "Etsy" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Etsy</Button>
-                                    <Button value = "Other" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Other</Button>
-                                </Button.Group>
+                                <Button value = "Amazon" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Amazon</Button>
+                                <Button value = "Ebay" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Ebay</Button>
+                                <Button value = "Etsy" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Etsy</Button>
+                                <Button value = "Other" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Other</Button>         
                         </Grid.Column>
                         <Grid.Column width={16}>
                             <h4>Name of Item (Optional)</h4>

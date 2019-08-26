@@ -6,9 +6,10 @@
     border: none !important;
 }
 
+.react-date-picker__inputGroup__year{
+    width: 10px !important;
+}
+
 .birthday-button{
-    width: 15px;
-    height: 15px;
-    font-size: 1.3em;
-    border: none;
+    margin-top: 5px !important;
 }
