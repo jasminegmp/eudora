@@ -1,8 +1,9 @@
 import React from 'react';
-import {Image, Card, Grid} from 'semantic-ui-react';
+import {Image, Card, Grid, Button} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
-import { withFirebase } from '../Firebase';
 import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
+import * as ROUTES from '../../constants/routes';
+import {Link} from 'react-router-dom';
 
 
 class WishlistBase extends React.Component {
@@ -112,7 +113,7 @@ const LargerItemList = ({ items }) => (
 
 const SmallerItemList = ({ items }) => (
   <Grid stackable columns={2}>
-    {items.map(item => (
+    {items.slice(0, 4).map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
         <Image src={item.image} wrapped ui={false} />
@@ -125,7 +126,10 @@ const SmallerItemList = ({ items }) => (
       </Card>
       </Grid.Column>
     ))} 
-  </Grid>
+  <Link to={ROUTES.MY_WISHLIST} style={{width: "50%", margin: "auto", marginBottom: "10px"}}>
+   <button className = "ui button " type = "button"  >See Entire Wishlist</button>
+   </Link>
+   </Grid>
 );
 
 const condition = authUser => !!authUser;

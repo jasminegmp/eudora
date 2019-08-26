@@ -1,7 +1,8 @@
 import React from 'react';
-import {Segment, Form, Loader, Button, Grid} from 'semantic-ui-react';
+import {Segment, Form, Menu, Button, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
-import ItemList from '../ItemList'
+import * as ROUTES from '../../constants/routes';
+import {Link} from 'react-router-dom';
 
 class AddLinkPage extends React.Component {
     constructor(props){
@@ -73,11 +74,16 @@ class AddLinkPage extends React.Component {
             url === '';
         return (
             <div style ={{margin: 70}}>
+                <Menu>
+                    <Menu.Item as={Link} to={ROUTES.SHOP_ETSY} >Shop Etsy</Menu.Item>
+                    <Menu.Item active={true}>Shop via Links</Menu.Item>
+                </Menu>
                 <form className = "ui form" onSubmit = {this.onSubmit}>
+                    
                     <Segment stacked className = "very padded">
                       <Grid columns={2} stackable>
                         <Grid.Column width={16}>
-                            <h4>Copy and paste item link here</h4>
+                            <h4>Paste an URL you would like to add to your wishlist here</h4>
                             <Form.Input
                                 name = "url"
                                 value = {url}
@@ -87,7 +93,7 @@ class AddLinkPage extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={16}>
-                            <h4>Seller</h4>
+                            <h4>Who is the Seller?</h4>
                                 <Button.Group>
                                     <Button value = "Amazon" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Amazon</Button>
                                     <Button value = "Ebay" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Ebay</Button>

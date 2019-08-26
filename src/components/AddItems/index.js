@@ -1,8 +1,10 @@
 import React from 'react';
 import fetchJsonp from 'fetch-jsonp';
-import {Segment, Form, Dropdown, Loader, Dimmer, Grid} from 'semantic-ui-react';
+import {Segment, Form, Dropdown, Loader, Dimmer, Grid, Menu} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
-import ItemList from '../ItemList'
+import ItemList from '../ItemList';
+import * as ROUTES from '../../constants/routes';
+import {Link} from 'react-router-dom';
 
 
 //https://openapi.etsy.com/v2/listings/active.js?keywords=ring&limit=12&includes=Images:1&api_key=*
@@ -115,6 +117,10 @@ class AddItemsPage extends React.Component {
           searchTerm === '';
         return (
             <div style ={{margin: 70}}>
+              <Menu>
+                <Menu.Item active={true}>Shop Etsy</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.ADD_LINK}>Shop via Links</Menu.Item>
+              </Menu>
                 <form className = "ui form" onSubmit = {this.isLoading}>
                     <Segment stacked className = "very padded">
                     {isLoading ? 
