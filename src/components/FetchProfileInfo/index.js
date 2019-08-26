@@ -137,7 +137,8 @@ class FetchProfileInfo extends React.Component {
                                     <Card.Header>{item.title.substring(0,50)}...</Card.Header>
                                 </a>
                               <Card.Meta>
-                                <p>${item.price}</p>
+                              {item.seller ? <p>Seller:  {item.seller}</p> : null}
+                              {item.price ? <p>$ {item.price}</p> : null}
                                 <Card.Meta>
                                   {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
                                   

@@ -50,7 +50,7 @@ class RemoveItemFromWishlist extends React.Component {
                 <a onClick ={this.handleClick}>		
                    		
                     <Icon name='minus' />
-                    Remove item to wishlist
+                    Remove item
                 </a>
             </div>
         );

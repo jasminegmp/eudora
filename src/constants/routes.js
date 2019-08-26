@@ -13,3 +13,4 @@ export const MY_WISHLIST = '/my-wishlist';
 export const SHOP_ETSY = '/shop-etsy';
 export const PERSON_PROFILE = "/user/:uid";
 export const FOLLOWING = "/following";
+export const ADD_LINK = "/add-link"

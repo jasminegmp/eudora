@@ -14,6 +14,7 @@ import PersonProfilePage from '../PersonProfile';
 import AboutPage from '../About';
 import LandingPage from '../Landing';
 import FollowingPage from '../Following';
+import AddLinkPage from '../AddLink';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -36,6 +37,7 @@ const App = () => {
             <Route exact path={ROUTES.ABOUT}  component = {AboutPage}/>
             <Route exact path={ROUTES.FOLLOWING}  component = {FollowingPage}/>
             <Route exact path={ROUTES.LANDING}  component = {LandingPage}/>
+            <Route exact path={ROUTES.ADD_LINK}  component = {AddLinkPage}/>
             
 
         </Router>

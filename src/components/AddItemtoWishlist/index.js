@@ -27,7 +27,7 @@ class AddItemtoWishlist extends React.Component {
         event.preventDefault();
 
         const user = this.props.firebase.currentUser();
-        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, purchased, note)
+        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, purchased, note, "Etsy")
             .then(() => {
                 this.setState({
                     note: '',

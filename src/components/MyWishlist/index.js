@@ -93,9 +93,10 @@ const LargerItemList = ({ items }) => (
             <a href = {item.url} target="_blank">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
             </a>
-          <Card.Meta>
-            <p>${item.price}</p>
-          </Card.Meta>
+          
+          {item.seller ? <Card.Meta>Seller: {item.seller}</Card.Meta> : null}
+          {item.price ? <Card.Meta>$ {item.price}</Card.Meta>: null}
+
           <Card.Meta>
             {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
           </Card.Meta>

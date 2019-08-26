@@ -64,7 +64,7 @@ class Firebase{
 
     fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
 
-    addWishlistDb = (uid, title, url, image, id, price, purchased, note) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price, purchased: purchased, note:note});
+    addWishlistDb = (uid, title, url, image, id, price, purchased, note, seller) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price, purchased: purchased, note:note, seller: seller});
 
     removeWishlistDb = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}`).remove();
     
