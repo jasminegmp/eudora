@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from 'semantic-ui-react';
+import {Button, Icon} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 
 
@@ -47,11 +47,7 @@ class RemoveItemFromWishlist extends React.Component {
         
         return(
             <div>
-                <a href="/#" onClick ={this.handleClick}>		
-                   		
-                    <Icon name='minus' />
-                    Remove item
-                </a>
+                <Button style = {{marginTop: "5px"}} className = "red" onClick = {this.handleClick}>Remove item</Button>
             </div>
         );
     }

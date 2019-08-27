@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
+import UpdateNoteInWishlist from '../UpdateNoteInWishlist';
 import * as ROUTES from '../../constants/routes';
 import {Link} from 'react-router-dom';
 
@@ -89,7 +90,7 @@ const LargerItemList = ({ items }) => (
     {items.map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <Image src={item.image} wrapped ui={false} />
+        <a wrapped ui={false} href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
         <Card.Content>
             <a href = {item.url} target="_blank" rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
@@ -102,7 +103,7 @@ const LargerItemList = ({ items }) => (
             {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
           </Card.Meta>
 
-
+          <UpdateNoteInWishlist id = {item.id}/>
           <RemoveItemFromWishlist id = {item.id}/>
         </Card.Content>
       </Card>
@@ -116,7 +117,7 @@ const SmallerItemList = ({ items }) => (
     {items.slice(0, 4).map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <Image src={item.image} wrapped ui={false} />
+        <a wrapped ui={false} href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
         <Card.Content>
             <a href = {item.url} target="_blank"  rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, Form} from 'semantic-ui-react';
+import {Icon, Form, Button} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 
 
@@ -67,12 +67,13 @@ class AddItemtoWishlist extends React.Component {
                             placeholder = "Example: Size small"
                 />		
                 <br></br>
-                <a href="/#" className = "item" onClick ={this.handleClick}>		
+                <Button style = {{marginTop: "5px"}} onClick = {this.handleClick}><Icon name='plus' />
+                    Add item to wishlist</Button>
+	
                     	
-                    <Icon name='plus' />
-                    Add item to wishlist
+                    
                     {this.state.clicked ? <div className ="ui red floating label">Added</div> : null}
-                </a>
+
             </div>
         );
     }

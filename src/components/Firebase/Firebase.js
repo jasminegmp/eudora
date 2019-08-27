@@ -67,7 +67,11 @@ class Firebase{
     addWishlistDb = (uid, title, url, image, id, price, purchased, note, seller) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({id: id, title: title, url: url, image: image, price: price, purchased: purchased, note:note, seller: seller});
 
     removeWishlistDb = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}`).remove();
-    
+
+    getWishlistNote = (uid, id) => this.db.ref(`profiles/${uid}/wishlist/${id}/note`);
+
+    updateWishlistNote = (uid, id, note) => this.db.ref(`profiles/${uid}/wishlist/${id}`).update({note:note});
+
     items = (uid) => this.db.ref(`profiles/${uid}/wishlist`);
 
     getFirstName = (uid) => this.db.ref(`profiles/${uid}/firstName`);
