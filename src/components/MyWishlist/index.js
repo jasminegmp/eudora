@@ -126,7 +126,8 @@ const SmallerItemList = ({ items }) => (
       </Card>
       </Grid.Column>
     ))} 
-  <Link to={ROUTES.MY_WISHLIST} style={{width: "50%", margin: "auto", marginBottom: "10px"}}>
+    <br/>
+  <Link to={ROUTES.MY_WISHLIST} style={{width: "100%", margin: "auto", marginBottom: "10px"}}>
    <button className = "ui button " type = "button"  >See Entire Wishlist</button>
    </Link>
    </Grid>

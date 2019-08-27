@@ -49,8 +49,8 @@ class HomePage extends React.Component {
                     <Grid.Column>
                         <Segment>
                             <h3>Update your avatar</h3>
-                                <Card centered>
-                                    <Image src={this.state.photoUrl} />
+                                <Card  centered>
+                                    <Image src={this.state.photoUrl} wrapped ui={false} />
                                 </Card>
                                 <UpdateAvatar/>
                         </Segment>
