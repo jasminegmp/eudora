@@ -64,7 +64,7 @@ class AddItemsPage extends React.Component {
       const response = await fetchJsonp(path, {
         timeout: 10000,
       });
-      const json = await response.json()
+      await response.json()
         .then(result => this.setSearchItems(result))
         .then(this.setState({isLoading: false}))
         .then(this.setState({newSearchTerm: false}))

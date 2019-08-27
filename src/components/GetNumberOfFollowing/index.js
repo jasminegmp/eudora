@@ -29,7 +29,7 @@ class PurchasedItem extends React.Component {
   
             if (followingObject) {
                 
-              const followingList = Object.keys(followingObject).map(key => ({
+              Object.keys(followingObject).map(key => ({
                 ...followingObject[key],
                 uid: key,
               }));
@@ -43,7 +43,7 @@ class PurchasedItem extends React.Component {
               this.setState({followingCount: 0 });
             }
           });
-          console.log(this.state.followingCount)
+          //console.log(this.state.followingCount)
     }
 
     componentWillUnmount() {

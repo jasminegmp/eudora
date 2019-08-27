@@ -151,6 +151,13 @@ class NavBarDesktopAuth extends React.Component {
                                     Account
                                 </span>
                     } options = {options} />
+                    
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <div className="right ui divided selection list">
+                            <div className="ui teal horizontal label">Beta</div>
+                        </div>
                     </Menu.Item>
                 </Menu>
                 <Footer/>

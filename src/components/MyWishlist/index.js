@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Card, Grid, Button} from 'semantic-ui-react';
+import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
 import * as ROUTES from '../../constants/routes';
@@ -70,7 +70,7 @@ class WishlistBase extends React.Component {
 
     
       render() {
-        const { items, loading, smallerView} = this.state;
+        const { items, loading} = this.state;
         return (
           <div>
             {loading && <div>Loading ...</div>}

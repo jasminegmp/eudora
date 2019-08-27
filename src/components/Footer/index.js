@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { withRouter} from 'react-router-dom';
-import {Menu, Icon} from 'semantic-ui-react';
+import {Menu} from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
 
 var style = {

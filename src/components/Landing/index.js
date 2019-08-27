@@ -1,7 +1,7 @@
 import React from 'react';
 import './Landing.css';
 import { Link} from 'react-router-dom';
-import {Grid, Icon, Header, Message,Button} from 'semantic-ui-react';
+import {Grid, Icon, Header,Button} from 'semantic-ui-react';
 import Logo from '../images/logo.png';
 import * as ROUTES from '../../constants/routes';
 

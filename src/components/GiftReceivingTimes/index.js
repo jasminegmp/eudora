@@ -28,6 +28,9 @@ class GiftReceivingTimesForm extends React.Component {
     componentWillMount() {
         
         this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
+            if (this.isUnmounted) {
+            return;
+            }
     
           const holidaysObject = snapshot.val();
 
@@ -43,6 +46,11 @@ class GiftReceivingTimesForm extends React.Component {
             this.setState({holidayList: null});
           }
         });
+      }
+
+      componentWillUnmount() {
+        this.props.firebase.getHolidays().off();
+        this.isUnmounted = true;
       }
 
     handleChangeCheckbox = (holiday, holidayId, celebrated, date) =>{

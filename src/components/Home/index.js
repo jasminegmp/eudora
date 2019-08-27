@@ -1,7 +1,5 @@
 import React from 'react';
-import {AuthUserContext, withAuthorization } from '../Session';
-import {Link} from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
+import {withAuthorization } from '../Session';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import UpdateAvatar from '../UpdateAvatar';
 import { withRouter} from 'react-router-dom';

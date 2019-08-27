@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Card, Grid, Segment, Label} from 'semantic-ui-react';
+import {Image, Card, Grid, Segment} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import PurchasedItem from '../PurchasedItem';
@@ -109,7 +109,8 @@ class FetchProfileInfo extends React.Component {
                       ( <div>                        
                           <h4>Holidays Celebrated</h4>
                           {holidays.map(holiday => (
-                            <div>
+                            
+                            <div  key ={holiday.holiday}>
                             {holiday.celebrated ?
                               <p><em>{holiday.holiday}</em>
                             {holiday.date ? " on " + holiday.date.substring(5,10) : null} </p>: null}

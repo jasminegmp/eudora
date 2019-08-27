@@ -31,6 +31,11 @@ class AccountPage extends React.Component{
 
     }
 
+    componentWillUnmount() {
+        this.props.firebase.getPhotoUrl().off();
+        this.isUnmounted = true;
+      }
+
     render(){
         return (
             <AuthUserContext.Consumer>
