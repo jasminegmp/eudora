@@ -91,7 +91,7 @@ const LargerItemList = ({ items }) => (
       <Card centered>
         <Image src={item.image} wrapped ui={false} />
         <Card.Content>
-            <a href = {item.url} target="_blank">
+            <a href = {item.url} target="_blank" rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
             </a>
           
@@ -118,7 +118,7 @@ const SmallerItemList = ({ items }) => (
       <Card centered>
         <Image src={item.image} wrapped ui={false} />
         <Card.Content>
-            <a href = {item.url} target="_blank">
+            <a href = {item.url} target="_blank"  rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
             </a>
 

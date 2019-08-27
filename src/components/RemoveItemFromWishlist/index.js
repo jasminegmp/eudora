@@ -47,7 +47,7 @@ class RemoveItemFromWishlist extends React.Component {
         
         return(
             <div>
-                <a onClick ={this.handleClick}>		
+                <a href="/#" onClick ={this.handleClick}>		
                    		
                     <Icon name='minus' />
                     Remove item

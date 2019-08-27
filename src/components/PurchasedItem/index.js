@@ -55,7 +55,7 @@ class PurchasedItem extends React.Component {
         
         return(
             <div>   
-                    {this.state.purchased ? <Label attached ="right attached" className = "blue">Purchased</Label> : null}
+                    {this.state.purchased ? <Label attached ="top" className = "blue">Purchased</Label> : null}
                     <div className="field inline">
                         <Form.Checkbox
                             name = "purchased"

@@ -134,7 +134,7 @@ class FetchProfileInfo extends React.Component {
                           <Card centered>
                             <Image src={item.image} wrapped ui={false} />
                             <Card.Content>
-                                <a href = {item.url} target="_blank">
+                                <a href = {item.url} target="_blank"  rel="noopener noreferrer">
                                     <Card.Header>{item.title.substring(0,50)}...</Card.Header>
                                 </a>
                               <Card.Meta>

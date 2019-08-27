@@ -75,6 +75,7 @@ class FollowingBase extends React.Component {
                     if (found) {
                         tempArray.push(profile);
                     }
+                    return tempArray;
                 });
                 
                 this.setState({ followingProfiles: tempArray, loading: false });

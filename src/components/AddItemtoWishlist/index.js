@@ -67,7 +67,7 @@ class AddItemtoWishlist extends React.Component {
                             placeholder = "Example: Size small"
                 />		
                 <br></br>
-                <a className = "item" onClick ={this.handleClick}>		
+                <a href="/#" className = "item" onClick ={this.handleClick}>		
                     	
                     <Icon name='plus' />
                     Add item to wishlist

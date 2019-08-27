@@ -13,7 +13,7 @@ function ItemList(props){
 						<Card centered>
 							<Image src={item.Images[0].url_170x135} wrapped ui={false} />
 							<Card.Content>
-							<a href = {item.url} target="_blank">
+							<a href = {item.url} target="_blank" rel="noopener noreferrer">
 								<Card.Header>{item.title.substring(0,50)}...</Card.Header>
 							</a>
 							<Card.Meta>
