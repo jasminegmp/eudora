@@ -26,6 +26,7 @@ class UpdateNoteInWishlist extends React.Component {
             const note = snapshot.val();
             this.setState({ note})
             });
+        this.setState({note: ''});
     }
 
     onClick = (event) => {

@@ -50,7 +50,7 @@ class HomePage extends React.Component {
                         <Segment>
                             <h3>Update your avatar</h3>
                                 <Card  centered>
-                                    <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} wrapped ui={false} ><Image src={this.state.photoUrl} /></Link>
+                                    <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}}><Image src={this.state.photoUrl} /></Link>
                                 </Card>
                                 <UpdateAvatar/>
                         </Segment>

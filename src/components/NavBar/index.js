@@ -8,7 +8,6 @@ import {AuthUserContext} from '../Session';
 import Logo from '../images/icon.png';
 import { Responsive, Icon, Image, Menu, Dropdown, Sidebar } from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
-import Footer from '../Footer';
 
 const options = [
     {   key: 'user', 
