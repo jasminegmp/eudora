@@ -151,7 +151,7 @@ class FetchProfileInfo extends React.Component {
                               {items.map(item => (
                                 <Grid.Column key={item.id}>
                                 <Card centered>
-                                  <a wrapped ui={false} href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
+                                  <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
 
                                   
                                   <Card.Content>
