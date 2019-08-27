@@ -117,7 +117,7 @@ class FetchProfileInfo extends React.Component {
                 <Grid.Column width={5}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
-                      <Image src={photoUrl} wrapped ui={false} />
+                    <Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}}src={photoUrl} />
                     </Card>
                     {loading && <div>Loading ...</div>}
                     <Segment>
@@ -151,7 +151,7 @@ class FetchProfileInfo extends React.Component {
                               {items.map(item => (
                                 <Grid.Column key={item.id}>
                                 <Card centered>
-                                  <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
+                                  <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}} src={item.image} /></a>
 
                                   
                                   <Card.Content>

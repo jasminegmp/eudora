@@ -44,7 +44,7 @@ class AccountPage extends React.Component{
                             Account Settings
                         </Header>
                         <Card centered>
-                            <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} ><Image src={this.state.photoUrl} /></Link>
+                            <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} ><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}}src={this.state.photoUrl} /></Link>
                             <Card.Content>
                             <Card.Header>{authUser.displayName}</Card.Header>
                             <Card.Meta>

@@ -11,7 +11,7 @@ function ItemList(props){
 					{props.result.map(item => (
 					<Grid.Column key = {item.listing_id}>
 						<Card centered>
-							<Image src={item.Images[0].url_170x135} wrapped ui={false} />
+							<a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "170px", height: "135px", objectFit: "cover"}} src={item.Images[0].url_170x135} wrapped ui={false} /></a>
 							<Card.Content>
 							<a href = {item.url} target="_blank" rel="noopener noreferrer">
 								<Card.Header>{item.title.substring(0,50)}...</Card.Header>

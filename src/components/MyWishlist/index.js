@@ -90,7 +90,7 @@ const LargerItemList = ({ items }) => (
     {items.map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
+        <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "150px", height: "150px", objectFit: "cover"}} src={item.image} /></a>
         <Card.Content>
             <a href = {item.url} target="_blank" rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
@@ -117,7 +117,7 @@ const SmallerItemList = ({ items }) => (
     {items.slice(0, 4).map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image src={item.image} /></a>
+        <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}} src={item.image} /></a>
         <Card.Content>
             <a href = {item.url} target="_blank"  rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
