@@ -19,6 +19,11 @@ class UpdateAvatarBase extends React.Component {
     }
     
 
+    componentDidUpdate(){	
+        const user = this.props.firebase.currentUser();	
+        this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL)	
+    }	
+    
 
     onSubmit = event => {
         
