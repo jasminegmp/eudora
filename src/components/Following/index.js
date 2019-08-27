@@ -115,7 +115,7 @@ const ProfileList = ({ profiles }) => (
     {profiles.map(profile => (
       <Grid.Column key={profile.uid}>
       <Card centered>
-        <Image src={profile.photoUrl} wrapped ui={false} />
+      <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} wrapped ui={false} ><Image src={profile.photoUrl} /></Link>
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
           <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>

@@ -58,9 +58,9 @@ class Firebase{
 
     following = (uid) => this.db.ref(`profiles/${uid}/following`);
 
-    updateAvatar = (avatar) => this.auth.currentUser.updateProfile({photoURL:avatar});
+    updateAvatar = (avatar) => this.auth.currentUser.updateProfile({photoUrl:avatar});
 
-    updateAvatarDb = (uid, avatar) => this.db.ref(`profiles/${uid}`).update({photoUrl: avatar});
+    updateAvatarDb = (uid, photoUrl) => this.db.ref(`profiles/${uid}`).update({photoUrl: photoUrl});
 
     fileRef = (foldername, filename, uid) => this.storage.ref(`${foldername}`).child(`${uid}/${filename}`);
 

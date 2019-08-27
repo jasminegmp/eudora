@@ -101,11 +101,17 @@ const NavBarMobileAuth = ({
     return(
         <div> 
             <Menu fixed="top" style = {{paddingTop: "10px", paddingLeft: "10px"}} inverted> 
-            <Image size="mini" style = {{width: "auto", height: "auto", maxWidth:"30px", maxHeight: "30px"}} src= {Logo} alt = "Eudora Logo"/>
+                <Image size="mini" style = {{width: "auto", height: "auto", maxWidth:"30px", maxHeight: "30px"}} src= {Logo} alt = "Eudora Logo"/>
                 <Menu.Item onClick={onClick}>
                     <Icon name="sidebar" />
                 </Menu.Item>
+                <Menu.Item>
+                    <div className="right ui divided selection list">
+                        <div className="ui teal horizontal label">Beta</div>
+                    </div>
+                </Menu.Item>
             </Menu>
+            
             <Sidebar
             as={Menu}
             animation='overlay'
@@ -120,9 +126,11 @@ const NavBarMobileAuth = ({
                 <Menu.Item as={Link} to={ROUTES.SHOP_ETSY}><Icon name='plus' />Add to Wishlist </Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.ACCOUNT }><Icon name='user' />Account Info</Menu.Item>
-                <Menu.Item as={Link} onClick = {onSignOut} ><Icon name='sign-out' />Sign Out</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.ABOUT }><Icon name='info circle' />About</Menu.Item>
+                <Menu.Item as={Link}  onClick = {onSignOut} ><Icon name='sign-out' />Sign Out</Menu.Item>
+                
             </Sidebar>
-            <Footer/>
+            
         </div>
     )
 };
@@ -139,8 +147,9 @@ class NavBarDesktopAuth extends React.Component {
         return(
             <div>
                 <Menu fixed="top" inverted style = {{width: '100%'}}>
-                    <Menu.Item><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
+                    <Menu.Item name ="home" onClick = {this.handleItemClick} as={Link} to={ROUTES.HOME}><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} active={activeItem === 'home'} as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
+                    <Menu.Item name ="about" onClick = {this.handleItemClick} active={activeItem === 'about'} as={Link} to={ROUTES.ABOUT}><Icon name='info circle' />About</Menu.Item>
                     <Menu.Item name = "people" onClick = {this.handleItemClick} active={activeItem === 'people'} as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
                     <Menu.Item name = "add-items" onClick = {this.handleItemClick} active={activeItem === 'add-items'} as={Link} to={ROUTES.SHOP_ETSY}><Icon name='plus' />Add to Wishlist</Menu.Item>
                     <Menu.Item name = "my-wishlist" onClick = {this.handleItemClick} active={activeItem === 'my-wishlist'} as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
@@ -160,7 +169,6 @@ class NavBarDesktopAuth extends React.Component {
                         </div>
                     </Menu.Item>
                 </Menu>
-                <Footer/>
             </div>
         )
     }
@@ -171,9 +179,16 @@ const NavBarNonAuth = () => {
     return(
         <div>
             <Menu inverted style = {{ width: '100%'}}>
-                <Menu.Item><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.LANDING}><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.LANDING}>Landing</Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.ABOUT}>About</Menu.Item>
                 <Menu.Item as={Link} to={ROUTES.SIGN_IN}>Sign In</Menu.Item>
+            
+                <Menu.Item>
+                        <div className="right ui divided selection list">
+                            <div className="ui teal horizontal label">Beta</div>
+                        </div>
+                </Menu.Item>
             </Menu>
         </div>
     )

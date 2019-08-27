@@ -2,7 +2,7 @@ import React from 'react';
 import {withAuthorization } from '../Session';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import UpdateAvatar from '../UpdateAvatar';
-import { withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {Grid, Segment, Image, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
 
@@ -50,7 +50,7 @@ class HomePage extends React.Component {
                         <Segment>
                             <h3>Update your avatar</h3>
                                 <Card  centered>
-                                    <Image src={this.state.photoUrl} wrapped ui={false} />
+                                    <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} wrapped ui={false} ><Image src={this.state.photoUrl} /></Link>
                                 </Card>
                                 <UpdateAvatar/>
                         </Segment>
@@ -65,7 +65,7 @@ class HomePage extends React.Component {
                     </Grid.Column>
                     <Grid.Column >
                         <Segment>
-                            <h3>Complete your profile</h3>
+                            <h3>What do you celebrate?</h3>
                             <GiftReceivingTimesForm/>
                         </Segment>
                     </Grid.Column>

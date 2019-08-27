@@ -13,6 +13,7 @@ class FetchProfileInfo extends React.Component {
             currentUser: '',
             firstName: '',
             lastName: '',
+            photoUrl: null,
             uid: props.uid,
             holidays: [],
             items: [],
@@ -45,6 +46,15 @@ class FetchProfileInfo extends React.Component {
           const lastName = snapshot.val();
           this.setState({ lastName})
 
+        });
+
+        // Grab photo url
+        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+          if (this.isUnmounted) {
+            return;
+          }
+          const photoUrl = snapshot.val();
+          this.setState({ photoUrl})
         });
 
         // Grab holidays
@@ -99,69 +109,80 @@ class FetchProfileInfo extends React.Component {
 
 
     render() {
-        const { items, loading, firstName, lastName, holidays} = this.state;
+        const { items, loading, firstName, lastName, holidays, photoUrl} = this.state;
         return(
             <div>
-                <h1>{firstName} {lastName}</h1>
-                {loading && <div>Loading ...</div>}
-                <Segment>
-                  {holidays ? 
-                      ( <div>                        
-                          <h4>Holidays Celebrated</h4>
-                          {holidays.map(holiday => (
-                            
-                            <div  key ={holiday.holiday}>
-                            {holiday.celebrated ?
-                              <p><em>{holiday.holiday}</em>
-                            {holiday.date ? " on " + holiday.date.substring(5,10) : null} </p>: null}
-                            
+
+              <Grid stackable columns={2}>
+                <Grid.Column width={5}>
+                    <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
+                    <Card centered>
+                      <Image src={photoUrl} wrapped ui={false} />
+                    </Card>
+                    {loading && <div>Loading ...</div>}
+                    <Segment>
+                      {holidays ? 
+                          ( <div>                        
+                              <h4>I celebrate...</h4>
+                              {holidays.map(holiday => (
+                                
+                                <div  key ={holiday.holiday}>
+                                {holiday.celebrated ?
+                                  <p><em>{holiday.holiday}</em>
+                                {holiday.date ? " on " + holiday.date.substring(5,10) : null} </p>: null}
+                                
+                                </div>
+                              ))}
                             </div>
-                          ))}
+
+                          )
+                      : 
+                          (<div>There are no holidays yet ...</div>)
+                      }
+                    </Segment>
+                  </Grid.Column>
+                
+                  <Grid.Column width={11}>
+                    <Segment>
+                      {items ? 
+                          ( <div>
+                              <h4>My wishlist</h4>
+                              <Grid stackable columns={4}>
+                              {items.map(item => (
+                                <Grid.Column key={item.id}>
+                                <Card centered>
+                                  <Image src={item.image} wrapped ui={false} />
+                                  <Card.Content>
+                                      <a href = {item.url} target="_blank"  rel="noopener noreferrer">
+                                          <Card.Header>{item.title.substring(0,50)}...</Card.Header>
+                                      </a>
+                                    <Card.Meta>
+                                    {item.seller ? <p>Seller:  {item.seller}</p> : null}
+                                    {item.price ? <p>$ {item.price}</p> : null}
+                                      <Card.Meta>
+                                        {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
+                                        
+                                      </Card.Meta>
+                                    </Card.Meta>
+                                    {this.state.uid !== this.state.currentUser ? 
+                                      <PurchasedItem uid = {this.state.uid} id ={item.id}/> :
+                                      null
+                                    }
+
+
+                                  </Card.Content>
+                                </Card>
+                                </Grid.Column>
+                              ))} 
+                            </Grid>
                         </div>
-
-                      )
-                  : 
-                      (<div>There are no holidays yet ...</div>)
-                  }
-                </Segment>
-                <Segment>
-                {items ? 
-                    ( <div>
-                        <h4>Wishlist</h4>
-                        <Grid stackable columns={4}>
-                        {items.map(item => (
-                          <Grid.Column key={item.id}>
-                          <Card centered>
-                            <Image src={item.image} wrapped ui={false} />
-                            <Card.Content>
-                                <a href = {item.url} target="_blank"  rel="noopener noreferrer">
-                                    <Card.Header>{item.title.substring(0,50)}...</Card.Header>
-                                </a>
-                              <Card.Meta>
-                              {item.seller ? <p>Seller:  {item.seller}</p> : null}
-                              {item.price ? <p>$ {item.price}</p> : null}
-                                <Card.Meta>
-                                  {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
-                                  
-                                </Card.Meta>
-                              </Card.Meta>
-                              {this.state.uid !== this.state.currentUser ? 
-                                <PurchasedItem uid = {this.state.uid} id ={item.id}/> :
-                                null
-                              }
-
-
-                            </Card.Content>
-                          </Card>
-                          </Grid.Column>
-                        ))} 
-                      </Grid>
-                    </div>
-                    )
-                 : 
-                    (<div>There are no items ...</div>)
-                }
-                 </Segment>
+                        )
+                    : 
+                        (<div>There are no items ...</div>)
+                    }
+                    </Segment>
+                  </Grid.Column>
+                </Grid>
             </div>
         )
     }

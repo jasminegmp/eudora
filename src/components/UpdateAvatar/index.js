@@ -17,20 +17,27 @@ class UpdateAvatarBase extends React.Component {
             uploadComplete: false
         }
     }
+
+    componentDidMount(){
+        // Grab photo url
+        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+            if (this.isUnmounted) {
+                return;
+            }
+            const photoUrl = snapshot.val();
+            this.setState({ avatarURL: photoUrl})
+            });
+    }
+
     
 
-    componentDidUpdate(){	
-        const user = this.props.firebase.currentUser();	
-        this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL)	
-    }	
-    
 
     onSubmit = event => {
         
         const user = this.props.firebase.currentUser();
-
+        event.preventDefault();
         //event.preventDefault();
-        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${this.stateavatarName}`).put(this.state.file);
+        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${this.state.avatarName}`).put(this.state.file);
           
           
         // Register three observers:
@@ -47,13 +54,16 @@ class UpdateAvatarBase extends React.Component {
         }, () => {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            uploadTask.snapshot.ref.getDownloadURL().then(url =>  this.setState({ avatarURL: url }));
+            uploadTask.snapshot.ref.getDownloadURL()
+            .then(url =>  this.setState({ avatarURL: url }))
+            .then(() => this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL));
             });
-        this.setState({uploadComplete: true})
+           
 
-        event.preventDefault();
+    
 
-        this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL);
+
+            this.setState({uploadComplete: true})
 
     };
 

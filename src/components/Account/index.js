@@ -5,6 +5,7 @@ import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
+import {Link} from 'react-router-dom';
 import GetNumberOfFollowing from '../GetNumberOfFollowing';
 
 class AccountPage extends React.Component{
@@ -18,6 +19,7 @@ class AccountPage extends React.Component{
             error: null
         };
     }
+
     componentDidMount(){
 
         // Grab photo url
@@ -31,10 +33,6 @@ class AccountPage extends React.Component{
 
     }
 
-    componentWillUnmount() {
-        this.props.firebase.getPhotoUrl().off();
-        this.isUnmounted = true;
-      }
 
     render(){
         return (
@@ -46,7 +44,7 @@ class AccountPage extends React.Component{
                             Account Settings
                         </Header>
                         <Card centered>
-                            <Image src={this.state.photoUrl} wrapped ui={false} />
+                            <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} wrapped ui={false} ><Image src={this.state.photoUrl} /></Link>
                             <Card.Content>
                             <Card.Header>{authUser.displayName}</Card.Header>
                             <Card.Meta>
@@ -62,7 +60,7 @@ class AccountPage extends React.Component{
                         </Card>
     
                         <Header as = "h2" color = "grey" textAlign = "center">
-                            'Tis the Season for Me to Receive Gifts
+                            What do you celebrate?
                             <GiftReceivingTimesForm/>
                         </Header>
     
