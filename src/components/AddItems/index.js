@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom';
 const PATH_BASE = 'https://openapi.etsy.com/v2';
 const PATH_SEARCH = '/listings/active.js?callback=getData&keywords=';
 const LIMIT_PARAM = 'limit=';
+const SORT_ORDER = 'sort_on=score'
 const OFFSET_PARAM = 'offset='
 const IMAGE_PARAM = 'includes=Images:1';
 const API_PATH = 'api_key=';
@@ -47,6 +48,7 @@ class AddItemsPage extends React.Component {
             isSubmitted: false,
             isLoading: false,
             offset: 0,
+            queryPath: '',
             error: null
         }
     }
@@ -58,6 +60,7 @@ class AddItemsPage extends React.Component {
     onChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
         this.setState({newSearchTerm: true});
+        this.setState({isSubmitted: false});
     }
 
     getJsonResponse = async (event, path) => {
@@ -72,14 +75,17 @@ class AddItemsPage extends React.Component {
     }
 
     onSubmit =  async (event) => {
-        const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+        
         if (this.state.newSearchTerm){
           this.setState({offset: 0}, async () => {
+            const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${SORT_ORDER}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+            this.setState({path});
             this.getJsonResponse(event, path);  
           })}
         else{
-          
-          this.getJsonResponse(event, path);         
+          const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${SORT_ORDER}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+          this.getJsonResponse(event, path);     
+          this.setState({path});    
         }
         this.setState({isSubmitted: true});     
     }

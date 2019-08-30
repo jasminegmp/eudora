@@ -4,7 +4,8 @@ import { withAuthorization } from '../Session';
 import AddItemtoWishlist from '../AddItemtoWishlist';
 
 function ItemList(props){
-	//console.log(props.result);
+	console.log(props);
+	console.log(props.result);
 	if (props.result){
 			return (
 				<Grid stackable columns={4}>
