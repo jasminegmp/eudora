@@ -148,25 +148,31 @@ class NavBarDesktopAuth extends React.Component {
                 <Menu fixed="top" inverted style = {{width: '100%'}}>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} as={Link} to={ROUTES.HOME}><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} active={activeItem === 'home'} as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
-                    <Menu.Item name ="about" onClick = {this.handleItemClick} active={activeItem === 'about'} as={Link} to={ROUTES.ABOUT}><Icon name='info circle' />About</Menu.Item>
+                   
                     <Menu.Item name = "people" onClick = {this.handleItemClick} active={activeItem === 'people'} as={Link} to={ROUTES.PEOPLE}><Icon name='users' />People</Menu.Item>
                     <Menu.Item name = "add-items" onClick = {this.handleItemClick} active={activeItem === 'add-items'} as={Link} to={ROUTES.SHOP_ETSY}><Icon name='plus' />Add to Wishlist</Menu.Item>
                     <Menu.Item name = "my-wishlist" onClick = {this.handleItemClick} active={activeItem === 'my-wishlist'} as={Link} to={ROUTES.MY_WISHLIST}><Icon name='gift' />My Wishlist</Menu.Item>
-                    <Menu.Item name = "account"> 
-                    <Dropdown trigger = {
-                                <span>
-                                    <Icon name='user' />
-                                    Account
-                                </span>
-                    } options = {options} />
-                    
-                    </Menu.Item>
+                    <Menu.Menu position='right'>
+                        <Menu.Item>
+                            <div className="right ui divided selection list">
+                                <div className="ui teal horizontal label">Beta</div>
+                            </div>
+                        </Menu.Item>
+                        <Menu.Item name ="about" onClick = {this.handleItemClick} active={activeItem === 'about'} as={Link} to={ROUTES.ABOUT}><Icon name='info circle' />
+                            About
+                        </Menu.Item>
+                        <Menu.Item name = "account"> 
+                            <Dropdown trigger = {
+                                        <span>
+                                            <Icon name='user' />
+                                            Account
+                                        </span>
+                            } options = {options} />
+                        
+                        </Menu.Item>
 
-                    <Menu.Item>
-                        <div className="right ui divided selection list">
-                            <div className="ui teal horizontal label">Beta</div>
-                        </div>
-                    </Menu.Item>
+                        
+                    </Menu.Menu>
                 </Menu>
             </div>
         )
