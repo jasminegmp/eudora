@@ -67,7 +67,7 @@ class AddItemtoWishlist extends React.Component {
                             placeholder = "Example: Size small"
                 />		
                 <br></br>
-                <Button style = {{marginTop: "5px"}} onClick = {this.handleClick}><Icon name='plus' />
+                <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
                     Add item to wishlist</Button>
 	
                     	

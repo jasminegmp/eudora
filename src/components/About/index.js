@@ -8,7 +8,7 @@ const AboutPage = () => {
             <p>The goal of Eudora is for users to create a wishlist of personalized gifts. </p>
 
             <h2><em>Eudora's story</em></h2>
-            <p>Hi, my  name is Jasmine and I built this website after growing up in with a very practical family that doesn't like their gifts to be a surprise. 
+            <p>Hi, my  name is Jasmine and I built this website after growing up in a very practical family that doesn't like their gifts to be a surprise. 
                 Soon, I learned that not everybody likes their gifts to be a complete surprise. 
                 <em> (Many people find having to pretend to grandma that you love that sweater she got you stressful.) </em>
                 I also come from a non-web background and wanted to implement a practical application in order to learn React and Firebase.
