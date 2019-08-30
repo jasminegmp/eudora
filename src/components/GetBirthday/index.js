@@ -12,6 +12,7 @@ class GetBirthdayFormBase extends React.Component {
         this.state = {
             birthday: null,
             newBirthday: null,
+            uploadComplete: false,
             uid: this.props.firebase.currentUser().uid,
             error: null
         }
@@ -39,6 +40,7 @@ class GetBirthdayFormBase extends React.Component {
         this.setState({
             newBirthday: date
         });
+        this.setState({uploadComplete: false})
         //console.log(this.state.newBirthday)
     }
 
@@ -51,6 +53,8 @@ class GetBirthdayFormBase extends React.Component {
         .catch(error => {
             this.setState({error});
         });
+
+        this.setState({uploadComplete: true})
     }
 
     componentWillUnmount() {
@@ -70,6 +74,7 @@ class GetBirthdayFormBase extends React.Component {
                         value = {newBirthday}
                     /><br/>
                 <Button className = "birthday-button" onClick = {this.onSubmit}>Update Birthday</Button>
+                <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Updated!" : null}</p>
                 {error && <p>{error.message}</p>} 
                 <div className="ui divider"></div>
                

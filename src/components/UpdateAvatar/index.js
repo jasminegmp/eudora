@@ -69,6 +69,7 @@ class UpdateAvatarBase extends React.Component {
 
 
     uploadImage  = event => {
+        this.setState({uploadComplete: false});
         const user = this.props.firebase.currentUser();
         const avatarName = "avatar-" + user.uid + "-" + Date.now();
         this.setState({avatarName: avatarName});
@@ -86,7 +87,7 @@ class UpdateAvatarBase extends React.Component {
                         <input type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
                     </div>
                     <button className = "ui button " type = "submit" >Change My Avatar</button>
-                    <p style={{color: '#A9A9A9'}}>{this.state.uploadComplete? "Upload completed, please refresh page to see new avatar." : null}</p>
+                    <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Success!" : null}</p>
                     {error && <p>{error.message}</p>} 
                 </Segment>
             </form>
