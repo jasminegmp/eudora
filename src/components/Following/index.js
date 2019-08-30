@@ -1,9 +1,10 @@
 import React from 'react';
-import {Image, Card, Grid, Menu} from 'semantic-ui-react';
+import {Card, Grid, Menu} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import {Link, withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import Avatar from '../Avatar';
 
 const FollowingPage = () => {
     return (
@@ -115,7 +116,9 @@ const ProfileList = ({ profiles }) => (
     {profiles.map(profile => (
       <Grid.Column key={profile.uid}>
       <Card centered>
-      <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} ><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}} src={profile.photoUrl} /></Link>
+        <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
+          <Avatar uid = {profile.uid} photoUrl = {profile.photoUrl}/>
+        </Link>
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
           <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>

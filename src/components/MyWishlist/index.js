@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Card, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
+import ItemPhoto from '../ItemPhoto';
 import UpdateNoteInWishlist from '../UpdateNoteInWishlist';
 import * as ROUTES from '../../constants/routes';
 import {Link} from 'react-router-dom';
@@ -90,7 +91,9 @@ const LargerItemList = ({ items }) => (
     {items.map(item => (
       <Grid.Column key={item.id}>
       <Card centered>
-        <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "150px", height: "150px", objectFit: "cover"}} src={item.image} /></a>
+        
+          <ItemPhoto url = {item.url} photoUrl = {item.image}/>
+        
         <Card.Content>
             <a href = {item.url} target="_blank" rel="noopener noreferrer">
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>

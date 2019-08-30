@@ -2,7 +2,8 @@ import React from 'react';
 import {withAuthorization } from '../Session';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import UpdateAvatar from '../UpdateAvatar';
-import {Link, withRouter} from 'react-router-dom';
+import Avatar from '../Avatar';
+import {withRouter} from 'react-router-dom';
 import {Grid, Segment, Image, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
 
@@ -50,7 +51,8 @@ class HomePage extends React.Component {
                         <Segment>
                             <h3>Update your avatar</h3>
                                 <Card  centered>
-                                    <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}}><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}}src={this.state.photoUrl} /></Link>
+
+                                    <Avatar uid = {this.state.uid} photoUrl = {this.state.photoUrl}/>
                                 </Card>
                                 <UpdateAvatar/>
                         </Segment>

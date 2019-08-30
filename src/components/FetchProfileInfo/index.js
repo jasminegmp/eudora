@@ -1,8 +1,10 @@
 import React from 'react';
-import {Image, Card, Grid, Segment} from 'semantic-ui-react';
+import {Card, Grid, Segment} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import PurchasedItem from '../PurchasedItem';
+import Avatar from '../Avatar';
+import ItemPhoto from '../ItemPhoto';
 
 class FetchProfileInfo extends React.Component {
     
@@ -117,7 +119,7 @@ class FetchProfileInfo extends React.Component {
                 <Grid.Column width={5}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
-                    <Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}}src={photoUrl} />
+                      <Avatar uid = {this.state.uid} photoUrl = {photoUrl}/>
                     </Card>
                     {loading && <div>Loading ...</div>}
                     <Segment>
@@ -151,8 +153,7 @@ class FetchProfileInfo extends React.Component {
                               {items.map(item => (
                                 <Grid.Column key={item.id}>
                                 <Card centered>
-                                  <a href = {item.url} target="_blank"  rel="noopener noreferrer"><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}} src={item.image} /></a>
-
+                                  <ItemPhoto url = {item.url} photoUrl = {item.image}/>
                                   
                                   <Card.Content>
                                       <a href = {item.url} target="_blank"  rel="noopener noreferrer">

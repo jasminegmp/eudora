@@ -5,7 +5,7 @@ import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
-import {Link} from 'react-router-dom';
+import Avatar from '../Avatar';
 import GetNumberOfFollowing from '../GetNumberOfFollowing';
 
 class AccountPage extends React.Component{
@@ -44,7 +44,7 @@ class AccountPage extends React.Component{
                             Account Settings
                         </Header>
                         <Card centered>
-                            <Link to={{pathname: `/user/${this.state.uid}`, params: this.state.uid}} ><Image style = {{margin: "auto", width: "200px", height: "200px", objectFit: "cover"}}src={this.state.photoUrl} /></Link>
+                            <Avatar uid = {this.state.uid} photoUrl = {this.state.photoUrl}/>
                             <Card.Content>
                             <Card.Header>{authUser.displayName}</Card.Header>
                             <Card.Meta>
