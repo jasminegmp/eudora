@@ -2,7 +2,6 @@ import React from 'react';
 import {withAuthorization } from '../Session';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import UpdateAvatar from '../UpdateAvatar';
-import Avatar from '../Avatar';
 import {withRouter} from 'react-router-dom';
 import {Grid, Segment, Image, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
@@ -50,11 +49,9 @@ class HomePage extends React.Component {
                     <Grid.Column>
                         <Segment>
                             <h3>Update your avatar</h3>
-                                <Card  centered>
-
-                                    <Avatar uid = {this.state.uid} photoUrl = {this.state.photoUrl}/>
+                                <Card centered>
+                                    <UpdateAvatar uid = {this.state.uid}/>
                                 </Card>
-                                <UpdateAvatar/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>

@@ -72,7 +72,7 @@ class AccountPage extends React.Component{
                         <Header as = "h2" color = "grey" textAlign = "center">
                             Change Avatar
                         </Header>
-                        <UpdateAvatar/>
+                            <UpdateAvatar uid = {this.state.uid}/>
     
                         </Grid.Column>
                     </Grid>

@@ -1,9 +1,11 @@
 import React from 'react';
-import {Segment} from 'semantic-ui-react';
+import {Segment, Icon} from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
 import 'firebase/storage';
 import app from 'firebase/app';
 import {withRouter} from 'react-router-dom';
+import Avatar from '../Avatar';
+import './UpdateAvatar.css';
 
 // a form
 class UpdateAvatarBase extends React.Component {
@@ -11,6 +13,8 @@ class UpdateAvatarBase extends React.Component {
         super(props);
         this.storage = app.storage();
         this.state = {
+            uid: this.props.uid,
+            photoUrl: this.props.photoUrl,
             avatarName: "",
             avatarURL: "",
             file: "",
@@ -32,12 +36,15 @@ class UpdateAvatarBase extends React.Component {
     
 
 
-    onSubmit = event => {
-        
+    uploadImage = event => {
         const user = this.props.firebase.currentUser();
+        const avatarName = "avatar-" + user.uid + "-" + Date.now();
+
+        this.setState({uploadComplete: false});
+
         event.preventDefault();
-        //event.preventDefault();
-        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${this.state.avatarName}`).put(this.state.file);
+        
+        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${avatarName}`).put(event.target.files[0]);
           
           
         // Register three observers:
@@ -58,39 +65,35 @@ class UpdateAvatarBase extends React.Component {
             .then(url =>  this.setState({ avatarURL: url }))
             .then(() => this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL));
             });
-           
-
-    
-
-
+ 
             this.setState({uploadComplete: true})
 
     };
 
 
-    uploadImage  = event => {
-        this.setState({uploadComplete: false});
-        const user = this.props.firebase.currentUser();
-        const avatarName = "avatar-" + user.uid + "-" + Date.now();
-        this.setState({avatarName: avatarName});
-        this.setState({file: event.target.files[0]})
-    };
-          
 
     render() {
         const {error} = this.state;
 
         return(
-            <form className = "ui form" onSubmit = {this.onSubmit}>
-                <Segment stacked>
+            <Segment stacked>
+                
+                <label>
                     <div className="field">
-                        <input type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
+                    <div className="upload">
+                        <div className = "upload-content">
+                            Upload<br/>
+                            <Icon className = "camera-button" centered name='camera'/>
+                        </div>
                     </div>
-                    <button className = "ui button " type = "submit" >Change My Avatar</button>
-                    <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Success!" : null}</p>
-                    {error && <p>{error.message}</p>} 
-                </Segment>
-            </form>
+                    <Avatar className = "avatar" uid = {this.state.uid} photoUrl = {this.state.avatarURL}/>
+                    </div>
+                    <input style = {{display:"none"}} type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
+                </label>
+                
+                <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Success!" : null}</p>
+                {error && <p>{error.message}</p>} 
+            </Segment>
         )
     }
 
