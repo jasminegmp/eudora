@@ -80,13 +80,12 @@ class UpdateAvatarBase extends React.Component {
                 
                 <label>
                     <div className="field">
-                    <div className="upload">
-                        <div className = "upload-content">
-                            Upload<br/>
-                            <Icon className = "camera-button" centered name='camera'/>
+                        <div className="upload">
+                            <div className = "upload-content">
+                                Upload <Icon centered name='camera'/>
+                            </div>
                         </div>
-                    </div>
-                    <Avatar className = "avatar" uid = {this.state.uid} photoUrl = {this.state.avatarURL}/>
+                        <Avatar className = "avatar" uid = {this.state.uid} photoUrl = {this.state.avatarURL}/>
                     </div>
                     <input style = {{display:"none"}} type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
                 </label>

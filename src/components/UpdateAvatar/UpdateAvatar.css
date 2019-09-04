@@ -27,17 +27,30 @@
   }
   
   .field{
+    margin: auto;
+    width: 200px;
     position: relative;
     text-align: center;
-    color: black;
+    color: white;
   }
 
   .field:hover{
-    opacity: 0.7;
+    width: 200px;
+    position: relative;
+    opacity: .8;
+
   }
 
+
   .field:hover .upload-content{
+    padding: 10px;
+    position: relative;
+    top: 0px;
     display: block;
+    width: 200px;
+    height:40px;
+    background: black;
+    color: white;
   }
 
   .upload-content{
@@ -52,13 +65,5 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-
-  .camera-button{
-    color: #black;
-    position: relative;
-    top: 50%;
-    left:10%;
-  }
-
 
   
