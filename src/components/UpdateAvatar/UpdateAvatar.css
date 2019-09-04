@@ -28,14 +28,12 @@
   
   .field{
     margin: auto;
-    width: 200px;
     position: relative;
     text-align: center;
     color: white;
   }
 
   .field:hover{
-    width: 200px;
     position: relative;
     opacity: .8;
 
@@ -51,6 +49,7 @@
     height:40px;
     background: black;
     color: white;
+
   }
 
   .upload-content{
