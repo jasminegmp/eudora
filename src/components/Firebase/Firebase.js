@@ -98,7 +98,7 @@ class Firebase{
 
     getHolidays = (uid) => this.db.ref(`profiles/${uid}/holidays`);
 
-    addHolidays = (uid, holidayId, holiday, date, celebrated) => this.db.ref(`profiles/${uid}/holidays/${holidayId}`).update({date: date, celebrated: celebrated, holiday: holiday, holidayId: holidayId});
+    addHolidays = (uid, label, holidayId, value, holiday, date, celebrated) => this.db.ref(`profiles/${uid}/holidays/${holidayId}`).update({date: date, celebrated: celebrated, holiday: holiday, holidayId: holidayId, label: label, value: value});
 
     removeHolidays = (uid, targetHoliday) => this.db.ref(`profiles/${uid}/holidays/${targetHoliday}`).remove();
 
