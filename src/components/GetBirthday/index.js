@@ -1,9 +1,10 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
 import {Button} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
 import './GetBirthday.css'
+import "react-datepicker/dist/react-datepicker.css";
 
 // a form
 class GetBirthdayFormBase extends React.Component {
@@ -27,9 +28,9 @@ class GetBirthdayFormBase extends React.Component {
             }
             
             const birthday = snapshot.val();
-            //console.log(birthday);
+
             if (birthday){
-                this.setState({ birthday})
+                this.setState({ birthday});
             }
             
         });
@@ -37,10 +38,12 @@ class GetBirthdayFormBase extends React.Component {
     }
 
     onChange = (date) => {
+        const ISOdate = date.toISOString();
+        console.log(date, ISOdate);
         this.setState({
-            newBirthday: date
+            newBirthday: date,
+            birthday: ISOdate
         });
-        this.setState({uploadComplete: false})
         //console.log(this.state.newBirthday)
     }
 
@@ -69,9 +72,8 @@ class GetBirthdayFormBase extends React.Component {
         return(
             <div style={{width:"100%"}}>
                 <DatePicker
-                        className = "date-picker"
                         onChange={this.onChange}
-                        value = {newBirthday}
+                        selected = {newBirthday}
                     /><br/>
                 <Button className = "birthday-button" onClick = {this.onSubmit}>Update Birthday</Button>
                 <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Updated!" : null}</p>
