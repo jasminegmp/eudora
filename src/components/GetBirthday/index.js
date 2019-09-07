@@ -1,7 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
 import DatePicker from "react-datepicker";
-import {Button} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
 import './GetBirthday.css'
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +11,7 @@ class GetBirthdayFormBase extends React.Component {
         super(props);
         this.state = {
             birthday: null,
-            newBirthday: null,
+            IsoBirthday: null,
             uploadComplete: false,
             uid: this.props.firebase.currentUser().uid,
             error: null
@@ -21,6 +20,17 @@ class GetBirthdayFormBase extends React.Component {
 
     componentDidMount(){
         // Grab birthday if it exists
+
+        this.props.firebase.getBirthdayObj(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const birthday = snapshot.val();
+            
+        });
+
         this.props.firebase.getBirthday(this.state.uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
@@ -30,7 +40,8 @@ class GetBirthdayFormBase extends React.Component {
             const birthday = snapshot.val();
 
             if (birthday){
-                this.setState({ birthday});
+                const date = new Date(birthday);
+                this.setState({IsoBirthday: birthday, birthday: date});
             }
             
         });
@@ -41,24 +52,18 @@ class GetBirthdayFormBase extends React.Component {
         const ISOdate = date.toISOString();
         console.log(date, ISOdate);
         this.setState({
-            newBirthday: date,
-            birthday: ISOdate
+            IsoBirthday: ISOdate, birthday: date
         });
-        //console.log(this.state.newBirthday)
-    }
-
-    onSubmit = (event) =>{
-        event.preventDefault(); 
         // update birthday
-        this.props.firebase.updateBirthday(this.state.uid, this.state.newBirthday)
+        this.props.firebase.updateBirthday(this.state.uid, this.state.IsoBirthday, ISOdate)
 
         // otherwise, display error
         .catch(error => {
             this.setState({error});
         });
-
-        this.setState({uploadComplete: true})
+        //console.log(this.state.newBirthday)
     }
+
 
     componentWillUnmount() {
         this.props.firebase.getBirthday().off();
@@ -66,17 +71,17 @@ class GetBirthdayFormBase extends React.Component {
       }
 
     render() {
-        const {newBirthday, error} = this.state;
+        const {IsoBirthday, birthday, error} = this.state;
 
 
         return(
             <div style={{width:"100%"}}>
+                <h4>When is your birthday?</h4>
                 <DatePicker
+                dateFormat="yyyy/MM/dd"
                         onChange={this.onChange}
-                        selected = {newBirthday}
+                        selected = {birthday}
                     /><br/>
-                <Button className = "birthday-button" onClick = {this.onSubmit}>Update Birthday</Button>
-                <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Updated!" : null}</p>
                 {error && <p>{error.message}</p>} 
                 <div className="ui divider"></div>
                

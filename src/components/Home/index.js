@@ -64,7 +64,6 @@ class HomePage extends React.Component {
                     </Grid.Column>
                     <Grid.Column >
                         <Segment>
-                            <h3>What do you celebrate?</h3>
                             <GiftReceivingTimesForm/>
                         </Segment>
                     </Grid.Column>

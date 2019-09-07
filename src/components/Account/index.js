@@ -60,7 +60,6 @@ class AccountPage extends React.Component{
                         </Card>
     
                         <Header as = "h2" color = "grey" textAlign = "center">
-                            What do you celebrate?
                             <GiftReceivingTimesForm/>
                         </Header>
     

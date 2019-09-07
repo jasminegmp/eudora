@@ -129,10 +129,10 @@ class FetchProfileInfo extends React.Component {
                               {holidays.map(holiday => (
                                 
                                 <div  key ={holiday.holiday}>
-                                {holiday.celebrated ?
+
                                   <p><em>{holiday.holiday}</em>
-                                {holiday.date ? " on " + holiday.date.substring(5,10) : null} </p>: null}
-                                
+                                {" on " + holiday.date.substring(5,10)}
+                                </p>
                                 </div>
                               ))}
                             </div>

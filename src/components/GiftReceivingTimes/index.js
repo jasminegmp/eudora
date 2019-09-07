@@ -16,7 +16,7 @@ class GiftReceivingTimesForm extends React.Component {
             uid: this.props.firebase.currentUser().uid,
             error: null,
             options: [
-              { value: 'Birthday', label: 'Birthday', id: 'birthday', date: "1991-07-04T07:00:00.000Z", celebrated: false},
+              { value: 'Birthday', label: 'Birthday', id: 'birthday', date: "2020-01-01T07:00:00.000Z", celebrated: false},
               { value: 'New Year\'s', label: 'New Year\'s',id: 'newyears', date: "2020-01-01T07:00:00Z", celebrated: false },
               { value: 'Valentine\'s day', label: 'Valentine\'s day',id: 'valentines', date: "2020-02-14T07:00:00Z", celebrated: false },
               { value: 'Chinese New Year', label: 'Chinese New Year',id: 'chinesenewyear', date: "", celebrated: false },
@@ -63,9 +63,6 @@ class GiftReceivingTimesForm extends React.Component {
       }
 
     componentWillUnmount() {
-      this.props.firebase.getHolidays().off();
-      this.props.firebase.addHolidays().off();
-      this.props.firebase.removeHolidays().off();
       this.isUnmounted = true;
     }
 
@@ -90,18 +87,20 @@ class GiftReceivingTimesForm extends React.Component {
               return;
             }
             const holidaysObject = snapshot.val();
-            //console.log("holidaysObject", holidaysObject);
-            //console.log("value", value);
-            //if it does exist, move on and do nothing by returning
-            if (option.holidayId in  holidaysObject){
-             // console.log("do nothing")
-              return;
-            }
-            else{
-              // if it doesn't exist, add to firebase
-             // console.log("we need to add", option.id);
-              this.props.firebase.addHolidays(this.state.uid, option.label, option.id, option.value, option.value, option.date, true);
-              
+            if (holidaysObject){
+              //console.log("holidaysObject", holidaysObject);
+              //console.log("value", value);
+              //if it does exist, move on and do nothing by returning
+              if (option.holidayId in  holidaysObject){
+              // console.log("do nothing")
+                return;
+              }
+              else{
+                // if it doesn't exist, add to firebase
+              // console.log("we need to add", option.id);
+                this.props.firebase.addHolidays(this.state.uid, option.label, option.id, option.value, option.value, option.date, true);
+                
+              }
             }
           })
           
@@ -128,7 +127,7 @@ class GiftReceivingTimesForm extends React.Component {
         <form className = "ui form" onSubmit = {this.onSubmit}>
         <Segment stacked>
             <GetBirthdayForm/>
-
+            <h4>What do you celebrate?</h4>
             <Select
               value={this.state.selected}
               isMulti
