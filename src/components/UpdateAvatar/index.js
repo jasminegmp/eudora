@@ -76,7 +76,7 @@ class UpdateAvatarBase extends React.Component {
         const {error} = this.state;
 
         return(
-            <Segment stacked>
+            <div>
                 
                 <label>
                     <div className="field">
@@ -92,7 +92,7 @@ class UpdateAvatarBase extends React.Component {
                 
                 <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Success!" : null}</p>
                 {error && <p>{error.message}</p>} 
-            </Segment>
+            </div>
         )
     }
 

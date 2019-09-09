@@ -40,39 +40,33 @@ class AccountPage extends React.Component{
             {authUser => (
                     <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70, marginBottom: 70}}>
                         <Grid.Column style = {{maxWidth: 420}}>
-                        <Header as = "h2" color = "grey" textAlign = "center">
-                            Account Settings
-                        </Header>
-                        <Card centered>
-                            <Avatar uid = {this.state.uid} photoUrl = {this.state.photoUrl}/>
-                            <Card.Content>
-                            <Card.Header>{authUser.displayName}</Card.Header>
-                            <Card.Meta>
-                                <p>{authUser.email}</p>
-                            </Card.Meta>
-                            <Card.Description>
-                                <p>Joined on {authUser.metadata.creationTime}}</p>
-                            </Card.Description>
-                            </Card.Content>
-                            <Card.Content extra>
-                                    <GetNumberOfFollowing />
-                            </Card.Content>
-                        </Card>
-    
-                        <Header as = "h2" color = "grey" textAlign = "center">
-                            <GiftReceivingTimesForm/>
-                        </Header>
-    
-                        <Header as = "h2" color = "grey" textAlign = "center">
-                            Change Password
-                        </Header>
-                        <PasswordChangeForm/>
-    
-                        <Header as = "h2" color = "grey" textAlign = "center">
-                            Change Avatar
-                        </Header>
-                            <UpdateAvatar uid = {this.state.uid}/>
-    
+                            <Header as = "h2" color = "grey" textAlign = "center">
+                                Account Settings
+                            </Header>
+                            <Card centered>
+                                <UpdateAvatar uid = {this.state.uid}/>
+                                <Card.Content>
+                                <Card.Header>{authUser.displayName}</Card.Header>
+                                <Card.Meta>
+                                    <p>{authUser.email}</p>
+                                </Card.Meta>
+                                <Card.Description>
+                                    <p>Joined on {authUser.metadata.creationTime}}</p>
+                                </Card.Description>
+                                </Card.Content>
+                                <Card.Content extra>
+                                        <GetNumberOfFollowing />
+                                </Card.Content>
+                            </Card>
+        
+                            <Header as = "h2" color = "grey" textAlign = "center">
+                                <GiftReceivingTimesForm/>
+                            </Header>
+        
+                            <Header as = "h2" color = "grey" textAlign = "center">
+                                Change Password
+                            </Header>
+                            <PasswordChangeForm/>                       
                         </Grid.Column>
                     </Grid>
             )}
