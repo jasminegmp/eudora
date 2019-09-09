@@ -61,56 +61,80 @@ class GiftReceivingTimesForm extends React.Component {
 
     
     handleChange = value => {
-
+      var createFlag = false;
       console.log(value);
 
-        let difference = this.state.selected.filter(x => !value.includes(x)); // calculates diff
-        //console.log("selected",this.state.selected);
-        this.setState({ selected: value });
-        console.log("difference",difference);
-        
-        // add difference to database
-        if (difference.length === 0)
-        {
-          // for each selected option
-          value.map(option =>{
-            //console.log("option.id",option.holidayId)
+      // not the last item in celebrated list
+      if (value !== null){
 
+        // holidays list in db already exists
+        //if (this.state.selected !== []){
+          let difference = this.state.selected.filter(x => !value.includes(x)); // calculates diff
+          //console.log("selected",this.state.selected);
+          this.setState({ selected: value });
+          //console.log("difference",difference);
           
-            // retrieve holiday list
-            this.props.firebase.getHolidays(this.state.uid).once('value', snapshot => {
-              if (this.isUnmounted) {
-                return;
-              }
-              const holidaysObject = snapshot.val();
-              if (holidaysObject){
-                //console.log("holidaysObject", holidaysObject);
-                //console.log("value", value);
-                //if it does exist, move on and do nothing by returning
-                if (option.holidayId in  holidaysObject){
-                // console.log("do nothing")
-                  return;
-                }
-                else{
-                  // if it doesn't exist, add to firebase
-                // console.log("we need to add", option.id);
-                  this.props.firebase.addHolidays(this.state.uid, option.label, option.id, option.value, option.value, option.date, true);
-                  
-                }
-              }
-            })
-            
+          // add difference to database
+            if (difference.length === 0)
+            {
+              // for each selected option
+              value.map(option =>{
+                //console.log("option.id",option.holidayId)
 
-          })
-        }
+                // retrieve holiday list
+                this.props.firebase.getHolidays(this.state.uid).once('value', snapshot => {
+                  if (this.isUnmounted) {
+                    return;
+                  }
+                  const holidaysObject = snapshot.val();
+                  //console.log(holidaysObject);
+
+                  // if holidays already exists in db
+                  if (holidaysObject){
+                    //console.log("holidaysObject", holidaysObject);
+                    //console.log("value", value);
+                    //if it does exist, move on and do nothing by returning
+                    if (option.holidayId in  holidaysObject){
+                      //console.log("do nothing")
+                      return;
+                    }
+                    else{
+                      // if it doesn't exist, add to firebase
+                      //console.log("we need to add", option.id);
+                      this.props.firebase.addHolidays(this.state.uid, option.label, option.id, option.value, option.value, option.date, true);
+                      
+                    }
+                  }
+                  // holiday doesn't exist in DB so return out the retrieve holiday list
+                  else{
+                    createFlag = true;
+                    return;
+                  }
+                })
+                
+
+              })
+
+              // Now go and create holidays in DB again
+              if (createFlag){
+                this.props.firebase.addHolidays(this.state.uid, value[0].label, value[0].id, value[0].value, value[0].value, value[0].date, true);
+              }
+            }
+            // remove difference from database
+            else{
+              //console.log('Removed: ', difference[0].holidayId); 
               
-      
-        // remove difference from database
+              this.props.firebase.removeHolidays(this.state.uid, difference[0].holidayId);
+              //console.log("got here")
+            }
+          //}
+
+        }
+        
+        // it is the last item in celebrated list
         else{
-          //console.log('Removed: ', difference[0].holidayId); 
-          
-          this.props.firebase.removeHolidays(this.state.uid, difference[0].holidayId);
-          //console.log("got here")
+          this.props.firebase.removeAllHolidays(this.state.uid);
+          this.setState({selected:[]});
         }
 
 

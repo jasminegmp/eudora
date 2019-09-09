@@ -46,7 +46,7 @@ class HomePage extends React.Component {
             <div style = {{margin: 70}}>
                 <h1>Welcome Back to Eudora, {this.state.firstName}!</h1>
                 <Grid columns={2} stackable textAlign = "center" verticalAlign = "top">
-                    <Grid.Column>
+                <Grid.Column>
                         <Segment>
                             <h3>Update your avatar</h3>
                                 <Card centered>

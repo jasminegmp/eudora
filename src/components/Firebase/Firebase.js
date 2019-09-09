@@ -105,6 +105,8 @@ class Firebase{
 
     removeHolidays = (uid, targetHoliday) => this.db.ref(`profiles/${uid}/holidays/${targetHoliday}`).remove();
 
+    removeAllHolidays = (uid) => this.db.ref(`profiles/${uid}/holidays`).remove();
+
 }
 
 export default Firebase;
