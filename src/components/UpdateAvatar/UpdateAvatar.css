@@ -64,4 +64,12 @@
     transform: translate(-50%, -50%);
   }
 
+  .avatar-content{
+    text-align: center;
+  }
+
+  .avatar-content-item{
+    margin: 10px !important;
+  }
+
   

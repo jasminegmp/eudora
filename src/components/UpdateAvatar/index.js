@@ -103,16 +103,16 @@ class UpdateAvatarBase extends React.Component {
                                         <Icon name='camera' />
                                     </Button>}
                                 content={
-                                    <div>
+                                    <div className = "avatar-content">
                                         <AvatarEdit
+                                                className = "avatar-content-item"
                                                 width={350}
                                                 height={350}
                                                 onCrop={this.onCrop}
                                                 onClose={this.editComplete}
-                                                // src={this.state.src}
                                                 />
-                                        <Button onClick = {this.editComplete}>
-                                        Done
+                                        <Button onClick = {this.editComplete}  className = "avatar-content-item">
+                                            Done
                                         </Button>
                                     </div>
                                 }
