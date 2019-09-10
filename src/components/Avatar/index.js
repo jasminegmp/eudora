@@ -7,7 +7,7 @@ function Avatar(props){
 	//console.log(props);
     //console.log(props.result);
     return(
-            <Image style = {{border: "none", margin: "auto", width: "150px", height: "150px"}}src={props.photoUrl} />
+            <Image style = {{border: "none", margin: "auto", width: "150px", height: "150px", objectFit: "cover"}}src={props.photoUrl} />
 
     );
 };
