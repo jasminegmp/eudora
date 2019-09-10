@@ -1,11 +1,12 @@
 import React from 'react';
-import {Segment, Icon} from 'semantic-ui-react';
+import {Popup, Icon, Button} from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
 import 'firebase/storage';
 import app from 'firebase/app';
 import {withRouter} from 'react-router-dom';
 import Avatar from '../Avatar';
 import './UpdateAvatar.css';
+import AvatarEdit from 'react-avatar-edit';
 
 // a form
 class UpdateAvatarBase extends React.Component {
@@ -18,8 +19,12 @@ class UpdateAvatarBase extends React.Component {
             avatarName: "",
             avatarURL: "",
             file: "",
-            uploadComplete: false
+            uploadComplete: false,
+            preview: null,
+            isOpen: false
         }
+        this.onCrop = this.onCrop.bind(this)
+        this.onClose = this.onClose.bind(this)
     }
 
     componentDidMount(){
@@ -33,48 +38,58 @@ class UpdateAvatarBase extends React.Component {
             });
     }
 
-    
 
-
-    uploadImage = event => {
+    editComplete = event => {
+        
         const user = this.props.firebase.currentUser();
         const avatarName = "avatar-" + user.uid + "-" + Date.now();
+        console.log(this.state.preview);
 
-        this.setState({uploadComplete: false});
+        let storageRef = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${avatarName}`);
+       
+        fetch(this.state.preview)
+            .then(res => res.blob())
+            // first store cropped image into firebase storage
+            .then(blob =>
+                storageRef.put(blob).then(function(snapshot) {
+                    console.log(snapshot)
+                    console.log('Uploaded a blob!');
+                })
+            )
+            // then get db to correctly upload avatar with new blob
+            .then(() => {
 
-        event.preventDefault();
-        
-        var uploadTask = this.props.firebase.storage.ref(`avatar/${user.uid}`).child(`${avatarName}`).put(event.target.files[0]);
-          
-          
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
-        uploadTask.on('state_changed', (snapshot) =>{
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-        }, (error) =>  {
-            // Handle unsuccessful uploads
-        }, () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            uploadTask.snapshot.ref.getDownloadURL()
-            .then(url =>  this.setState({ avatarURL: url }))
-            .then(() => this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL));
+                storageRef.getDownloadURL()
+                .then(url =>  this.setState({ avatarURL: url }))
+                .then(() => this.props.firebase.updateAvatarDb(user.uid, this.state.avatarURL));
             });
- 
-            this.setState({uploadComplete: true})
-
+        this.setState({ isOpen: false });
     };
 
+    onClose() {
+        this.setState({preview: null});
+        this.setState({ isOpen: false });
+       // this.props.firebase.updateAvatarDb(this.state.uid, this.state.preview);
+    }
+    
+    onCrop(preview) {
+        this.setState({preview, avatarURL: this.state.preview});
+    }
 
+    toggleOpen = () => {
+        console.log("got here");
+        this.setState(prevState => ({
+            isOpen: !prevState.isOpen
+          }));
+      }
+    
+      handleClose = () => {
+        this.setState({ isOpen: false })
+      }
 
     render() {
-        const {error} = this.state;
-
+        const {uid, preview, error} = this.state;
+        
         return(
             <div>
                 
@@ -82,18 +97,44 @@ class UpdateAvatarBase extends React.Component {
                     <div className="field">
                         <div className="upload">
                             <div className = "upload-content">
-                                Upload <Icon centered name='camera'/>
+                            <Popup
+                                trigger={ 
+                                    <Button circular icon>
+                                        <Icon name='camera' />
+                                    </Button>}
+                                content={
+                                    <div>
+                                        <AvatarEdit
+                                                width={350}
+                                                height={350}
+                                                onCrop={this.onCrop}
+                                                onClose={this.editComplete}
+                                                // src={this.state.src}
+                                                />
+                                        <Button onClick = {this.editComplete}>
+                                        Done
+                                        </Button>
+                                    </div>
+                                }
+                                open={this.state.isOpen}
+                                position='top center'
+                                onOpen={this.toggleOpen}
+                            />
                             </div>
                         </div>
                         <Avatar className = "avatar" uid = {this.state.uid} photoUrl = {this.state.avatarURL}/>
                     </div>
                     <input style = {{display:"none"}} type="file" onChange = {this.uploadImage} accept="image/png, image/jpeg"></input>
                 </label>
+
+                
+                
                 
                 <p style={{color: '#4183c4'}}>{this.state.uploadComplete? "Success!" : null}</p>
                 {error && <p>{error.message}</p>} 
             </div>
         )
+        
     }
 
 
