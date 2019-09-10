@@ -5,6 +5,7 @@ import UpdateAvatar from '../UpdateAvatar';
 import {withRouter} from 'react-router-dom';
 import {Grid, Segment, Image, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
+import FollowingModule from '../FollowingModule'
 
 class HomePage extends React.Component {
 
@@ -47,18 +48,25 @@ class HomePage extends React.Component {
                 <h1>Welcome Back to Eudora, {this.state.firstName}!</h1>
                 <Grid columns={2} stackable textAlign = "center" verticalAlign = "top">
                     <Grid.Column>
+                        <h3>Your Wishlist</h3>
+                        <Segment>
+                            <MyWishlistPage smallerView={true}/>
+                        </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <h3>Following</h3>
+                        <Segment>
+                            <FollowingModule/>
+                        </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
                         <h3>Update your avatar</h3>
                         <Card centered>
                             <UpdateAvatar uid = {this.state.uid}/>
                         </Card>
                     </Grid.Column>
-                    <Grid.Column>
-                        <h3>{this.state.firstName}'s Wishlist</h3>
-                        <Segment>
-                            <MyWishlistPage smallerView={true}/>
-                        </Segment>
-                    </Grid.Column>
                     <Grid.Column >
+                        <h3>Update your info</h3>
                         <GiftReceivingTimesForm/>
                     </Grid.Column>
                 </Grid>

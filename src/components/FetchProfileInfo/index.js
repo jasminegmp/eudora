@@ -3,7 +3,7 @@ import {Card, Grid, Segment} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import PurchasedItem from '../PurchasedItem';
-import Avatar from '../Avatar';
+import UpdateAvatar from '../UpdateAvatar';
 import ItemPhoto from '../ItemPhoto';
 
 class FetchProfileInfo extends React.Component {
@@ -119,7 +119,7 @@ class FetchProfileInfo extends React.Component {
                 <Grid.Column width={5}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
-                      <Avatar uid = {this.state.uid} photoUrl = {photoUrl}/>
+                      <UpdateAvatar uid = {this.state.uid}/>
                     </Card>
                     {loading && <div>Loading ...</div>}
                     <Segment>

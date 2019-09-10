@@ -6,19 +6,8 @@ import {Link, withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import Avatar from '../Avatar';
 
-const FollowingPage = () => {
-    return (
-        <div style = {{margin: 70}}>
-        <Menu>
-            <Menu.Item as={Link} to={ROUTES.PEOPLE} >All Users</Menu.Item>
-            <Menu.Item active={true}>Following</Menu.Item>
-          </Menu>
-          <Following/>
-        </div>
-    );
-};
 
-class FollowingBase extends React.Component {
+class FollowingModule extends React.Component {
     constructor(props) {
         super(props);
     
@@ -103,7 +92,12 @@ class FollowingBase extends React.Component {
             {followingProfiles ? (
                 <ProfileList profiles={followingProfiles} />
             ) : (
-                <div>You are not following anyone ...</div>
+                <div>
+                  <div>You are not following anyone ...</div>
+                  <Link to={ROUTES.PEOPLE}>
+                    <button style={{width: "50%", margin: "auto", margin: "20px"}} className = "ui button " type = "button"  >Discover People to Follow</button>
+                  </Link>
+                </div>
             )}
           </div>
         );
@@ -112,8 +106,8 @@ class FollowingBase extends React.Component {
 
 
 const ProfileList = ({ profiles }) => (
-  <Grid stackable columns={4}>
-    {profiles.map(profile => (
+  <Grid stackable columns={2}>
+    {profiles.slice(0, 4).map(profile => (
       <Grid.Column key={profile.uid}>
       <Card centered>
         <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
@@ -129,12 +123,13 @@ const ProfileList = ({ profiles }) => (
       </Card>
       </Grid.Column>
     ))} 
+    <Link to={ROUTES.FOLLOWING} style={{width: "100%", margin: "auto", marginBottom: "10px"}}>
+      <button className = "ui button " type = "button"  >See More Following</button>
+    </Link>
   </Grid>
 );
 
 
-const Following = withRouter(withFirebase(FollowingBase));
-
 const condition = authUser => !!authUser;
-export default withAuthorization(condition)(FollowingPage);
+export default withAuthorization(condition)(FollowingModule);
 
