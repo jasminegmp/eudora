@@ -77,15 +77,11 @@ class UpdateAvatarBase extends React.Component {
     }
 
     toggleOpen = () => {
-        console.log("got here");
         this.setState(prevState => ({
             isOpen: !prevState.isOpen
           }));
       }
     
-      handleClose = () => {
-        this.setState({ isOpen: false })
-      }
 
     render() {
         const {uid, preview, error} = this.state;
@@ -113,6 +109,9 @@ class UpdateAvatarBase extends React.Component {
                                                 />
                                         <Button onClick = {this.editComplete}  className = "avatar-content-item">
                                             Done
+                                        </Button>
+                                        <Button onClick = {this.onClose}  className = "avatar-content-item">
+                                            Cancel
                                         </Button>
                                     </div>
                                 }
