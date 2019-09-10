@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Card, Grid} from 'semantic-ui-react';
+import {Image, Card, Grid, Button} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import RemoveItemFromWishlist from '../RemoveItemFromWishlist';
 import ItemPhoto from '../ItemPhoto';
@@ -70,6 +70,25 @@ class WishlistBase extends React.Component {
         }
       }
 
+      renderAddItems = (items) =>{
+        if (this.state.smallerView){
+          return (
+            <div>
+              There are no items ...<br/>
+              <Link to = {ROUTES.SHOP_ETSY}><Button style = {{marginTop: "20px"}} >+ Add items</Button></Link>
+            </div>
+          )
+
+        }else{
+          return (
+            <div style = {{margin: "100px", textAlign: "center"}}>
+              There are no items ...<br/>
+              <Link to = {ROUTES.SHOP_ETSY}><Button style = {{marginTop: "20px"}} >+ Add items</Button></Link>
+            </div>
+          )
+        }
+      }
+
     
       render() {
         const { items, loading} = this.state;
@@ -79,7 +98,8 @@ class WishlistBase extends React.Component {
             {items ? (
                   this.renderItems(items) 
             ) : (
-                <div>There are no items ...</div>
+                
+                this.renderAddItems(items) 
             )}
           </div>
         );
