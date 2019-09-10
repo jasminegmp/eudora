@@ -151,9 +151,16 @@ const SmallerItemList = ({ items }) => (
       </Grid.Column>
     ))} 
     <br/>
-  <Link to={ROUTES.MY_WISHLIST} style={{width: "100%", margin: "auto", marginBottom: "10px"}}>
-   <button className = "ui button " type = "button"  >See Entire Wishlist</button>
-   </Link>
+    <Grid.Column>
+      <Link to={ROUTES.MY_WISHLIST}>
+        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button"  >See Entire Wishlist</button>
+      </Link>
+    </Grid.Column>
+    <Grid.Column>
+      <Link to={ROUTES.SHOP_ETSY}>
+        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button"  >+ Add Items</button>
+      </Link>
+    </Grid.Column>
    </Grid>
 );
 

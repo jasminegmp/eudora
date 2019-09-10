@@ -106,27 +106,31 @@ class FollowingModule extends React.Component {
 
 
 const ProfileList = ({ profiles }) => (
-  <Grid stackable columns={2}>
-    {profiles.slice(0, 4).map(profile => (
-      <Grid.Column key={profile.uid}>
-      <Card centered>
-        <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
-          <Avatar uid = {profile.uid} photoUrl = {profile.photoUrl}/>
+  <div>
+    <Grid stackable columns={2}>
+      {profiles.slice(0, 4).map(profile => (
+        <Grid.Column key={profile.uid}>
+        <Card centered>
+          <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
+            <Avatar uid = {profile.uid} photoUrl = {profile.photoUrl}/>
+          </Link>
+          <Card.Content>
+            <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
+            <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
+            <Card.Meta>
+              <p>{profile.username}</p>
+            </Card.Meta>
+          </Card.Content>
+        </Card>
+        </Grid.Column>
+      ))} 
+    </Grid>
+    <Grid.Column>
+        <Link to={ROUTES.FOLLOWING}>
+          <button style={{width: "50%", margin: "auto", marginBottom: "10px", marginTop: "20px"}} className = "ui button " type = "button"  >See More Following</button>
         </Link>
-        <Card.Content>
-          <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
-          <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
-          <Card.Meta>
-            <p>{profile.username}</p>
-          </Card.Meta>
-        </Card.Content>
-      </Card>
       </Grid.Column>
-    ))} 
-    <Link to={ROUTES.FOLLOWING} style={{width: "100%", margin: "auto", marginBottom: "10px"}}>
-      <button className = "ui button " type = "button"  >See More Following</button>
-    </Link>
-  </Grid>
+    </div>
 );
 
 
