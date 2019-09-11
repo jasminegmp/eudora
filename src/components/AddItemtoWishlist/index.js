@@ -9,6 +9,7 @@ class AddItemtoWishlist extends React.Component {
         super(props);
         this.state = {
             note: '',
+            mine: this.props.mine,
             title: this.props.title,
             id: this.props.id,
             image: this.props.image,
@@ -58,21 +59,31 @@ class AddItemtoWishlist extends React.Component {
         
         return(
             <div>
-                <label>Leave a note (optional)</label>
-                <Form.Input style = {{width: '100%'}}
-                            name = "note"
-                            value = {this.state.note}
-                            onChange = {this.onChange}
-                            type = "text"
-                            placeholder = "Example: Size small"
-                />		
-                <br></br>
-                <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
-                    Add item to wishlist</Button>
-	
-                    	
+                { this.state.mine ?
+                (
+                    <div>
+                        <label>Leave a note (optional)</label>
+                        <Form.Input style = {{width: '100%'}}
+                                    name = "note"
+                                    value = {this.state.note}
+                                    onChange = {this.onChange}
+                                    type = "text"
+                                    placeholder = "Example: Size small"
+                        />		
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
+                        Add item to wishlist</Button>
+                    </div>
                     
-                    {this.state.clicked ? <div className ="ui red floating label">Added</div> : null}
+                ):
+                (
+                    <div>
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
+                        Add item to my own wishlist</Button>
+                    </div>
+                )
+                }
+                {this.state.clicked ? <div className ="ui red floating label">Added</div> : null}
+                
 
             </div>
         );

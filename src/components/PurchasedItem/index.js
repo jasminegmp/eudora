@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Label} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
+import './PurchasedItem.css'
 
 
 class PurchasedItem extends React.Component {
@@ -54,17 +55,12 @@ class PurchasedItem extends React.Component {
     render(){
         
         return(
-            <div>   
-                    {this.state.purchased ? <Label attached ="top" className = "blue">Purchased</Label> : null}
-                    <div className="field inline">
-                        <Form.Checkbox
-                            name = "purchased"
-                            checked = {this.state.purchased}
-                            onChange = {this.onChange}
-                            label = "Purchased"
-                        />
-                    </div>
-            </div>
+            <Form.Checkbox
+                name = "purchased"
+                checked = {this.state.purchased}
+                onChange = {this.onChange}
+                label = "Purchased"
+            />
         );
     }
 }

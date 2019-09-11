@@ -22,7 +22,7 @@ function ItemList(props){
 							</Card.Meta>
 							</Card.Content>
 							<Card.Content extra>
-									<AddItemtoWishlist id = {item.listing_id} image = {item.Images[0].url_170x135} title = {item.title} price = {item.price} url = {item.url}/>
+									<AddItemtoWishlist mine = {true} id = {item.listing_id} image = {item.Images[0].url_170x135} title = {item.title} price = {item.price} url = {item.url}/>
 							</Card.Content>
 						</Card>
 					</Grid.Column>

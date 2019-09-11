@@ -5,6 +5,7 @@ import { withFirebase } from '../Firebase';
 import PurchasedItem from '../PurchasedItem';
 import UpdateAvatar from '../UpdateAvatar';
 import ItemPhoto from '../ItemPhoto';
+import AddItemtoWishlist from '../AddItemtoWishlist';
 
 class FetchProfileInfo extends React.Component {
     
@@ -160,17 +161,19 @@ class FetchProfileInfo extends React.Component {
                                           <Card.Header>{item.title.substring(0,50)}...</Card.Header>
                                       </a>
                                     <Card.Meta>
-                                    {item.seller ? <p>Seller:  {item.seller}</p> : null}
-                                    {item.price ? <p>$ {item.price}</p> : null}
-                                      <Card.Meta>
-                                        {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
-                                        
-                                      </Card.Meta>
+                                      {item.seller ? <p>Seller:  {item.seller}</p> : null}
+                                      {item.price ? <p>$ {item.price}</p> : null}
+                                      {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
                                     </Card.Meta>
                                     {this.state.uid !== this.state.currentUser ? 
                                       <PurchasedItem uid = {this.state.uid} id ={item.id}/> :
                                       null
                                     }
+                                    {this.state.uid !== this.state.currentUser ? 
+                                      <AddItemtoWishlist mine = {false} id = {item.id} image = {item.image} title = {item.title} price = {item.price} url = {item.url}/>:
+                                      null
+                                    }
+                                    
 
 
                                   </Card.Content>
