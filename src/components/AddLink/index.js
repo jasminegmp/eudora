@@ -3,6 +3,15 @@ import {Segment, Form, Menu, Button, Grid} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import {Link} from 'react-router-dom';
+import fetchJsonp from 'fetch-jsonp';
+
+//https://openapi.etsy.com/v2/listings/612622551.js?&api_key=*
+const PATH_BASE = 'https://openapi.etsy.com/v2';
+const PATH_SEARCH = '/listings/';
+const LISTING_PATH = '.js?'
+const LISTING_IMAGE = '/images.js?'
+const API_PATH = '&api_key=';
+const ETSY_KEY = require('../../e_config').default;
 
 class AddLinkPage extends React.Component {
     constructor(props){
@@ -21,6 +30,10 @@ class AddLinkPage extends React.Component {
         }
     }
 
+    setSearchImage = result => {
+        this.setState({image: result.results[0].url_170x135});
+    }
+
     componentDidMount(){
         var defaultImage = this.props.firebase.storage.ref(`items/gift.svg`);
         defaultImage.getDownloadURL().then((url) => { this.setState({ image: url })});
@@ -35,28 +48,78 @@ class AddLinkPage extends React.Component {
         this.setState({isSubmitted: false});  
     }
 
+    getJsonResponse = async (event, path) => {
+        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+        const response = await fetchJsonp(path, {
+          timeout: 10000,
+        });
+        await response.json()
+          .then(result => this.setSearchImage(result))
+          .then(this.setState({newSearchTerm: false}))
+          .catch(error => console.log(error))
+          .then(
+            () => {this.uploadedDb(event)})
+    }
+
+    uploadedDb = event => {
+        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+        const user = this.props.firebase.currentUser();
+        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, false, note, seller)
+        .then(this.setState({            
+            title: '',
+            price : '',
+            note: '',
+            url: '',
+            id: null,
+            image: '',
+            seller: null,
+            isSubmitted: false,
+            newSearchTerm: false,
+            error: null}))
+        .catch(error => {
+            this.setState({error});
+        });
+    }
+
     onSubmit =  async (event) => {
 
-        const { price, url, note, id, title, image, seller} = this.state;
-        const user = this.props.firebase.currentUser();
+        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+        
 
 
         event.preventDefault();
-        this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, false, note, seller)
-            .then(() => {
-                this.setState({
-                    title: '',
-                    price : '',
-                    note: '',
-                    url: '',
-                    result: null,
-                    newSearchTerm: false,
-                    error: null
-                });
-            })
-            .catch(error => {
-                this.setState({error});
-            });
+
+
+        if (seller === 'Etsy'){
+            // extract listing ID from link
+            // length of this is 29 "https://www.etsy.com/listing/"
+            let substrUrl = (url.slice(29)).split('/')[0];
+
+            // make API call to etsy to get information of data
+            this.setState( async () => {
+                const path = `${PATH_BASE}${PATH_SEARCH}${substrUrl}${LISTING_IMAGE}${API_PATH}${ETSY_KEY}`;
+                console.log(path);
+                this.setState({path});
+                this.getJsonResponse(event, path);
+
+                }
+            );
+        }
+        else{
+            this.uploadedDb(event);
+        }
+
+
+            //reassign values to pass into DB from API call to etsy
+            
+/*
+            // make API call to etsy to get image
+            this.setState({listingId: substrUrl.slice(0,9)}, async () => {
+                const path = `${PATH_BASE}${PATH_SEARCH}${this.state.listingId}${LISTING_IMAGE}${API_PATH}${ETSY_KEY}`;
+                console.log(path);
+                this.setState({path});
+                this.getJsonResponse(event, path);  
+            });*/
     
     
         this.setState({isSubmitted: true});     
@@ -94,9 +157,10 @@ class AddLinkPage extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={16}>
                             <h4>Who is the Seller?</h4>
+                            
                                 <Button value = "Amazon" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Amazon</Button>
-                                <Button value = "Ebay" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Ebay</Button>
                                 <Button value = "Etsy" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Etsy</Button>
+                                <Button value = "Ebay" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Ebay</Button>
                                 <Button value = "Other" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Other</Button>         
                         </Grid.Column>
                         <Grid.Column width={16}>

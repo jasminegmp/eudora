@@ -1,7 +1,6 @@
 import React from 'react';
-import {Form, Label} from 'semantic-ui-react';
+import {Checkbox} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
-import './PurchasedItem.css'
 
 
 class PurchasedItem extends React.Component {
@@ -55,7 +54,7 @@ class PurchasedItem extends React.Component {
     render(){
         
         return(
-            <Form.Checkbox
+            <Checkbox
                 name = "purchased"
                 checked = {this.state.purchased}
                 onChange = {this.onChange}

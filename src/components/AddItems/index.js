@@ -48,7 +48,6 @@ class AddItemsPage extends React.Component {
             isSubmitted: false,
             isLoading: false,
             offset: 0,
-            queryPath: '',
             error: null
         }
     }
