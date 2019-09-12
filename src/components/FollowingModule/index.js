@@ -69,7 +69,8 @@ class FollowingModule extends React.Component {
                 });
                 
                 this.setState({ followingProfiles: tempArray, loading: false });
-                } else {
+                } 
+                else {
                 this.setState({followingProfiles: null, loading: false });
                 }
             }

@@ -120,7 +120,7 @@ const ProfileList = ({ profiles }) => (
         <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
           <Avatar uid = {profile.uid} photoUrl = {profile.photoUrl}/>
         </Link>
-        <Card.Content>
+        <Card.Content centered>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
           <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
           <Card.Meta>

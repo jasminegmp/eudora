@@ -1,12 +1,13 @@
 import React from 'react';
-import {Search, Menu, Label} from 'semantic-ui-react';
+import {Search, Menu, Label, Grid, Card} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import {Link, withRouter} from 'react-router-dom';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-
+import Avatar from '../Avatar';
+import FollowUnfollowButton from '../FollowUnfollowButton';
 
 const options = [
     {
@@ -62,6 +63,7 @@ class SearchForm extends React.Component {
             options: options,
             photoUrl: null,
             value: '',
+            selectedProfile: null,
 
         };
 
@@ -93,9 +95,26 @@ class SearchForm extends React.Component {
         });
       }
 
-    handleResultSelect = (e, { result }) => {
-        this.setState({ value:  (result.firstName + " " + result.lastName), selectedUid: (result.uid)})
+      componentWillUnmount() {
+        this.props.firebase.profiles().off();
+        this.isUnmounted = true;
         
+      }
+
+    handleResultSelect = (e, { result }) => {
+        const { profiles, selectedProfile} = this.state
+        this.setState({ value:  (result.firstName + " " + result.lastName), selectedUid: (result.uid)});
+
+        // find matching name in profiles list 
+
+        var userData = profiles.filter(function(profile) {
+          return result.uid === profile.uid;
+        })[0];
+        this.setState({selectedProfile: userData});
+
+        //render
+
+
         
     }
   
@@ -117,7 +136,7 @@ class SearchForm extends React.Component {
 
 
     render(){
-        const { isLoading, value, results } = this.state
+        const { isLoading, value, results, selectedProfile } = this.state
         return(
             <div style = {{margin: 70}}>
             <Menu>
@@ -130,17 +149,43 @@ class SearchForm extends React.Component {
                 resultRenderer={resultRenderer}
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
+                placeholder={"Search for a friend"}
                 onSearchChange={_.debounce(this.handleSearchChange, 500, {
                 leading: true,
                 })}
                 results={results}
                 value={value}
             />
+            {selectedProfile ? (
+                <Profile selectedProfile={selectedProfile} />
+            ) : (
+                <div style = {{marginTop: "10px"}}>There are no profiles ...</div>
+            )}
             </div>
         );
     }
 }
 
+
+const Profile = ({ selectedProfile }) => (
+  <Grid centered stackable columns={1} style = {{marginTop: "10px"}}>
+      <Grid.Column key={selectedProfile.uid}>
+      <Card centered>
+        <Link to={{pathname: `/user/${selectedProfile.uid}`, params: selectedProfile.uid}}>
+          <Avatar uid = {selectedProfile.uid} photoUrl = {selectedProfile.photoUrl}/>
+        </Link>
+        <Card.Content>
+          <Card.Header>{selectedProfile.firstName} {selectedProfile.lastName}</Card.Header>
+          <Link to={{pathname: `/user/${selectedProfile.uid}`, params: selectedProfile.uid}} >Profile</Link>
+          <Card.Meta>
+            <p>{selectedProfile.username}</p>
+            <FollowUnfollowButton targetUid = {selectedProfile.uid}/>
+          </Card.Meta>
+        </Card.Content>
+      </Card>
+      </Grid.Column>
+  </Grid>
+);
 
 const condition = authUser => authUser;
 
