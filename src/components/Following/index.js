@@ -12,6 +12,7 @@ const FollowingPage = () => {
         <Menu>
             <Menu.Item as={Link} to={ROUTES.PEOPLE} >All Users</Menu.Item>
             <Menu.Item active={true}>Following</Menu.Item>
+            <Menu.Item as={Link} to={ROUTES.SEARCH}>Search</Menu.Item>
           </Menu>
           <Following/>
         </div>

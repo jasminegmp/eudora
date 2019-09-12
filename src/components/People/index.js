@@ -13,6 +13,7 @@ const PeoplePage = () => {
           <Menu>
             <Menu.Item active={true}>All Users</Menu.Item>
             <Menu.Item as={Link} to={ROUTES.FOLLOWING}>Following</Menu.Item>
+            <Menu.Item as={Link} to={ROUTES.SEARCH}>Search</Menu.Item>
           </Menu>
           <Profiles/>
           

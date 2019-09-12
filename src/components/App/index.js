@@ -15,6 +15,7 @@ import AboutPage from '../About';
 import LandingPage from '../Landing';
 import FollowingPage from '../Following';
 import AddLinkPage from '../AddLink';
+import SearchForm from '../SearchForm';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -38,6 +39,7 @@ const App = () => {
             <Route exact path={ROUTES.FOLLOWING}  component = {FollowingPage}/>
             <Route exact path={ROUTES.LANDING}  component = {LandingPage}/>
             <Route exact path={ROUTES.ADD_LINK}  component = {AddLinkPage}/>
+            <Route exact path={ROUTES.SEARCH}  component = {SearchForm}/>
             
 
         </Router>
