@@ -143,7 +143,8 @@ const ProfileList = ({ profiles, currentLanguage}) => (
     <Grid stackable columns={2}>
       {profiles.slice(0, 4).map(profile => (
         <Grid.Column key={profile.uid}>
-        <Card centered>
+          <div>
+        <Card>
           <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
             <Avatar uid = {profile.uid} photoUrl = {profile.photoUrl}/>
           </Link>
@@ -160,6 +161,7 @@ const ProfileList = ({ profiles, currentLanguage}) => (
             </Card.Meta>
           </Card.Content>
         </Card>
+        </div>
         </Grid.Column>
       ))} 
     </Grid>
@@ -172,6 +174,7 @@ const ProfileList = ({ profiles, currentLanguage}) => (
             } 
           </button>
         </Link>
+        
       </Grid.Column>
     </div>
 );
