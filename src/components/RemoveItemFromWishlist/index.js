@@ -9,9 +9,35 @@ class RemoveItemFromWishlist extends React.Component {
         super(props);
         this.state = {
             id: this.props.id,
+            currentLanguage: null,
             error: null
         };
 
+    }
+
+    componentDidMount(){
+
+        // Grab current language selection
+        const user = this.props.firebase.currentUser();
+        this.props.firebase.getLanguage(user.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+  
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(user.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
     }
 
     handleClick = (event) => {
@@ -44,10 +70,16 @@ class RemoveItemFromWishlist extends React.Component {
       
 
     render(){
-        
+        const {currentLanguage} = this.state;
         return(
             <div>
-                <Button style = {{marginTop: "5px"}} className = "red" onClick = {this.handleClick}>Remove item</Button>
+                <Button style = {{marginTop: "5px"}} className = "red" onClick = {this.handleClick}>
+                    
+                    {currentLanguage === 'english' ? 
+                        <div>Remove item</div>:
+                        <div>아이템 취소</div>
+                    } 
+                </Button>
             </div>
         );
     }

@@ -108,10 +108,10 @@ class UpdateAvatarBase extends React.Component {
                                                 onClose={this.editComplete}
                                                 />
                                         <Button onClick = {this.editComplete}  className = "avatar-content-item">
-                                            Done
+                                            <Icon style = {{textAlign: "right"}} name='check' />
                                         </Button>
                                         <Button onClick = {this.onClose}  className = "avatar-content-item">
-                                            Cancel
+                                            <Icon style = {{textAlign: "right"}} name='close' />
                                         </Button>
                                     </div>
                                 }

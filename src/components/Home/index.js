@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom';
 import {Grid, Segment, Image, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
 import FollowingModule from '../FollowingModule'
+import ChangeLanguagesForm from '../ChangeLanguages';
 
 class HomePage extends React.Component {
 
@@ -17,10 +18,37 @@ class HomePage extends React.Component {
             photoUrl: '',
             uid: this.props.firebase.currentUser().uid,
             firstName: '',
+            currentLanguage: null,
             error: null
         };
     }
     componentDidMount(){
+
+
+
+        // Grab current language selection
+
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
+
+
         // Grab first name
         this.props.firebase.getFirstName(this.state.uid).on('value', snapshot => {
             if (this.isUnmounted) {
@@ -43,30 +71,47 @@ class HomePage extends React.Component {
 
 
     render(){
+        const {currentLanguage} = this.state;
         return (
             <div style = {{margin: 70}}>
-                <h1>Welcome Back to Eudora, {this.state.firstName}!</h1>
+                
+                {currentLanguage === 'english' ? 
+                    <h1>Welcome Back to Eudora, {this.state.firstName}!</h1>:
+                    <h1>Eudora에 다시 오신 것을 환영합니다, {this.state.firstName}님!</h1>
+                } 
                 <Grid columns={2} stackable textAlign = "center" verticalAlign = "top">
                     <Grid.Column>
-                        <h3>Your Wishlist</h3>
+                        {currentLanguage === 'english' ? 
+                            <h3>Your Wishlist</h3>:
+                            <h3>당신의 위시리스트</h3>
+                        }
                         <Segment>
                             <MyWishlistPage smallerView={true}/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <h3>Following</h3>
+                        {currentLanguage === 'english' ? 
+                            <h3>Following</h3>:
+                            <h3> 당신의 팔로우</h3>
+                        }
                         <Segment>
                             <FollowingModule/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <h3>Update your avatar</h3>
+                        {currentLanguage === 'english' ? 
+                            <h3>Update your avatar</h3>:
+                            <h3> 당신의 프로필 사진 업데이트</h3>
+                        }
                         <Card centered>
                             <UpdateAvatar uid = {this.state.uid}/>
                         </Card>
                     </Grid.Column>
                     <Grid.Column >
-                        <h3>Update your info</h3>
+                        {currentLanguage === 'english' ? 
+                            <h3>Update your info</h3>:
+                            <h3> 당신의 정보를 업데이트</h3>
+                        }
                         <GiftReceivingTimesForm/>
                     </Grid.Column>
                 </Grid>

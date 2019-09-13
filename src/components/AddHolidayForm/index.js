@@ -15,8 +15,31 @@ class AddHolidayFormBase extends React.Component {
             holidayName: '',
             isSubmitted: false,
             uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
             error: null
         }
+    }
+
+    componentDidMount(){
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
     }
 
     onChange = (date) => {
@@ -68,13 +91,17 @@ class AddHolidayFormBase extends React.Component {
     }
 
     render() {
-        const {isSubmitted, date, holidayName, error} = this.state;
+        const {isSubmitted, date, holidayName, currentLanguage, error} = this.state;
         const isInvalid = 
         date === null && holidayName === '';
 
         return(
             <div style={{width:"100%"}}>
-                <h4>Don't see a holiday?</h4>
+                {currentLanguage === 'english' ? 
+                    <h4>Don't see a holiday?</h4>:
+                    <h4>추가하고 싶은 기념일</h4>
+                } 
+                
                 <Grid.Column width={16}>
                     <DatePicker
                     dateFormat="yyyy/MM/dd"
@@ -94,7 +121,13 @@ class AddHolidayFormBase extends React.Component {
                         style = {{marginTop: 10, width: "177px"}}
                     />
                 </Grid.Column>
-                <button className = "ui button " disabled = {isInvalid} onClick = {this.onSubmit} disabled = {isInvalid || isSubmitted === true} style = {{marginTop: 10}}>Add Holiday to List</button>
+                <button className = "ui button " disabled = {isInvalid} onClick = {this.onSubmit} disabled = {isInvalid || isSubmitted === true} style = {{marginTop: 10}}>
+                    
+                    {currentLanguage === 'english' ? 
+                        <div>Add Holiday to List</div>:
+                        <div>기념일 추가</div>
+                    } 
+                </button>
                 {error && <p>{error.message}</p>} 
             </div>
  

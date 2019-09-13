@@ -26,6 +26,8 @@ class AddLinkPage extends React.Component {
             seller: null,
             isSubmitted: false,
             newSearchTerm: false,
+            currentLanguage: null,
+            uid: this.props.firebase.currentUser().uid,
             error: null
         }
     }
@@ -40,6 +42,21 @@ class AddLinkPage extends React.Component {
 
         const randomNumber = Math.floor((Math.random() * (99999999)));
         this.setState({id: randomNumber});
+
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+  
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            
+        });
+        
     }
 
     onChange = (event) => {
@@ -108,19 +125,6 @@ class AddLinkPage extends React.Component {
         else{
             this.uploadedDb(event);
         }
-
-
-            //reassign values to pass into DB from API call to etsy
-            
-/*
-            // make API call to etsy to get image
-            this.setState({listingId: substrUrl.slice(0,9)}, async () => {
-                const path = `${PATH_BASE}${PATH_SEARCH}${this.state.listingId}${LISTING_IMAGE}${API_PATH}${ETSY_KEY}`;
-                console.log(path);
-                this.setState({path});
-                this.getJsonResponse(event, path);  
-            });*/
-    
     
         this.setState({isSubmitted: true});     
     }
@@ -132,21 +136,35 @@ class AddLinkPage extends React.Component {
 
 
     render(){
-        const {title, price, note, url, error} = this.state;
+        const {title, price, note, url, currentLanguage, error} = this.state;
         const isInvalid = 
             url === '';
         return (
             <div style ={{margin: 70}}>
                 <Menu>
-                    <Menu.Item as={Link} to={ROUTES.SHOP_ETSY} >Shop Etsy</Menu.Item>
-                    <Menu.Item active={true}>Shop via Links</Menu.Item>
+                    <Menu.Item as={Link} to={ROUTES.SHOP_ETSY}>
+                    {currentLanguage === 'english' ? 
+                        <div>Shop Etsy</div>:
+                        <div>Etsy 쇼핑</div>
+                    } 
+                    </Menu.Item>
+                    <Menu.Item  active={true}>
+                    {currentLanguage === 'english' ? 
+                        <div>Shop via Links</div>:
+                        <div>링크따라서 쇼핑하기</div>
+                    } 
+                    </Menu.Item>
                 </Menu>
                 <form className = "ui form" onSubmit = {this.onSubmit}>
                     
                     <Segment stacked className = "very padded">
                       <Grid columns={2} stackable>
                         <Grid.Column width={16}>
-                            <h4>Paste an URL you would like to add to your wishlist here</h4>
+                            {currentLanguage === 'english' ? 
+                                <h4>Paste an URL you would like to add to your wishlist here</h4>:
+                                <h4>위시리스트에 추가하기 원하는 URL을 여기에 붙여넣기</h4>
+                            } 
+                            
                             <Form.Input
                                 name = "url"
                                 value = {url}
@@ -156,7 +174,11 @@ class AddLinkPage extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={16}>
-                            <h4>Who is the Seller?</h4>
+                            
+                            {currentLanguage === 'english' ? 
+                                <h4>Who is the Seller?</h4>:
+                                <h4>판매자</h4>
+                            } 
                             
                                 <Button value = "Amazon" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Amazon</Button>
                                 <Button value = "Etsy" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Etsy</Button>
@@ -164,7 +186,11 @@ class AddLinkPage extends React.Component {
                                 <Button value = "Other" type = "button" style = {{marginTop: 10}} onClick = {this.onButtonClick}>Other</Button>         
                         </Grid.Column>
                         <Grid.Column width={16}>
-                            <h4>Name of Item (Optional)</h4>
+                            
+                            {currentLanguage === 'english' ? 
+                                <h4>Name of Item (Optional)</h4>:
+                                <h4>아이템명 (선택)</h4>
+                            } 
                             <Form.Input
                                 name = "title"
                                 value = {title}
@@ -174,7 +200,10 @@ class AddLinkPage extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={16}>
-                            <h4>Price (Optional)</h4>
+                            {currentLanguage === 'english' ? 
+                                <h4>Price (Optional)</h4>:
+                                <h4>가격 (선택)</h4>
+                            } 
                             <Form.Input
                                 name = "price"
                                 value = {price}
@@ -184,7 +213,10 @@ class AddLinkPage extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={16}>
-                            <h4>Notes (Optional)</h4>
+                            {currentLanguage === 'english' ? 
+                                <h4>Notes (Optional)</h4>:
+                                <h4>메모 (선택)</h4>
+                            } 
                             <Form.Input
                                 name = "note"
                                 value = {note}
@@ -194,7 +226,12 @@ class AddLinkPage extends React.Component {
                             />
                         </Grid.Column>
                       </Grid>
-                        <button className = "ui button " disabled = {isInvalid} type = "submit" style = {{marginTop: 10}}>Add to Wishlist</button>
+                        <button className = "ui button " disabled = {isInvalid} type = "submit" style = {{marginTop: 10}}>
+                            {currentLanguage === 'english' ? 
+                                <div>+ Add to wishlist</div>:
+                                <div>+ 아이템 추가</div>
+                            } 
+                        </button>
                         <p style={{color: 'green'}}>{this.state.isSubmitted? "Success! Added to wishlist." : null}</p>
                         {error && <p>{error}</p>} 
                     </Segment>

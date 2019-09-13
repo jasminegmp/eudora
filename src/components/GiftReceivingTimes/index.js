@@ -15,6 +15,7 @@ class GiftReceivingTimesForm extends React.Component {
             isLoading: true,
             uid: this.props.firebase.currentUser().uid,
             error: null,
+            currentLanguage: null,
             options: [
               { value: 'Birthday', label: 'Birthday', id: 'birthday', date: "2020-01-01T07:00:00.000Z", celebrated: false},
               { value: 'Valentine\'s day', label: 'Valentine\'s day',id: 'valentines', date: "2020-02-14T07:00:00Z", celebrated: false },
@@ -29,6 +30,26 @@ class GiftReceivingTimesForm extends React.Component {
 
 
     componentWillMount() {
+
+          this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
         
         this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
             if (this.isUnmounted) {
@@ -149,14 +170,17 @@ class GiftReceivingTimesForm extends React.Component {
     }
 
     render(){
-      const {error} = this.state;
+      const {error, currentLanguage} = this.state;
       return(
 
         <form className = "ui form" onSubmit = {this.onSubmit}>
         <Segment stacked>
             <GetBirthdayForm/>
+            {currentLanguage === 'english' ? 
+                        <h4>What do you celebrate?</h4>:
+                        <h4>기념일</h4>
+            } 
             
-            <h4>What do you celebrate?</h4>
             <Select
               value={this.state.selected}
               isMulti

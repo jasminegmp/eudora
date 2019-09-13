@@ -14,11 +14,32 @@ class GetBirthdayFormBase extends React.Component {
             IsoBirthday: null,
             uploadComplete: false,
             uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
             error: null
         }
     }
 
     componentDidMount(){
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
+
         // Grab birthday if it exists
 
         this.props.firebase.getBirthdayObj(this.state.uid).on('value', snapshot => {
@@ -71,12 +92,16 @@ class GetBirthdayFormBase extends React.Component {
       }
 
     render() {
-        const {IsoBirthday, birthday, error} = this.state;
+        const {currentLanguage, birthday, error} = this.state;
 
 
         return(
             <div style={{width:"100%"}}>
-                <h4>When is your birthday?</h4>
+                
+                {currentLanguage === 'english' ? 
+                    <h4>When is your birthday?</h4>:
+                    <h4>생일</h4>
+                } 
                 <DatePicker
                 dateFormat="yyyy/MM/dd"
                         onChange={this.onChange}

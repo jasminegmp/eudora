@@ -1,6 +1,6 @@
 import React from 'react';
 import fetchJsonp from 'fetch-jsonp';
-import {Segment, Form, Dropdown, Loader, Dimmer, Grid, Menu} from 'semantic-ui-react';
+import {Segment, Form, Dropdown, Loader, Dimmer, Grid, Menu, Icon, Button} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
 import ItemList from '../ItemList';
 import * as ROUTES from '../../constants/routes';
@@ -48,8 +48,27 @@ class AddItemsPage extends React.Component {
             isSubmitted: false,
             isLoading: false,
             offset: 0,
+            uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
             error: null
         }
+    }
+
+    componentDidMount(){
+      this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+        if (this.isUnmounted) {
+            return;
+        }
+        
+        const language = snapshot.val();
+
+        if (language){
+            this.setState({currentLanguage: language.language});
+        }
+        
+      });
+  
     }
 
     setSearchItems = result => {
@@ -117,14 +136,24 @@ class AddItemsPage extends React.Component {
     }
 
     render(){
-        const {searchTerm, error, isLoading, isSubmitted, offset} = this.state;
+        const {searchTerm, error, isLoading, isSubmitted, offset, currentLanguage} = this.state;
         const isInvalid = 
           searchTerm === '';
         return (
             <div style ={{margin: 70}}>
               <Menu>
-                <Menu.Item active={true}>Shop Etsy</Menu.Item>
-                <Menu.Item as={Link} to={ROUTES.ADD_LINK}>Shop via Links</Menu.Item>
+                <Menu.Item active={true}>
+                  {currentLanguage === 'english' ? 
+                      <div>Shop Etsy</div>:
+                      <div>Etsy 쇼핑</div>
+                  } 
+                </Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.ADD_LINK}>
+                  {currentLanguage === 'english' ? 
+                      <div>Shop via Links</div>:
+                      <div>링크따라서 쇼핑하기</div>
+                  } 
+                  </Menu.Item>
               </Menu>
                 <form className = "ui form" onSubmit = {this.isLoading}>
                     <Segment stacked className = "very padded">
@@ -137,7 +166,10 @@ class AddItemsPage extends React.Component {
                     }
                       <Grid columns={2} stackable>
                         <Grid.Column width={12}>
-                            <h4>Search for Item</h4>
+                            {currentLanguage === 'english' ? 
+                              <h4>Search for Item</h4>:
+                              <div>아이템 검색</div>
+                            } 
                             <Form.Input
                                 name = "searchTerm"
                                 value = {searchTerm}
@@ -147,7 +179,10 @@ class AddItemsPage extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={4}> 
-                          <h4>Results per Page</h4>
+                            {currentLanguage === 'english' ? 
+                              <h4>Results per page</h4>:
+                              <div>페이지당 결과</div>
+                            } 
                           <Dropdown
                               placeholder='Number of items'
                               fluid
@@ -158,32 +193,33 @@ class AddItemsPage extends React.Component {
                           />
                         </Grid.Column>
                       </Grid>
-                        <button className = "ui button " disabled = {isInvalid} type = "submit" style = {{marginTop: 10}}>Search</button>
+                        <button className = "ui button " disabled = {isInvalid} type = "submit" style = {{marginTop: 10}}>
+                          {currentLanguage === 'english' ? 
+                              <h4>Search</h4>:
+                              <div>검색</div>
+                          } 
+                        </button>
                         {error && <p>{error}</p>} 
                     </Segment>
                 </form>
 
                     <div style = {{marginTop: 15, marginBottom: 25}}>
                       {isSubmitted && (offset >0) ?
-                        <button className ="ui left labeled icon button" onClick = {this.prevPage} >
-                          <i className ="left arrow icon"></i>
-                          Prev
-                        </button> :
-                        <button className ="ui left labeled icon button"  disabled>
-                        <i className ="left arrow icon"></i>
-                        Prev
-                      </button>
+                        <Button onClick = {this.prevPage} >
+                          <Icon name='angle left' />
+                        </Button> :
+                        <Button disabled>
+                          <Icon name='angle left' />
+                      </Button>
                       }
                       {isSubmitted ?
-                        <button className ="ui right labeled icon button" onClick = {this.nextPage} >
-                        <i className ="right arrow icon"></i>
-                          Next
-                        </button>
+                        <Button onClick = {this.nextPage} >
+                          <Icon name='angle right' />
+                        </Button>
                         :
-                        <button className ="ui right labeled icon button" disabled >
-                        <i className ="right arrow icon"></i>
-                          Next
-                        </button>
+                        <Button disabled >
+                          <Icon name='angle right' />
+                        </Button>
                       }
 
                     </div>

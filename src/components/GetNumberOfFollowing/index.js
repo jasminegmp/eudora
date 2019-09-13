@@ -11,6 +11,7 @@ class PurchasedItem extends React.Component {
 
         this.state = {
             followingCount: null,
+            currentLanguage: null,
             error: null
         };
     }
@@ -44,6 +45,19 @@ class PurchasedItem extends React.Component {
             }
           });
           //console.log(this.state.followingCount)
+          this.props.firebase.getLanguage(user.uid).on('value', snapshot => {
+  
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            
+        });
     }
 
     componentWillUnmount() {
@@ -55,10 +69,17 @@ class PurchasedItem extends React.Component {
       
 
     render(){
+      const {currentLanguage} = this.state;
         
         return(
             <div>   
-                <Link to={ROUTES.FOLLOWING} ><Icon name='users' /> Following {this.state.followingCount} Users</Link>
+                <Link to={ROUTES.FOLLOWING} ><Icon name='users' /> 
+                
+              {currentLanguage === 'english' ? 
+                  <div>Following {this.state.followingCount} Users</div>:
+                  <div>팔로우 {this.state.followingCount}분</div>
+              } 
+                </Link>
             </div>
         );
     }

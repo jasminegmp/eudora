@@ -7,34 +7,24 @@ import FollowUnfollowButton from '../FollowUnfollowButton';
 import * as ROUTES from '../../constants/routes';
 import {Link, withRouter} from 'react-router-dom';
 
-const PeoplePage = () => {
-    return (
-        <div style = {{margin: 70}}>
-          <Menu>
-            <Menu.Item active={true}>All Users</Menu.Item>
-            <Menu.Item as={Link} to={ROUTES.FOLLOWING}>Following</Menu.Item>
-            <Menu.Item as={Link} to={ROUTES.SEARCH}>Search</Menu.Item>
-          </Menu>
-          <Profiles/>
-          
-        </div>
-    );
-};
 
-class ProfilesBase extends React.Component {
+
+class PeoplePage extends React.Component {
     constructor(props) {
         super(props);
     
         this.state = {
           loading: false,
           profiles: [],
+          uid: this.props.firebase.currentUser().uid,
+          currentLanguage: null,
         };
       }
     
       componentDidMount() {
         
         this.setState({ loading: true });
-    
+
         this.props.firebase.profiles().on('value', snapshot => {
           if (this.isUnmounted) {
             return;
@@ -57,31 +47,74 @@ class ProfilesBase extends React.Component {
             this.setState({profiles: null, loading: false });
           }
         });
+
+        // Grab current language selection
+
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+          if (this.isUnmounted) {
+              return;
+          }
+          
+          const language = snapshot.val();
+
+          if (language){
+              this.setState({currentLanguage: language.language});
+          }
+            
+        });
       }
     
       componentWillUnmount() {
         this.props.firebase.profiles().off();
+        this.props.firebase.getLanguage().off();
         this.isUnmounted = true;
         
       }
     
       render() {
-        const { profiles, loading } = this.state;
+        const { profiles, currentLanguage, loading } = this.state;
         return (
-          <div>
-            {loading && <div>Loading ...</div>}
-            {profiles ? (
-                <ProfileList profiles={profiles} />
-            ) : (
-                <div>There are no profiles ...</div>
-            )}
-          </div>
+
+
+          <div style = {{margin: 70}}>
+
+            <Menu>
+              <Menu.Item active={true}>
+                  {currentLanguage === 'english' ? 
+                        <div>All users</div>:
+                        <div>모든 사용자</div>
+                  } 
+                </Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.FOLLOWING}>
+                  {currentLanguage === 'english' ? 
+                        <div>Following</div>:
+                        <div>팔로우</div>
+                  } 
+                </Menu.Item>
+                <Menu.Item as={Link} to={ROUTES.SEARCH}>
+                  {currentLanguage === 'english' ? 
+                        <div>Search</div>:
+                        <div>검색</div>
+                  } 
+              </Menu.Item>
+            </Menu>
+            <div>
+              {loading && <div>Loading ...</div>}
+              {profiles ? (
+                  <ProfileList profiles={profiles} currentLanguage = {currentLanguage}/>
+              ) : (
+                  <div>There are no profiles ...</div>
+              )}
+            </div>
+        </div>
+
         );
       }
 }
 
 
-const ProfileList = ({ profiles }) => (
+const ProfileList = ({ profiles, currentLanguage}) => (
   <Grid stackable columns={4}>
     {profiles.map(profile => (
       <Grid.Column key={profile.uid}>
@@ -91,7 +124,12 @@ const ProfileList = ({ profiles }) => (
         </Link>
         <Card.Content>
           <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
-          <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Profile</Link>
+          <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
+            {currentLanguage === 'english' ? 
+                <div>Profile</div>:
+                <div>프로필</div>
+            }
+          </Link>
           <Card.Meta>
             <p>{profile.username}</p>
             <FollowUnfollowButton targetUid = {profile.uid}/>
@@ -104,7 +142,6 @@ const ProfileList = ({ profiles }) => (
 );
 
 
-const Profiles = withRouter(withFirebase(ProfilesBase));
 
 const condition = authUser => !!authUser;
 

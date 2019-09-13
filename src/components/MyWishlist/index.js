@@ -18,6 +18,7 @@ class WishlistBase extends React.Component {
           note: '',
           id: null,
           items: [],
+          currentLanguage: null,
         };
       }
     
@@ -32,6 +33,29 @@ class WishlistBase extends React.Component {
         }
         this.setState({ loading: true });
         const user = this.props.firebase.currentUser();
+
+        // Grab current language selection
+
+        this.props.firebase.getLanguage(user.uid).on('value', snapshot => {
+
+          if (this.isUnmounted) {
+              return;
+          }
+          
+          const language = snapshot.val();
+
+          if (language){
+              this.setState({currentLanguage: language.language});
+          }
+          else{
+              this.props.firebase.setLanguage(user.uid, 'english')
+                  .catch(error => {
+                      this.setState({error});
+                  });
+          }
+          
+      });
+
         this.props.firebase.items(user.uid).on('value', snapshot => {
     
           const itemsObject = snapshot.val();
@@ -62,11 +86,12 @@ class WishlistBase extends React.Component {
       }
 
       renderItems = (items) =>{
-        if (this.state.smallerView){
-          return <SmallerItemList items={items} note = {this.state.note} onChange = {this.onChange}/>
+        const {smallerView, currentLanguage, note} = this.state;
+        if (smallerView){
+          return <SmallerItemList currentLanguage = {currentLanguage} items={items} note = {note} onChange = {this.onChange}/>
 
         }else{
-          return <LargerItemList items={items} note = {this.state.note} onChange = {this.onChange}/>
+          return <LargerItemList currentLanguage = {currentLanguage} items={items} note = {note} onChange = {this.onChange}/>
         }
       }
 
@@ -74,7 +99,11 @@ class WishlistBase extends React.Component {
         if (this.state.smallerView){
           return (
             <div>
-              There are no items ...<br/>
+              {this.state.currentLanguage === 'english' ? 
+                    <div>There are no items ...</div>:
+                    <div>아이템이 없습니다…</div>
+              } 
+              <br/>
               <Link to = {ROUTES.SHOP_ETSY}><Button style = {{marginTop: "20px"}} >+ Add items</Button></Link>
             </div>
           )
@@ -82,8 +111,17 @@ class WishlistBase extends React.Component {
         }else{
           return (
             <div style = {{margin: "100px", textAlign: "center"}}>
-              There are no items ...<br/>
-              <Link to = {ROUTES.SHOP_ETSY}><Button style = {{marginTop: "20px"}} >+ Add items</Button></Link>
+              {this.state.currentLanguage === 'english' ? 
+                    <div>There are no items ...</div>:
+                    <div>아이템이 없습니다…</div>
+              } 
+              <br/>
+              <Link to = {ROUTES.SHOP_ETSY}><Button style = {{marginTop: "20px"}} >
+              {this.state.currentLanguage === 'english' ? 
+                    <div>+ Add items</div>:
+                    <div>+ 아이템 추가</div>
+              }   
+              </Button></Link>
             </div>
           )
         }
@@ -106,7 +144,7 @@ class WishlistBase extends React.Component {
       }
 }
 
-const LargerItemList = ({ items }) => (
+const LargerItemList = ({ items , currentLanguage}) => (
   <Grid style = {{margin: 70}} stackable columns={4}>
     {items.map(item => (
       <Grid.Column key={item.id}>
@@ -119,11 +157,25 @@ const LargerItemList = ({ items }) => (
                 <Card.Header>{item.title.substring(0,40)}...</Card.Header>
             </a>
           
-          {item.seller ? <Card.Meta>Seller: {item.seller}</Card.Meta> : null}
+          {item.seller ? 
+            <Card.Meta>
+              {currentLanguage === 'english' ? 
+              <div>Seller: {item.seller}</div>:
+              <div>판매자: {item.seller}</div>
+              }
+            </Card.Meta> 
+          : null}
           {item.price ? <Card.Meta>$ {item.price}</Card.Meta>: null}
 
           <Card.Meta>
-            {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
+            {item.note && item.note !== '' ? 
+              <div>
+                {currentLanguage === 'english' ? 
+                  <p>Note: {item.note}</p> :
+                  <p>메모: {item.note}</p> 
+                }
+              </div>
+            : null}
           </Card.Meta>
 
           <UpdateNoteInWishlist id = {item.id}/>
@@ -135,7 +187,7 @@ const LargerItemList = ({ items }) => (
   </Grid>
 );
 
-const SmallerItemList = ({ items }) => (
+const SmallerItemList = ({ items , currentLanguage}) => (
   <Grid stackable columns={2}>
     {items.slice(0, 4).map(item => (
       <Grid.Column key={item.id}>
@@ -153,12 +205,23 @@ const SmallerItemList = ({ items }) => (
     <br/>
     <Grid.Column>
       <Link to={ROUTES.MY_WISHLIST}>
-        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button"  >See Entire Wishlist</button>
+        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button">
+          {currentLanguage === 'english' ? 
+            <div>See Entire Wishlist</div>:
+            <div>내 위시리스트</div>
+          } 
+        </button>
       </Link>
     </Grid.Column>
     <Grid.Column>
       <Link to={ROUTES.SHOP_ETSY}>
-        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button"  >+ Add Items</button>
+        <button style={{width: "100%", margin: "auto", marginBottom: "10px"}} className = "ui button " type = "button"  >
+          
+          {currentLanguage === 'english' ? 
+            <div>+ Add Items</div>:
+            <div>+ 위시리스트에 추가</div>
+          } 
+        </button>
       </Link>
     </Grid.Column>
    </Grid>

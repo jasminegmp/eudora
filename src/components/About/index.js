@@ -24,15 +24,18 @@ const AboutPage = () => {
             <h2><em>Get In Touch</em></h2>
             <p>If you have any feedback, questions, or even just want to say hi, please get in touch by emailing me at <a href='mailto:jasminegmp@gmail.com'>jasminegmp@gmail.com</a>.</p>
             <h2><em>Currently supported features:</em></h2>
-            <li>Search and add items from Etsy</li>
+            <li>Search items from Etsy</li>
+            <li>Add items into your wishlist from any website</li>
             <li>Modify your wishlist</li>
             <li>Follow/unfollow friends</li>
             <li>Gift your friends and mark the item as "purchased" so other gifters will know you've already got the gift for your friend. The friend receiving the gift will not see what items have been purchased off their wishlist so it will still be a "surprise"!</li>
+            <li>Korean language support</li>
             <h2><em>Future features</em></h2>
             <p>Since this is a solo effort, (I'm the designer, developer, and tester), please be patient as I add new features! A few upcoming ones I forsee are:</p>
-            <li>Ability to add items outside of Etsy</li>
+            <li>Address sharing feature</li>
+            <li>Ability to create sublists in wishlist</li>
             <li>Group gift exchanges like White Elephant</li>
-            <li>Child wishlist for your children or furbabies</li>
+            <li>Get notifications when your friend's celebrated holiday is approaching</li>
         </div>
     );
 };

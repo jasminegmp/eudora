@@ -11,8 +11,25 @@ class PasswordChangeForm extends React.Component {
         this.state = {
             password: '',
             passwordConfirm: '',
+            currentLanguage: null,
             error: null
         }
+    }
+
+    componentDidMount(){
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+  
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            
+        });
     }
 
     onSubmit = (event) => {
@@ -46,7 +63,7 @@ class PasswordChangeForm extends React.Component {
     }
 
     render() {
-        const {password, passwordConfirm, error} = this.state;
+        const {password, passwordConfirm, currentLanguage, error} = this.state;
 
         const isInvalid = 
             password !== passwordConfirm ||
@@ -78,7 +95,12 @@ class PasswordChangeForm extends React.Component {
                         />
                     </div>
 
-                    <button className = "ui button " disabled = {isInvalid} type = "submit" >Change My Password</button>
+                    <button className = "ui button " disabled = {isInvalid} type = "submit" >
+                        {currentLanguage === 'english' ? 
+                                <div>Change My Password</div>:
+                                <div>바꿔주세요</div>
+                        }
+                    </button>
 
                     {error && <p>{error.message}</p>} 
                 </Segment>

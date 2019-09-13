@@ -12,6 +12,7 @@ class PurchasedItem extends React.Component {
             targetUid: this.props.targetUid,
             followingUid: null,
             following: [],
+            currentLanguage: null,
             error: null
         };
     }
@@ -43,6 +44,20 @@ class PurchasedItem extends React.Component {
               this.setState({followingUid: false });
             }
           });
+
+          this.props.firebase.getLanguage(user.uid).on('value', snapshot => {
+  
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            
+        });
     }
 
     componentWillUnmount() {
@@ -74,11 +89,21 @@ class PurchasedItem extends React.Component {
       
 
     render(){
-        
+        const {currentLanguage} = this.state;
         return(
             <div>   
-                {this.state.uid !== this.state.targetUid && !this.state.followingUid ? <button className = "ui button primary" onClick = {this.onClickFollow} >Follow</button> : null }
-                {this.state.uid !== this.state.targetUid && this.state.followingUid ? <button className = "ui button red"  onClick = {this.onClickUnfollow} >Unfollow</button> : null }
+                {this.state.uid !== this.state.targetUid && !this.state.followingUid ? <button className = "ui button primary" onClick = {this.onClickFollow} >
+                    {currentLanguage === 'english' ? 
+                        <div>Follow</div>:
+                        <div>팔로우</div>
+                    } 
+                </button> : null }
+                {this.state.uid !== this.state.targetUid && this.state.followingUid ? <button className = "ui button red"  onClick = {this.onClickUnfollow} >
+                {currentLanguage === 'english' ? 
+                        <div>Unollow</div>:
+                        <div>팔로우 취소</div>
+                } 
+                </button> : null }
                 
                 
             </div>

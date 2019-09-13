@@ -107,6 +107,10 @@ class Firebase{
 
     removeAllHolidays = (uid) => this.db.ref(`profiles/${uid}/holidays`).remove();
 
+    getLanguage = (uid) => this.db.ref(`profiles/${uid}/language`);
+
+    setLanguage = (uid, language) => this.db.ref(`profiles/${uid}/language`).update({language});
+
 }
 
 export default Firebase;

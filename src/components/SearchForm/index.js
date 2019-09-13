@@ -9,39 +9,6 @@ import PropTypes from 'prop-types';
 import Avatar from '../Avatar';
 import FollowUnfollowButton from '../FollowUnfollowButton';
 
-const options = [
-    {
-      "title": "Terry - Dietrich",
-      "description": "Open-architected static functionalities",
-      "image": "https://s3.amazonaws.com/uifaces/faces/twitter/brandonmorreale/128.jpg",
-      "price": "$92.85"
-    },
-    {
-      "title": "Doyle, Hane and O'Connell",
-      "description": "Virtual zero defect standardization",
-      "image": "https://s3.amazonaws.com/uifaces/faces/twitter/artvavs/128.jpg",
-      "price": "$15.17"
-    },
-    {
-      "title": "Leffler, Hartmann and Gusikowski",
-      "description": "Operative executive strategy",
-      "image": "https://s3.amazonaws.com/uifaces/faces/twitter/HenryHoffman/128.jpg",
-      "price": "$96.27"
-    },
-    {
-      "title": "Schneider - Buckridge",
-      "description": "Vision-oriented demand-driven interface",
-      "image": "https://s3.amazonaws.com/uifaces/faces/twitter/uxward/128.jpg",
-      "price": "$65.29"
-    },
-    {
-      "title": "Wisoky - Goyette",
-      "description": "Devolved executive productivity",
-      "image": "https://s3.amazonaws.com/uifaces/faces/twitter/alan_zhang_/128.jpg",
-      "price": "$69.02"
-    }
-  ];
-
 const resultRenderer = ({ firstName, lastName }) => <Label content={(firstName + " " + lastName) } />
 
     resultRenderer.propTypes = {
@@ -60,16 +27,34 @@ class SearchForm extends React.Component {
             results: null,
             profiles: [],
             selectedUid: null,
-            options: options,
             photoUrl: null,
             value: '',
             selectedProfile: null,
+            uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
 
         };
 
     }
 
     componentDidMount() {
+
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+          if (this.isUnmounted) {
+              return;
+          }
+          
+          const language = snapshot.val();
+
+          if (language){
+              this.setState({currentLanguage: language.language});
+          }
+          else{
+            this.setState({currentLanguage: 'english'});
+          }
+          
+        });
     
         this.props.firebase.profiles().on('value', snapshot => {
           if (this.isUnmounted) {
@@ -97,6 +82,7 @@ class SearchForm extends React.Component {
 
       componentWillUnmount() {
         this.props.firebase.profiles().off();
+        this.props.firebase.getLanguage().off();
         this.isUnmounted = true;
         
       }
@@ -136,14 +122,28 @@ class SearchForm extends React.Component {
 
 
     render(){
-        const { isLoading, value, results, selectedProfile } = this.state
+        const { isLoading, value, results, selectedProfile, currentLanguage } = this.state
         return(
             <div style = {{margin: 70}}>
             <Menu>
-                <Menu.Item as={Link} to={ROUTES.PEOPLE} >All Users</Menu.Item>
-                <Menu.Item as={Link} to={ROUTES.FOLLOWING}>Following</Menu.Item>
-                <Menu.Item active={true}>Search</Menu.Item>
-                
+              <Menu.Item as={Link} to={ROUTES.PEOPLE} >
+                {currentLanguage === 'english' ? 
+                      <div>All users</div>:
+                      <div>모든 사용자</div>
+                } 
+              </Menu.Item>
+              <Menu.Item as={Link} to={ROUTES.FOLLOWING}>
+                {currentLanguage === 'english' ? 
+                      <div>Following</div>:
+                      <div>팔로우</div>
+                } 
+              </Menu.Item>
+              <Menu.Item active={true}>
+                {currentLanguage === 'english' ? 
+                      <div>Search</div>:
+                      <div>검색</div>
+                } 
+              </Menu.Item>
             </Menu>
             <Search
                 resultRenderer={resultRenderer}
@@ -157,9 +157,14 @@ class SearchForm extends React.Component {
                 value={value}
             />
             {selectedProfile ? (
-                <Profile selectedProfile={selectedProfile} />
+                <Profile selectedProfile={selectedProfile} currentLanguage = {currentLanguage}/>
             ) : (
-                <div style = {{marginTop: "10px"}}>There are no profiles ...</div>
+                <div style = {{marginTop: "10px"}}>
+                  {currentLanguage === 'english' ? 
+                      <div>There are no profiles ...</div>:
+                      <div>프로필이 없습니다...</div>
+                  } 
+                </div>
             )}
             </div>
         );
@@ -167,7 +172,7 @@ class SearchForm extends React.Component {
 }
 
 
-const Profile = ({ selectedProfile }) => (
+const Profile = ({ selectedProfile, currentLanguage }) => (
   <Grid centered stackable columns={1} style = {{marginTop: "10px"}}>
       <Grid.Column key={selectedProfile.uid}>
       <Card centered>
@@ -176,7 +181,12 @@ const Profile = ({ selectedProfile }) => (
         </Link>
         <Card.Content>
           <Card.Header>{selectedProfile.firstName} {selectedProfile.lastName}</Card.Header>
-          <Link to={{pathname: `/user/${selectedProfile.uid}`, params: selectedProfile.uid}} >Profile</Link>
+          <Link to={{pathname: `/user/${selectedProfile.uid}`, params: selectedProfile.uid}} >   
+          {currentLanguage === 'english' ? 
+                      <div>Profile</div>:
+                      <div>프로필</div>
+                  } 
+           </Link>
           <Card.Meta>
             <p>{selectedProfile.username}</p>
             <FollowUnfollowButton targetUid = {selectedProfile.uid}/>

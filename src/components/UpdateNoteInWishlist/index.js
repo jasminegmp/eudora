@@ -12,12 +12,36 @@ class UpdateNoteInWishlist extends React.Component {
             note: '',
             id: this.props.id,
             uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
             error: null
           };
 
     }
 
     componentDidMount(){
+
+        // Grab current language selection
+
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
+
         // Grab note
         this.props.firebase.getWishlistNote(this.state.uid, this.state.id).on('value', snapshot => {
             if (this.isUnmounted) {
@@ -43,7 +67,7 @@ class UpdateNoteInWishlist extends React.Component {
     }
 
     render(){
-        
+        const {currentLanguage} = this.state;
         return(
             <div>
                 
@@ -54,7 +78,12 @@ class UpdateNoteInWishlist extends React.Component {
                             type = "text"
                             placeholder = "Update note here"
                 />
-                <Button onClick = {this.onClick} style = {{marginTop: "5px"}} >Update note</Button>
+                <Button onClick = {this.onClick} style = {{marginTop: "5px"}} >
+                    {currentLanguage === 'english' ? 
+                        <div>Update note</div>:
+                        <div>메모 업데이트</div>
+                    } 
+                </Button>
 
             </div>
         );

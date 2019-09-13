@@ -7,6 +7,7 @@ import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
 import Avatar from '../Avatar';
 import GetNumberOfFollowing from '../GetNumberOfFollowing';
+import ChangeLanguagesForm from '../ChangeLanguages';
 
 class AccountPage extends React.Component{
 
@@ -16,6 +17,7 @@ class AccountPage extends React.Component{
         this.state = {
             photoUrl: '',
             uid: this.props.firebase.currentUser().uid,
+            currentLanguage: null,
             error: null
         };
     }
@@ -30,18 +32,36 @@ class AccountPage extends React.Component{
             const photoUrl = snapshot.val();
             this.setState({ photoUrl})
           });
+        
+          this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+  
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+    
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            
+        });
 
     }
 
 
     render(){
+        const {currentLanguage} = this.state;
         return (
             <AuthUserContext.Consumer>
             {authUser => (
                     <Grid textAlign = "center" verticalAlign = "middle" style = {{marginTop: 70, marginBottom: 70}}>
                         <Grid.Column style = {{maxWidth: 420}}>
                             <Header as = "h2" color = "grey" textAlign = "center">
-                                Account Settings
+                                {currentLanguage === 'english' ? 
+                                    <h1>Account Settings</h1>:
+                                    <h1>계정 설정</h1>
+                                } 
                             </Header>
                             <Card centered>
                                 <UpdateAvatar uid = {this.state.uid}/>
@@ -62,9 +82,19 @@ class AccountPage extends React.Component{
                             <Header as = "h2" color = "grey" textAlign = "center">
                                 <GiftReceivingTimesForm/>
                             </Header>
-        
                             <Header as = "h2" color = "grey" textAlign = "center">
-                                Change Password
+                                {currentLanguage === 'english' ? 
+                                    <h1>Change Languages</h1>:
+                                    <h1>언어</h1>
+                                } 
+                            </Header>
+                                 <ChangeLanguagesForm/>
+                            <Header as = "h2" color = "grey" textAlign = "center">
+                                {currentLanguage === 'english' ? 
+                                    <h1>Change Password</h1>:
+                                    <h1>비밀번호</h1>
+                                } 
+                                
                             </Header>
                             <PasswordChangeForm/>                       
                         </Grid.Column>

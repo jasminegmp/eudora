@@ -16,12 +16,35 @@ class FollowingModule extends React.Component {
           following: [],
           followingProfiles: [],
           uid: this.props.firebase.currentUser().uid,
+          currentLanguage: null,
         };
       }
     
       componentDidMount() {
         
         this.setState({ loading: true });
+
+          // Grab current language selection
+
+          this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+
+            if (this.isUnmounted) {
+                return;
+            }
+            
+            const language = snapshot.val();
+
+            if (language){
+                this.setState({currentLanguage: language.language});
+            }
+            else{
+                this.props.firebase.setLanguage(this.state.uid, 'english')
+                    .catch(error => {
+                        this.setState({error});
+                    });
+            }
+            
+        });
     
         // first get following list which will contain uids
         this.props.firebase.following(this.state.uid).on('value', snapshot => {
@@ -86,17 +109,26 @@ class FollowingModule extends React.Component {
       }
     
       render() {
-        const { followingProfiles, loading } = this.state;
+        const { followingProfiles, loading, currentLanguage } = this.state;
         return (
           <div>
             {loading && <div>Loading ...</div>}
             {followingProfiles ? (
-                <ProfileList profiles={followingProfiles} />
+                <ProfileList profiles={followingProfiles} currentLanguage = {currentLanguage}/>
             ) : (
                 <div>
-                  <div>You are not following anyone ...</div>
+                  {currentLanguage === 'english' ? 
+                    <div>You are not following anyone ...</div>:
+                    <div>귀하는 아무도 팔로우하지 않습니다...</div>
+                  } 
+                  
                   <Link to={ROUTES.PEOPLE}>
-                    <button style={{width: "50%", margin: "auto", margin: "20px"}} className = "ui button " type = "button"  >Discover People to Follow</button>
+                    <button style={{width: "50%", margin: "auto", margin: "20px"}} className = "ui button " type = "button"  >
+                    {currentLanguage === 'english' ? 
+                      <div>Discover People to Follow</div>:
+                      <div>팔로우 할 사람을 찾으세요</div>
+                    } 
+                    </button>
                   </Link>
                 </div>
             )}
@@ -106,7 +138,7 @@ class FollowingModule extends React.Component {
 }
 
 
-const ProfileList = ({ profiles }) => (
+const ProfileList = ({ profiles, currentLanguage}) => (
   <div>
     <Grid stackable columns={2}>
       {profiles.slice(0, 4).map(profile => (
@@ -117,7 +149,12 @@ const ProfileList = ({ profiles }) => (
           </Link>
           <Card.Content>
             <Card.Header>{profile.firstName} {profile.lastName}</Card.Header>
-            <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >Wishlist</Link>
+            <Link to={{pathname: `/user/${profile.uid}`, params: profile.uid}} >
+              {currentLanguage === 'english' ? 
+                  <div>Profile</div>:
+                  <div>프로필</div>
+              }
+            </Link>
             <Card.Meta>
               <p>{profile.username}</p>
             </Card.Meta>
@@ -128,7 +165,12 @@ const ProfileList = ({ profiles }) => (
     </Grid>
     <Grid.Column>
         <Link to={ROUTES.FOLLOWING}>
-          <button style={{width: "50%", margin: "auto", marginBottom: "10px", marginTop: "20px"}} className = "ui button " type = "button"  >See More Following</button>
+          <button style={{width: "50%", margin: "auto", marginBottom: "10px", marginTop: "20px"}} className = "ui button " type = "button"  >
+            {currentLanguage === 'english' ? 
+                      <div>See More Following</div>:
+                      <div>팔로우 더보기</div>
+            } 
+          </button>
         </Link>
       </Grid.Column>
     </div>

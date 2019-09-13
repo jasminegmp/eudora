@@ -17,9 +17,27 @@ class AddItemtoWishlist extends React.Component {
             url: this.props.url,
             purchased: false,
             clicked: false,
+            currentLanguage: null,
             error: null
         };
 
+    }
+
+    componentDidMount(){
+        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+  
+          if (this.isUnmounted) {
+              return;
+          }
+          
+          const language = snapshot.val();
+  
+          if (language){
+              this.setState({currentLanguage: language.language});
+          }
+          
+        });
+    
     }
 
     handleClick = (event) => {
@@ -56,13 +74,17 @@ class AddItemtoWishlist extends React.Component {
     }
 
     render(){
-        
+        const {currentLanguage} = this.state;
         return(
             <div>
                 { this.state.mine ?
                 (
                     <div>
-                        <label>Leave a note (optional)</label>
+                        {currentLanguage === 'english' ? 
+                              <label>Leave a note (optional)</label>:
+                              <label>메모 (선택)</label>
+                        } 
+                        
                         <Form.Input style = {{width: '100%'}}
                                     name = "note"
                                     value = {this.state.note}
@@ -70,15 +92,23 @@ class AddItemtoWishlist extends React.Component {
                                     type = "text"
                                     placeholder = "Example: Size small"
                         />		
-                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
-                        Add item to wishlist</Button>
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} >
+                        {currentLanguage === 'english' ? 
+                              <div>+ Add item to wishlist</div>:
+                              <div>+ 아이템 추가</div>
+                        } 
+                        </Button>
                     </div>
                     
                 ):
                 (
                     <div>
-                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} ><Icon name='plus' />
-                        Add item to my own wishlist</Button>
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} >
+                        {currentLanguage === 'english' ? 
+                              <div>+ Add item to my own wishlist</div>:
+                              <div>+ 내 위시리스트의 추가</div>
+                        } 
+                        </Button>
                     </div>
                 )
                 }
