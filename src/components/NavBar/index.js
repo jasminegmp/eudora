@@ -33,6 +33,7 @@ class NavBar extends React.Component{
         }
     }
 
+
     onClick = (event) => {
         console.log(event);
         this.setState({ visible: !this.state.visible });

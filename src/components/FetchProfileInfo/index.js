@@ -4,6 +4,7 @@ import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
 import PurchasedItem from '../PurchasedItem';
 import UpdateAvatar from '../UpdateAvatar';
+import Avatar from '../Avatar';
 import ItemPhoto from '../ItemPhoto';
 import AddItemtoWishlist from '../AddItemtoWishlist';
 
@@ -112,7 +113,7 @@ class FetchProfileInfo extends React.Component {
 
 
     render() {
-        const { items, loading, firstName, lastName, holidays, photoUrl} = this.state;
+        const { items, loading, firstName, lastName, holidays, photoUrl, uid} = this.state;
         return(
             <div>
 
@@ -120,7 +121,7 @@ class FetchProfileInfo extends React.Component {
                 <Grid.Column width={5}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
-                      <UpdateAvatar uid = {this.state.uid}/>
+                    {this.props.firebase.currentUser().uid === uid ? <UpdateAvatar uid = {this.state.uid}/> : <Avatar className = "avatar" uid = {uid} photoUrl = {photoUrl}/>}
                     </Card>
                     {loading && <div>Loading ...</div>}
                     <Segment>
