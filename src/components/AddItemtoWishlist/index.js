@@ -18,6 +18,7 @@ class AddItemtoWishlist extends React.Component {
             purchased: false,
             clicked: false,
             currentLanguage: null,
+            uid: this.props.firebase.currentUser().uid,
             error: null
         };
 
