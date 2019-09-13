@@ -100,7 +100,7 @@ class PurchasedItem extends React.Component {
                 </button> : null }
                 {this.state.uid !== this.state.targetUid && this.state.followingUid ? <button className = "ui button red"  onClick = {this.onClickUnfollow} >
                 {currentLanguage === 'english' ? 
-                        <div>Unollow</div>:
+                        <div>Unfollow</div>:
                         <div>팔로우 취소</div>
                 } 
                 </button> : null }

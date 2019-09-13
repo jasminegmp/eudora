@@ -12,6 +12,7 @@ class PasswordChangeForm extends React.Component {
             password: '',
             passwordConfirm: '',
             currentLanguage: null,
+            uid: this.props.firebase.currentUser().uid,
             error: null
         }
     }

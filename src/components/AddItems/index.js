@@ -167,8 +167,8 @@ class AddItemsPage extends React.Component {
                       <Grid columns={2} stackable>
                         <Grid.Column width={12}>
                             {currentLanguage === 'english' ? 
-                              <h4>Search for Item</h4>:
-                              <div>아이템 검색</div>
+                              <h4>Search for Item on Etsy</h4>:
+                              <div>Etsy 아이템 검색</div>
                             } 
                             <Form.Input
                                 name = "searchTerm"

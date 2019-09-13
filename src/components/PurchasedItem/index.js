@@ -1,6 +1,7 @@
 import React from 'react';
 import {Checkbox} from 'semantic-ui-react';
 import { withAuthorization } from '../Session';
+import './PurchasedItem.css'
 
 
 class PurchasedItem extends React.Component {
@@ -54,12 +55,14 @@ class PurchasedItem extends React.Component {
     render(){
         
         return(
-            <Checkbox
+            <label class="container">Purchased
+            <input type="checkbox" 
                 name = "purchased"
                 checked = {this.state.purchased}
                 onChange = {this.onChange}
-                label = "Purchased"
             />
+            <span class="checkmark"></span>
+            </label>
         );
     }
 }

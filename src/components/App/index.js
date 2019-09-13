@@ -16,7 +16,6 @@ import LandingPage from '../Landing';
 import FollowingPage from '../Following';
 import AddLinkPage from '../AddLink';
 import SearchForm from '../SearchForm';
-
 import * as ROUTES from '../../constants/routes';
 
 import {withAuthentication} from '../Session';

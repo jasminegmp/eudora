@@ -118,7 +118,7 @@ class FetchProfileInfo extends React.Component {
             <div>
 
               <Grid stackable columns={2}>
-                <Grid.Column width={5}>
+                <Grid.Column width={4}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
                     {this.props.firebase.currentUser().uid === uid ? <UpdateAvatar uid = {this.state.uid}/> : <Avatar className = "avatar" uid = {uid} photoUrl = {photoUrl}/>}
@@ -151,7 +151,7 @@ class FetchProfileInfo extends React.Component {
                       {items ? 
                           ( <div>
                               <h4>My wishlist</h4>
-                              <Grid stackable columns={4}>
+                              <Grid stackable columns={3}>
                               {items.map(item => (
                                 <Grid.Column key={item.id}>
                                 <Card centered>
