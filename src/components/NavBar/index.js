@@ -8,6 +8,7 @@ import {AuthUserContext} from '../Session';
 import Logo from '../images/icon.png';
 import { Responsive, Icon, Image, Menu, Dropdown, Sidebar } from 'semantic-ui-react';
 import { withFirebase } from '../Firebase';
+import './NavBar.css'
 
 const options = [
     {   key: 'user', 
@@ -23,6 +24,7 @@ const options = [
     }
   ];
 
+  
 
 
 class NavBar extends React.Component{
@@ -76,7 +78,7 @@ const NavBarAuth = ({
     return(
         <div tabIndex="0" onBlur={onClose}>
             <Redirect push to={ROUTES.HOME} />
-        
+
             <Responsive maxWidth={640}>
                 <NavBarMobileAuth
                             onClick={onClick}
@@ -145,7 +147,6 @@ class NavBarDesktopAuth extends React.Component {
     render(){
         const { activeItem } = this.state;
         return(
-            <div>
                 <Menu fixed="top" inverted style = {{width: '100%'}}>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} as={Link} to={ROUTES.HOME}><Image size="mini" src= {Logo} alt = "Eudora Logo"/></Menu.Item>
                     <Menu.Item name ="home" onClick = {this.handleItemClick} active={activeItem === 'home'} as={Link} to={ROUTES.HOME}><Icon name='home' />Home</Menu.Item>
@@ -175,7 +176,6 @@ class NavBarDesktopAuth extends React.Component {
                         
                     </Menu.Menu>
                 </Menu>
-            </div>
         )
     }
 
