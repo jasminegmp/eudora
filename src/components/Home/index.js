@@ -3,10 +3,9 @@ import {withAuthorization } from '../Session';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import UpdateAvatar from '../UpdateAvatar';
 import {withRouter} from 'react-router-dom';
-import {Grid, Segment, Image, Card} from 'semantic-ui-react';
+import {Grid, Segment, Card} from 'semantic-ui-react';
 import MyWishlistPage from '../MyWishlist';
 import FollowingModule from '../FollowingModule'
-import ChangeLanguagesForm from '../ChangeLanguages';
 
 class HomePage extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
-import {Segment, Form, Menu, Button, Grid} from 'semantic-ui-react';
+import {Form, Grid} from 'semantic-ui-react';
 import DatePicker from "react-datepicker";
 import {withRouter} from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,7 +21,8 @@ class AddHolidayFormBase extends React.Component {
     }
 
     componentDidMount(){
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        const {uid} = this.state;
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -33,7 +34,7 @@ class AddHolidayFormBase extends React.Component {
                 this.setState({currentLanguage: language.language});
             }
             else{
-                this.props.firebase.setLanguage(this.state.uid, 'english')
+                this.props.firebase.setLanguage(uid, 'english')
                     .catch(error => {
                         this.setState({error});
                     });
@@ -44,10 +45,11 @@ class AddHolidayFormBase extends React.Component {
 
     onChange = (date) => {
         const ISOdate = date.toISOString();
-        console.log(date, ISOdate);
+
         this.setState({
             IsoDate: ISOdate, date: date
         });
+
         this.setState({isSubmitted: false});  
     }
     
@@ -57,8 +59,8 @@ class AddHolidayFormBase extends React.Component {
     }
 
     onSubmit =  async (event) => {
-
         const {IsoDate, holidayName, uid} = this.state;
+
         var id = holidayName.replace(/[^a-zA-Z]/g, "");
         id = id.toLowerCase();
 

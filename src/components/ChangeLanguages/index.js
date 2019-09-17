@@ -17,9 +17,11 @@ class ChangeLanguageForm extends React.Component {
     }
 
     componentDidMount(){
+        const {uid} = this.state;
+
         // Grab current language selection
 
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -31,7 +33,7 @@ class ChangeLanguageForm extends React.Component {
                 this.setState({currentLanguage: language.language});
             }
             else{
-                this.props.firebase.setLanguage(this.state.uid, 'english')
+                this.props.firebase.setLanguage(uid, 'english')
                     .catch(error => {
                         this.setState({error});
                     });
@@ -48,9 +50,11 @@ class ChangeLanguageForm extends React.Component {
       }
 
     clickEnglish = (event) => {
+        const {uid} = this.state;
+
         event.preventDefault();
         this.setState({newLanguage: 'english'});
-        this.props.firebase.setLanguage(this.state.uid, 'english')
+        this.props.firebase.setLanguage(uid, 'english')
         .catch(error => {
             this.setState({error});
         });
@@ -58,9 +62,11 @@ class ChangeLanguageForm extends React.Component {
     }
 
     clickKorean = (event) => {
+        const {uid} = this.state;
+
         event.preventDefault();
         this.setState({newLanguage: 'korean'});
-        this.props.firebase.setLanguage(this.state.uid, 'korean')
+        this.props.firebase.setLanguage(uid, 'korean')
         .catch(error => {
             this.setState({error});
         });
@@ -68,7 +74,7 @@ class ChangeLanguageForm extends React.Component {
     }
 
     switchLanguages = (event) =>{
-        const {newLanguage, currentLanguage, uid, error} = this.state;
+        const {newLanguage, currentLanguage} = this.state;
 
         // we need to change!
         if (newLanguage !== currentLanguage){
@@ -83,11 +89,7 @@ class ChangeLanguageForm extends React.Component {
 
 
     render() {
-        const {password, passwordConfirm, error} = this.state;
-
-        const isInvalid = 
-            password !== passwordConfirm ||
-            password === '';
+        const {error} = this.state;
 
         return(
             <form className = "ui form" onSubmit = {this.onSubmit}>

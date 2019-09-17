@@ -1,11 +1,10 @@
 import React from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
-import {Grid, Card, Image, Header} from 'semantic-ui-react';
+import {Grid, Card, Header} from 'semantic-ui-react';
 import GiftReceivingTimesForm from '../GiftReceivingTimes';
 import PasswordChangeForm from '../PasswordChange';
 import UpdateAvatar from '../UpdateAvatar';
 import 'firebase/storage';
-import Avatar from '../Avatar';
 import GetNumberOfFollowing from '../GetNumberOfFollowing';
 import ChangeLanguagesForm from '../ChangeLanguages';
 
@@ -24,8 +23,10 @@ class AccountPage extends React.Component{
 
     componentDidMount(){
 
+        const {uid} = this.state;
+
         // Grab photo url
-        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getPhotoUrl(uid).on('value', snapshot => {
             if (this.isUnmounted) {
               return;
             }
@@ -33,7 +34,7 @@ class AccountPage extends React.Component{
             this.setState({ photoUrl})
           });
         
-          this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+          this.props.firebase.getLanguage(uid).on('value', snapshot => {
   
             if (this.isUnmounted) {
                 return;
@@ -51,7 +52,7 @@ class AccountPage extends React.Component{
 
 
     render(){
-        const {currentLanguage} = this.state;
+        const {currentLanguage, uid} = this.state;
         return (
             <AuthUserContext.Consumer>
             {authUser => (
@@ -64,7 +65,7 @@ class AccountPage extends React.Component{
                                 } 
                             </Header>
                             <Card centered>
-                                <UpdateAvatar uid = {this.state.uid}/>
+                                <UpdateAvatar uid = {uid}/>
                                 <Card.Content>
                                 <Card.Header>{authUser.displayName}</Card.Header>
                                 <Card.Meta>

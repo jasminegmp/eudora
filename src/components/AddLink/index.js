@@ -37,13 +37,15 @@ class AddLinkPage extends React.Component {
     }
 
     componentDidMount(){
+        const {uid} = this.state;
+
         var defaultImage = this.props.firebase.storage.ref(`items/gift.svg`);
         defaultImage.getDownloadURL().then((url) => { this.setState({ image: url })});
 
         const randomNumber = Math.floor((Math.random() * (99999999)));
         this.setState({id: randomNumber});
 
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
   
             if (this.isUnmounted) {
                 return;
@@ -66,7 +68,7 @@ class AddLinkPage extends React.Component {
     }
 
     getJsonResponse = async (event, path) => {
-        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+
         const response = await fetchJsonp(path, {
           timeout: 10000,
         });
@@ -79,7 +81,7 @@ class AddLinkPage extends React.Component {
     }
 
     uploadedDb = event => {
-        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+        const { price, url, note, id, title, image, seller} = this.state;
         const user = this.props.firebase.currentUser();
         this.props.firebase.addWishlistDb(user.uid, title, url, image, id, price, false, note, seller)
         .then(this.setState({            
@@ -100,7 +102,7 @@ class AddLinkPage extends React.Component {
 
     onSubmit =  async (event) => {
 
-        const { price, url, note, id, title, image, seller, result, listingId} = this.state;
+        const {url, seller} = this.state;
         
 
 
@@ -115,7 +117,6 @@ class AddLinkPage extends React.Component {
             // make API call to etsy to get information of data
             this.setState( async () => {
                 const path = `${PATH_BASE}${PATH_SEARCH}${substrUrl}${LISTING_IMAGE}${API_PATH}${ETSY_KEY}`;
-                console.log(path);
                 this.setState({path});
                 this.getJsonResponse(event, path);
 
@@ -136,7 +137,7 @@ class AddLinkPage extends React.Component {
 
 
     render(){
-        const {title, price, note, url, currentLanguage, error} = this.state;
+        const {title, price, note, url, currentLanguage, isSubmitted, error} = this.state;
         const isInvalid = 
             url === '';
         return (
@@ -210,6 +211,7 @@ class AddLinkPage extends React.Component {
                                 onChange = {this.onChange}
                                 type = "text"
                                 placeholder = "9.99"
+                                display = {price < 0.00 ? this.setState({price: ''}) : null}
                             />
                         </Grid.Column>
                         <Grid.Column width={16}>
@@ -232,7 +234,7 @@ class AddLinkPage extends React.Component {
                                 <div>+ 아이템 추가</div>
                             } 
                         </button>
-                        <p style={{color: 'green'}}>{this.state.isSubmitted? "Success! Added to wishlist." : null}</p>
+                        <p style={{color: 'green'}}>{isSubmitted? "Success! Added to wishlist." : null}</p>
                         {error && <p>{error}</p>} 
                     </Segment>
                 </form>

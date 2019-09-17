@@ -55,7 +55,9 @@ class AddItemsPage extends React.Component {
     }
 
     componentDidMount(){
-      this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+      const {uid} = this.state;
+
+      this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
         if (this.isUnmounted) {
             return;
@@ -93,15 +95,16 @@ class AddItemsPage extends React.Component {
     }
 
     onSubmit =  async (event) => {
-        
-        if (this.state.newSearchTerm){
+        const {newSearchTerm, limit, offset, searchTerm} = this.state;
+
+        if (newSearchTerm){
           this.setState({offset: 0}, async () => {
-            const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${SORT_ORDER}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+            const path = `${PATH_BASE}${PATH_SEARCH}${searchTerm}&${LIMIT_PARAM}${limit}&${SORT_ORDER}&${OFFSET_PARAM}${offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
             this.setState({path});
             this.getJsonResponse(event, path);  
           })}
         else{
-          const path = `${PATH_BASE}${PATH_SEARCH}${this.state.searchTerm}&${LIMIT_PARAM}${this.state.limit}&${SORT_ORDER}&${OFFSET_PARAM}${this.state.offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
+          const path = `${PATH_BASE}${PATH_SEARCH}${searchTerm}&${LIMIT_PARAM}${limit}&${SORT_ORDER}&${OFFSET_PARAM}${offset}&${IMAGE_PARAM}&${API_PATH}${ETSY_KEY}`;
           this.getJsonResponse(event, path);     
           this.setState({path});    
         }
@@ -111,6 +114,7 @@ class AddItemsPage extends React.Component {
 
     isLoading = (event) => {
       event.preventDefault();
+
       this.setState({isLoading: true}, () => {this.onSubmit().catch(e => {
         // handle error
       })});
@@ -121,22 +125,27 @@ class AddItemsPage extends React.Component {
     }
 
     nextPage = (event) => {
-      const newOffset = this.state.offset + this.state.limit;
+      const {offset, limit} = this.state;
+
+      const newOffset = offset + limit;
       this.setPage(newOffset, event);
     }
 
     prevPage = (event) => {
-      const newOffset = this.state.offset - this.state.limit;;
+      const {offset, limit} = this.state;
+
+      const newOffset = offset - limit;;
       this.setPage(newOffset, event);
     }
 
     setPage = (newOffset, event) => {
+
       this.setState({offset: newOffset});
       this.isLoading(event);
     }
 
     render(){
-        const {searchTerm, error, isLoading, isSubmitted, offset, currentLanguage} = this.state;
+        const {searchTerm, error, isLoading, isSubmitted, offset, currentLanguage, limit, result} = this.state;
         const isInvalid = 
           searchTerm === '';
         return (
@@ -188,7 +197,7 @@ class AddItemsPage extends React.Component {
                               fluid
                               selection
                               options={limitOptions}
-                              value = {this.state.limit}
+                              value = {limit}
                               onChange={this.handleDropdownUpdate}
                           />
                         </Grid.Column>
@@ -225,7 +234,7 @@ class AddItemsPage extends React.Component {
                     </div>
                     
                     <div>
-                      {this.state.isSubmitted && <ItemList result={this.state.result} />}
+                      {isSubmitted && <ItemList result={result} />}
                     </div>
                 
                 

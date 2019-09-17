@@ -25,7 +25,9 @@ class AddItemtoWishlist extends React.Component {
     }
 
     componentDidMount(){
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        const {uid} = this.state;
+
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
   
           if (this.isUnmounted) {
               return;
@@ -75,10 +77,10 @@ class AddItemtoWishlist extends React.Component {
     }
 
     render(){
-        const {currentLanguage} = this.state;
+        const {currentLanguage, mine, note, clicked} = this.state;
         return(
             <div>
-                { this.state.mine ?
+                { mine ?
                 (
                     <div>
                         {currentLanguage === 'english' ? 
@@ -88,12 +90,12 @@ class AddItemtoWishlist extends React.Component {
                         
                         <Form.Input style = {{width: '100%'}}
                                     name = "note"
-                                    value = {this.state.note}
+                                    value = {note}
                                     onChange = {this.onChange}
                                     type = "text"
                                     placeholder = "Example: Size small"
                         />		
-                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} >
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={clicked} >
                         {currentLanguage === 'english' ? 
                               <div>+ Add item to wishlist</div>:
                               <div>+ 아이템 추가</div>
@@ -104,7 +106,7 @@ class AddItemtoWishlist extends React.Component {
                 ):
                 (
                     <div>
-                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={this.state.clicked} >
+                        <Button style = {{marginTop: "5px"}} onClick = {this.handleClick} disabled={clicked} >
                         {currentLanguage === 'english' ? 
                               <div>+ Add item to my own wishlist</div>:
                               <div>+ 내 위시리스트의 추가</div>
@@ -113,7 +115,7 @@ class AddItemtoWishlist extends React.Component {
                     </div>
                 )
                 }
-                {this.state.clicked ? <div className ="ui red floating label">Added</div> : null}
+                {clicked ? <div className ="ui red floating label">Added</div> : null}
                 
 
             </div>
