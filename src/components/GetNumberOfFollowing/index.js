@@ -69,15 +69,15 @@ class PurchasedItem extends React.Component {
       
 
     render(){
-      const {currentLanguage} = this.state;
+      const {currentLanguage, followingCount} = this.state;
         
         return(
             <div>   
                 <Link to={ROUTES.FOLLOWING} ><Icon name='users' /> 
                 
               {currentLanguage === 'english' ? 
-                  <div>Following {this.state.followingCount} Users</div>:
-                  <div>팔로우 {this.state.followingCount}분</div>
+                  <div>Following {followingCount} Users</div>:
+                  <div>팔로우 {followingCount}분</div>
               } 
                 </Link>
             </div>

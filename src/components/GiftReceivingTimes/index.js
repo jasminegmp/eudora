@@ -30,28 +30,30 @@ class GiftReceivingTimesForm extends React.Component {
 
 
     componentWillMount() {
+       const {uid} = this.state;
 
-          this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
 
-            if (this.isUnmounted) {
-                return;
-            }
-            
-            const language = snapshot.val();
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
-            if (language){
-                this.setState({currentLanguage: language.language});
-            }
-            else{
-                this.props.firebase.setLanguage(this.state.uid, 'english')
-                    .catch(error => {
-                        this.setState({error});
-                    });
-            }
+          if (this.isUnmounted) {
+              return;
+          }
+          
+          const language = snapshot.val();
+
+          if (language){
+              this.setState({currentLanguage: language.language});
+          }
+          else{
+              this.props.firebase.setLanguage(uid, 'english')
+                  .catch(error => {
+                      this.setState({error});
+                  });
+          }
             
         });
         
-        this.props.firebase.getHolidays(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getHolidays(uid).on('value', snapshot => {
             if (this.isUnmounted) {
             return;
             }
@@ -82,6 +84,7 @@ class GiftReceivingTimesForm extends React.Component {
 
     
     handleChange = value => {
+      const {uid} = this.state;
       var createFlag = false;
       console.log(value);
 
@@ -91,16 +94,13 @@ class GiftReceivingTimesForm extends React.Component {
         // holidays list in db already exists
         //if (this.state.selected !== []){
           let difference = this.state.selected.filter(x => !value.includes(x)); // calculates diff
-          //console.log("selected",this.state.selected);
           this.setState({ selected: value });
-          //console.log("difference",difference);
           
           // add difference to database
             if (difference.length === 0)
             {
               // for each selected option
               value.map(option =>{
-                //console.log("option.id",option.holidayId)
 
                 // retrieve holiday list
                 this.props.firebase.getHolidays(this.state.uid).once('value', snapshot => {
@@ -108,21 +108,16 @@ class GiftReceivingTimesForm extends React.Component {
                     return;
                   }
                   const holidaysObject = snapshot.val();
-                  //console.log(holidaysObject);
 
                   // if holidays already exists in db
                   if (holidaysObject){
-                    //console.log("holidaysObject", holidaysObject);
-                    //console.log("value", value);
                     //if it does exist, move on and do nothing by returning
                     if (option.holidayId in  holidaysObject){
-                      //console.log("do nothing")
                       return;
                     }
                     else{
                       // if it doesn't exist, add to firebase
-                      //console.log("we need to add", option.id);
-                      this.props.firebase.addHolidays(this.state.uid, option.label, option.id, option.value, option.value, option.date, true);
+                      this.props.firebase.addHolidays(uid, option.label, option.id, option.value, option.value, option.date, true);
                       
                     }
                   }
@@ -138,14 +133,14 @@ class GiftReceivingTimesForm extends React.Component {
 
               // Now go and create holidays in DB again
               if (createFlag){
-                this.props.firebase.addHolidays(this.state.uid, value[0].label, value[0].id, value[0].value, value[0].value, value[0].date, true);
+                this.props.firebase.addHolidays(uid, value[0].label, value[0].id, value[0].value, value[0].value, value[0].date, true);
               }
             }
             // remove difference from database
             else{
               //console.log('Removed: ', difference[0].holidayId); 
               
-              this.props.firebase.removeHolidays(this.state.uid, difference[0].holidayId);
+              this.props.firebase.removeHolidays(uid, difference[0].holidayId);
               //console.log("got here")
             }
           //}
@@ -154,7 +149,7 @@ class GiftReceivingTimesForm extends React.Component {
         
         // it is the last item in celebrated list
         else{
-          this.props.firebase.removeAllHolidays(this.state.uid);
+          this.props.firebase.removeAllHolidays(uid);
           this.setState({selected:[]});
         }
 
@@ -170,7 +165,7 @@ class GiftReceivingTimesForm extends React.Component {
     }
 
     render(){
-      const {error, currentLanguage} = this.state;
+      const {error, currentLanguage, selected, options} = this.state;
       return(
 
         <form className = "ui form" onSubmit = {this.onSubmit}>
@@ -182,10 +177,10 @@ class GiftReceivingTimesForm extends React.Component {
             } 
             
             <Select
-              value={this.state.selected}
+              value={selected}
               isMulti
               onChange={this.handleChange}
-              options={this.state.options}
+              options={options}
               showNewOptionAtTop={false}
             />
             <div className="ui divider"></div>

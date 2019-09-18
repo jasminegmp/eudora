@@ -28,13 +28,15 @@ class FetchProfileInfo extends React.Component {
 
     
     componentDidMount() {
+
+        const {uid} = this.state;
       
         this.setState({ loading: true });
 
         this.setState({currentUser: this.props.firebase.currentUser().uid});
 
         // Grab first name
-        this.props.firebase.getFirstName(this.props.uid).on('value', snapshot => {
+        this.props.firebase.getFirstName(uid).on('value', snapshot => {
           if (this.isUnmounted) {
             return;
           }
@@ -43,7 +45,7 @@ class FetchProfileInfo extends React.Component {
         });
 
         // Grab last name
-        this.props.firebase.getLastName(this.props.uid).on('value', snapshot => {
+        this.props.firebase.getLastName(uid).on('value', snapshot => {
           if (this.isUnmounted) {
             return;
           }
@@ -53,7 +55,7 @@ class FetchProfileInfo extends React.Component {
         });
 
         // Grab photo url
-        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getPhotoUrl(uid).on('value', snapshot => {
           if (this.isUnmounted) {
             return;
           }
@@ -62,7 +64,7 @@ class FetchProfileInfo extends React.Component {
         });
 
         // Grab holidays
-        this.props.firebase.getHolidays(this.props.uid).on('value', snapshot => {
+        this.props.firebase.getHolidays(uid).on('value', snapshot => {
           const holidaysObject = snapshot.val();
           if (this.isUnmounted) {
             return;
@@ -82,7 +84,7 @@ class FetchProfileInfo extends React.Component {
         });
 
         // Grab wishlist items
-        this.props.firebase.items(this.props.uid).on('value', snapshot => {
+        this.props.firebase.items(uid).on('value', snapshot => {
           const itemsObject = snapshot.val();
           //console.log(itemsObject);
           if (this.isUnmounted) {
@@ -113,7 +115,7 @@ class FetchProfileInfo extends React.Component {
 
 
     render() {
-        const { items, loading, firstName, lastName, holidays, photoUrl, uid} = this.state;
+        const { items, loading, firstName, lastName, holidays, photoUrl, uid, currentUser} = this.state;
         return(
             <div>
 
@@ -121,7 +123,7 @@ class FetchProfileInfo extends React.Component {
                 <Grid.Column width={4}>
                     <h1 style = {{textAlign: "center"}}>{firstName} {lastName}</h1>
                     <Card centered>
-                    {this.props.firebase.currentUser().uid === uid ? <UpdateAvatar uid = {this.state.uid}/> : <Avatar className = "avatar" uid = {uid} photoUrl = {photoUrl}/>}
+                    {this.props.firebase.currentUser().uid === uid ? <UpdateAvatar uid = {uid}/> : <Avatar className = "avatar" uid = {uid} photoUrl = {photoUrl}/>}
                     </Card>
                     {loading && <div>Loading ...</div>}
                     <Segment>
@@ -166,11 +168,11 @@ class FetchProfileInfo extends React.Component {
                                       {item.price ? <p>$ {item.price}</p> : null}
                                       {item.note && item.note !== '' ? <p>Note: {item.note}</p> : null}
                                     </Card.Meta>
-                                    {this.state.uid !== this.state.currentUser ? 
-                                      <PurchasedItem uid = {this.state.uid} id ={item.id}/> :
+                                    {uid !== currentUser ? 
+                                      <PurchasedItem uid = {uid} id ={item.id}/> :
                                       null
                                     }
-                                    {this.state.uid !== this.state.currentUser ? 
+                                    {uid !== currentUser ? 
                                       <AddItemtoWishlist mine = {false} id = {item.id} image = {item.image} title = {item.title} price = {item.price} url = {item.url}/>:
                                       null
                                     }

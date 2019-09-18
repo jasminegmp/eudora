@@ -23,11 +23,11 @@ class HomePage extends React.Component {
     }
     componentDidMount(){
 
-
+        const {uid} = this.state;
 
         // Grab current language selection
 
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -39,7 +39,7 @@ class HomePage extends React.Component {
                 this.setState({currentLanguage: language.language});
             }
             else{
-                this.props.firebase.setLanguage(this.state.uid, 'english')
+                this.props.firebase.setLanguage(uid, 'english')
                     .catch(error => {
                         this.setState({error});
                     });
@@ -49,7 +49,7 @@ class HomePage extends React.Component {
 
 
         // Grab first name
-        this.props.firebase.getFirstName(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getFirstName(uid).on('value', snapshot => {
             if (this.isUnmounted) {
               return;
             }
@@ -58,7 +58,7 @@ class HomePage extends React.Component {
           });
 
         // Grab photo url
-        this.props.firebase.getPhotoUrl(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getPhotoUrl(uid).on('value', snapshot => {
             if (this.isUnmounted) {
               return;
             }
@@ -70,13 +70,13 @@ class HomePage extends React.Component {
 
 
     render(){
-        const {currentLanguage} = this.state;
+        const {currentLanguage, firstName, uid} = this.state;
         return (
             <div style = {{margin: 70}}>
                 
                 {currentLanguage === 'english' ? 
-                    <h1>Welcome Back to Eudora, {this.state.firstName}!</h1>:
-                    <h1>Eudora에 다시 오신 것을 환영합니다, {this.state.firstName}님!</h1>
+                    <h1>Welcome Back to Eudora, {firstName}!</h1>:
+                    <h1>Eudora에 다시 오신 것을 환영합니다, {firstName}님!</h1>
                 } 
                 <Grid columns={2} stackable textAlign = "center" verticalAlign = "top">
                     <Grid.Column>
@@ -103,7 +103,7 @@ class HomePage extends React.Component {
                             <h3> 당신의 프로필 사진 업데이트</h3>
                         }
                         <Card centered>
-                            <UpdateAvatar uid = {this.state.uid}/>
+                            <UpdateAvatar uid = {uid}/>
                         </Card>
                     </Grid.Column>
                     <Grid.Column >

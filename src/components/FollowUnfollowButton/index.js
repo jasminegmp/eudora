@@ -18,6 +18,9 @@ class PurchasedItem extends React.Component {
     }
 
     componentDidMount(){
+
+        const {targetUid} = this.state;
+
         const user = this.props.firebase.currentUser();
         this.setState({uid: user.uid});
 
@@ -31,7 +34,7 @@ class PurchasedItem extends React.Component {
   
             if (followingObject) {
              
-              if (this.state.targetUid in followingObject){
+              if (targetUid in followingObject){
                 this.setState({followingUid: true }); //already following
               }
               else{
@@ -67,9 +70,9 @@ class PurchasedItem extends React.Component {
 
 
     onClickFollow = (event) => {
-        //console.log(this.state.uid, this.state.targetUid, this.state.following);
+        const {uid, targetUid} = this.state;
         // update following list
-        this.props.firebase.addFollowingList(this.state.uid, this.state.targetUid)
+        this.props.firebase.addFollowingList(uid, targetUid)
             .catch(error => {
                 this.setState({error});
             });
@@ -77,9 +80,9 @@ class PurchasedItem extends React.Component {
     }
 
     onClickUnfollow = (event) => {
-        //console.log(this.state.uid, this.state.targetUid, this.state.following);
+        const {uid, targetUid} = this.state;
         // update following list
-        this.props.firebase.removeFollowingList(this.state.uid, this.state.targetUid)
+        this.props.firebase.removeFollowingList(uid, targetUid)
             .catch(error => {
                 this.setState({error});
             });
@@ -89,16 +92,16 @@ class PurchasedItem extends React.Component {
       
 
     render(){
-        const {currentLanguage} = this.state;
+        const {currentLanguage, uid, targetUid, followingUid} = this.state;
         return(
             <div>   
-                {this.state.uid !== this.state.targetUid && !this.state.followingUid ? <button className = "ui button primary" onClick = {this.onClickFollow} >
+                {uid !== targetUid && !followingUid ? <button className = "ui button primary" onClick = {this.onClickFollow} >
                     {currentLanguage === 'english' ? 
                         <div>Follow</div>:
                         <div>팔로우</div>
                     } 
                 </button> : null }
-                {this.state.uid !== this.state.targetUid && this.state.followingUid ? <button className = "ui button red"  onClick = {this.onClickUnfollow} >
+                {uid !== targetUid && followingUid ? <button className = "ui button red"  onClick = {this.onClickUnfollow} >
                 {currentLanguage === 'english' ? 
                         <div>Unfollow</div>:
                         <div>팔로우 취소</div>
@@ -114,5 +117,3 @@ class PurchasedItem extends React.Component {
 const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(PurchasedItem);
-
-/* */

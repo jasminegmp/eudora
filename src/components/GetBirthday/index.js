@@ -20,7 +20,9 @@ class GetBirthdayFormBase extends React.Component {
     }
 
     componentDidMount(){
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        const {uid} = this.state;
+
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -32,7 +34,7 @@ class GetBirthdayFormBase extends React.Component {
                 this.setState({currentLanguage: language.language});
             }
             else{
-                this.props.firebase.setLanguage(this.state.uid, 'english')
+                this.props.firebase.setLanguage(uid, 'english')
                     .catch(error => {
                         this.setState({error});
                     });
@@ -42,7 +44,7 @@ class GetBirthdayFormBase extends React.Component {
 
         // Grab birthday if it exists
 
-        this.props.firebase.getBirthdayObj(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getBirthdayObj(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -52,7 +54,7 @@ class GetBirthdayFormBase extends React.Component {
             
         });
 
-        this.props.firebase.getBirthday(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getBirthday(uid).on('value', snapshot => {
 
             if (this.isUnmounted) {
                 return;
@@ -70,19 +72,19 @@ class GetBirthdayFormBase extends React.Component {
     }
 
     onChange = (date) => {
+        const {uid, IsoBirthday} = this.state;
         const ISOdate = date.toISOString();
-        console.log(date, ISOdate);
+
         this.setState({
             IsoBirthday: ISOdate, birthday: date
         });
         // update birthday
-        this.props.firebase.updateBirthday(this.state.uid, this.state.IsoBirthday, ISOdate)
+        this.props.firebase.updateBirthday(uid, IsoBirthday, ISOdate)
 
         // otherwise, display error
         .catch(error => {
             this.setState({error});
         });
-        //console.log(this.state.newBirthday)
     }
 
 

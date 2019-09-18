@@ -21,12 +21,14 @@ class FollowingPage extends React.Component {
       }
     
       componentDidMount() {
+
+        const {uid, following} = this.state;
         
         this.setState({ loading: true });
 
         // Grab current language selection
 
-        this.props.firebase.getLanguage(this.state.uid).on('value', snapshot => {
+        this.props.firebase.getLanguage(uid).on('value', snapshot => {
 
           if (this.isUnmounted) {
               return;
@@ -41,7 +43,7 @@ class FollowingPage extends React.Component {
         });
     
         // first get following list which will contain uids
-        this.props.firebase.following(this.state.uid).on('value', snapshot => {
+        this.props.firebase.following(uid).on('value', snapshot => {
             if (this.isUnmounted) {
                 return;
             }
@@ -76,16 +78,16 @@ class FollowingPage extends React.Component {
                     ...profilesObject[key],
                     uid: key,
                 }));
-                if (this.state.following){
-                profilesList.map(profile => {
-                    const found = this.state.following.some(followingPerson => profile.uid === followingPerson.uid);
-                    if (found) {
-                        tempArray.push(profile);
-                    }
-                    return tempArray;
-                });
+                if (following){
+                  profilesList.map(profile => {
+                      const found = this.state.following.some(followingPerson => profile.uid === followingPerson.uid);
+                      if (found) {
+                          tempArray.push(profile);
+                      }
+                      return tempArray;
+                  });
                 
-                this.setState({ followingProfiles: tempArray, loading: false });
+                  this.setState({ followingProfiles: tempArray, loading: false });
                 } else {
                 this.setState({followingProfiles: null, loading: false });
                 }
