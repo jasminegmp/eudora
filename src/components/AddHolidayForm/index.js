@@ -16,6 +16,7 @@ class AddHolidayFormBase extends React.Component {
             isSubmitted: false,
             uid: this.props.firebase.currentUser().uid,
             currentLanguage: null,
+            clicked: false,
             error: null
         }
     }
@@ -81,6 +82,7 @@ class AddHolidayFormBase extends React.Component {
                     error: null
                 });
             })
+            .then(this.setState({clicked: true}))
             .catch(error => {
                 this.setState({error});
             });
@@ -93,7 +95,7 @@ class AddHolidayFormBase extends React.Component {
     }
 
     render() {
-        const {isSubmitted, date, holidayName, currentLanguage, error} = this.state;
+        const {clicked, date, holidayName, currentLanguage, error} = this.state;
         const isInvalid = 
         date === null && holidayName === '';
 
@@ -123,7 +125,7 @@ class AddHolidayFormBase extends React.Component {
                         style = {{marginTop: 10, width: "177px"}}
                     />
                 </Grid.Column>
-                <button className = "ui button " disabled = {isInvalid} onClick = {this.onSubmit} disabled = {isInvalid || isSubmitted === true} style = {{marginTop: 10}}>
+                <button className = "ui button " disabled = {isInvalid} onClick = {this.onSubmit} disabled={clicked} style = {{marginTop: 10}}>
                     
                     {currentLanguage === 'english' ? 
                         <div>Add Holiday to List</div>:
